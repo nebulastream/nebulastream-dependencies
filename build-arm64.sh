@@ -26,7 +26,7 @@ libs=("z3"
      
 
 for i in "${libs[@]}"; do   # The quotes are necessary here
-    ./vcpkg/vcpkg install "$i$postfix" --host-triplet=x64-linux-nes --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
+    ./vcpkg/vcpkg install "$i$postfix" --host-triplet=$VCPKG_DEFAULT_TRIPLET--triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
 done
 
 exports=""
