@@ -35,6 +35,6 @@ for i in "${libs[@]}"; do   # The quotes are necessary here
 done
 
 echo $exports
-com="./vcpkg/vcpkg export $exports  --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./ --7zip --output-dir=$outputDir --output=$outputFileName"
+com="./vcpkg/vcpkg export $exports  --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./ --7zip --output-dir=$outputDir --output=$outputFileName"
 echo "$com"
 eval $com
