@@ -45,7 +45,10 @@ libs=(
 # An open source, portable, easy to use, readable and flexible SSL library
 "mbedtls"
 # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
-"open62541")
+"open62541"
+# libsodium is necessary as 3rd-party library
+"libsodium"
+)
      
 
 for i in "${libs[@]}"; do   # The quotes are necessary here

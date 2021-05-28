@@ -7,6 +7,7 @@ version="v1"
 outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
 outputDir="."
 postfix=""
+# TODO have a common script to load deps
 libs=(
 # The LLVM Compiler Infrastructure.
 "llvm[core,clang,target-x86]"
@@ -47,6 +48,8 @@ libs=(
 "mbedtls"
 # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
 "open62541"
+# libsodium is necessary as 3rd-party library
+"libsodium"
 )
      
 
