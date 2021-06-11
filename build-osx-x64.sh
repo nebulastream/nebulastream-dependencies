@@ -9,6 +9,7 @@ outputDir="."
 libs=(
 # The LLVM Compiler Infrastructure.
 "llvm[core,clang,target-x86]"
+"protobuf"
 # Z3 is a theorem prover from Microsoft Research.
 "z3"
 # Boost
@@ -25,7 +26,7 @@ libs=(
 # Apache log4cxx is a logging framework
 "log4cxx"
 # An RPC library and framework
-"grpc"
+"grpc[core]"
 # An open-source C++ library developed and used at Facebook. 
 "folly"
 # C++11 JSON, REST, and OAuth library The C++ REST SDK is a Microsoft
@@ -54,7 +55,7 @@ libs=(
      
 
 for i in "${libs[@]}"; do   # The quotes are necessary here
-    ./vcpkg/vcpkg install "$i" --host-triplet=x64-linux-nes --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
+    ./vcpkg/vcpkg install "$i" --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
 done
 
 exports=""
