@@ -50,6 +50,8 @@ libs=(
 "open62541"
 # libsodium is necessary as 3rd-party library
 "libsodium"
+# template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
+"eigen3"
 )
      
 
