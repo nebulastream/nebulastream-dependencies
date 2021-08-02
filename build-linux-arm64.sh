@@ -3,7 +3,7 @@
 #./vcpkg/bootstrap-vcpkg.sh
 export VCPKG_DEFAULT_TRIPLET="arm64-linux-nes"
 export VCPKG_DEFAULT_HOST_TRIPLET="$VCPKG_DEFAULT_TRIPLET"
-version="v1"
+version="v2"
 outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
 outputDir="."
 libs=(
