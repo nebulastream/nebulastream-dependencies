@@ -8,16 +8,16 @@ outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
 outputDir="."
 libs=(
 # The LLVM Compiler Infrastructure.
-# "llvm[core,clang,target-x86]"
+"llvm[core,clang,target-x86]"
 # # Z3 is a theorem prover from Microsoft Research.
-# "z3"
+"z3"
 # # Boost
-# "boost-system"
-# "boost-process"
-# "boost-thread"
-# "boost-program-options"
-# "boost-filesystem"
-# "boost-chrono"
+"boost-system"
+"boost-process"
+"boost-thread"
+"boost-program-options"
+"boost-filesystem"
+"boost-chrono"
 # The ZeroMQ lightweight messaging kernel 
 "zeromq"
 # lightweight messaging kernel, C++ bindings
@@ -27,7 +27,7 @@ libs=(
 # An RPC library and framework
 "grpc"
 # An open-source C++ library developed and used at Facebook. 
-"folly"
+#"folly"
 # C++11 JSON, REST, and OAuth library The C++ REST SDK is a Microsoft
 "cpprestsdk"
 # An event notification library
@@ -41,11 +41,11 @@ libs=(
 # # kafka lib
 # "cppkafka"
 # # jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
-"jemalloc"
+#"jemalloc"
 # # An open source, portable, easy to use, readable and flexible SSL library
-# "mbedtls"
+"mbedtls"
 # # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
-# "open62541"
+"open62541"
 # libsodium is necessary as 3rd-party library
 "libsodium"
 # template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
