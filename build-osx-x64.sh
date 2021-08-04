@@ -3,7 +3,7 @@
 #./vcpkg/bootstrap-vcpkg.sh
 export VCPKG_DEFAULT_TRIPLET="x64-osx-nes"
 export VCPKG_DEFAULT_HOST_TRIPLET="$VCPKG_DEFAULT_TRIPLET"
-version="v2"
+version="v3"
 outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
 outputDir="."
 libs=(
@@ -35,9 +35,9 @@ libs=(
 # Formatting library for C++. It can be used as a safe alternative to printf or as a fast alternative to IOStreams.
 "fmt"
 # Paho project provides open-source client implementations of MQTT and MQTT-SN messaging protocols 
-# "paho-mqtt"
+"paho-mqtt"
 # # Paho project provides open-source C++ wrapper for Paho C library
-# "paho-mqttpp3" 
+"paho-mqttpp3" 
 # # kafka lib
 # "cppkafka"
 # # jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
@@ -50,6 +50,10 @@ libs=(
 "libsodium"
 # template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
 "eigen3"
+# add support to libcrypto
+"asio[openssl]"
+#add support to libiconv
+"libiconv"
 )
      
 
