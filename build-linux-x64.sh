@@ -3,7 +3,7 @@
 #./vcpkg/bootstrap-vcpkg.sh
 export VCPKG_DEFAULT_TRIPLET="x64-linux-nes"
 export VCPKG_DEFAULT_HOST_TRIPLET="$VCPKG_DEFAULT_TRIPLET"
-version="v3"
+version="v4"
 outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
 outputDir="."
 postfix=""
@@ -43,7 +43,8 @@ libs=(
 # kafka lib
 "cppkafka"
 # jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
-"jemalloc"
+# Disable jemalloc for now #2159
+#"jemalloc"
 # An open source, portable, easy to use, readable and flexible SSL library
 "mbedtls"
 # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.

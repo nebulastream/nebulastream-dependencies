@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #./vcpkg/bootstrap-vcpkg.sh
-export VCPKG_DEFAULT_TRIPLET="arm64-linux-nes"
+export VCPKG_DEFAULT_TRIPLET="arm64-osx-nes"
 export VCPKG_DEFAULT_HOST_TRIPLET="$VCPKG_DEFAULT_TRIPLET"
 version="v4"
 outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
@@ -9,9 +9,9 @@ outputDir="."
 libs=(
 # The LLVM Compiler Infrastructure.
 "llvm[core,clang,target-aarch64]"
-# Z3 is a theorem prover from Microsoft Research.
+# # Z3 is a theorem prover from Microsoft Research.
 "z3"
-# Boost
+# # Boost
 "boost-system"
 "boost-process"
 "boost-thread"
@@ -27,7 +27,7 @@ libs=(
 # An RPC library and framework
 "grpc"
 # An open-source C++ library developed and used at Facebook. 
-"folly"
+#"folly"
 # C++11 JSON, REST, and OAuth library The C++ REST SDK is a Microsoft
 "cpprestsdk"
 # An event notification library
@@ -36,25 +36,29 @@ libs=(
 "fmt"
 # Paho project provides open-source client implementations of MQTT and MQTT-SN messaging protocols 
 "paho-mqtt"
-# Paho project provides open-source C++ wrapper for Paho C library
+# # Paho project provides open-source C++ wrapper for Paho C library
 "paho-mqttpp3" 
-# kafka lib
-"cppkafka"
-# jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
-"jemalloc"
-# An open source, portable, easy to use, readable and flexible SSL library
+# # kafka lib
+# "cppkafka"
+# # jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
+#"jemalloc"
+# # An open source, portable, easy to use, readable and flexible SSL library
 "mbedtls"
-# open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
+# # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
 "open62541"
 # libsodium is necessary as 3rd-party library
 "libsodium"
 # template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
 "eigen3"
+# add support to libcrypto
+"asio[openssl]"
+#add support to libiconv
+"libiconv"
 )
      
 
 for i in "${libs[@]}"; do   # The quotes are necessary here
-    ./vcpkg/vcpkg install "$i$postfix" --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
+    ./vcpkg/vcpkg install "$i" --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
 done
 
 exports=""
