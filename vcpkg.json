@@ -1,0 +1,49 @@
+{
+  "name": "nebulastream-dependencies",
+  "version-string": "v5",
+  "homepage": "https://nebula.stream",
+  "description": "Data Management for the Internet of Things.",
+  "supports": "x64 & (linux | osx)",
+  "dependencies": [
+    "z3",
+    "boost-system",
+    "boost-process",
+    "boost-thread",
+    "boost-program-options",
+    "boost-filesystem",
+    "boost-chrono",
+    "zeromq",
+    "cppzmq",
+    "log4cxx",
+    "grpc",
+    "cpprestsdk",
+    "libevent",
+    "fmt",
+    "paho-mqtt",
+    "paho-mqttpp3",
+    "mbedtls",
+    "open62541",
+    "libsodium",
+    "eigen3",
+    {
+      "name": "cppkafka",
+      "platform": "!osx"
+    },
+    {
+      "name": "folly",
+      "platform": "!osx"
+    },
+    {
+      "name": "llvm",
+      "default-features": false,
+      "features": ["clang","target-x86"],
+      "platform": "!arm"
+    },
+    {
+      "name": "llvm",
+      "default-features": false,
+      "features": ["clang","target-aarch64"],
+      "platform": "arm"
+    }
+  ]
+}
