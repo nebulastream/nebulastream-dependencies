@@ -55,7 +55,6 @@ jobs:
       VCPKG_FORCE_SYSTEM_BINARIES: 1
     runs-on: [ self-hosted, linux, ARM64, Build ]
     steps:
-      - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
