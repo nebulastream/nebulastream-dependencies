@@ -61,7 +61,7 @@ jobs:
       - name: Install vcpkg for arm64...
         run: |
           ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -useSystemBinaries -disableMetrics
-          shell: bash
+        shell: bash
       - name: Run vcpkg
         uses: lukka/run-vcpkg@v7.4
         id: runvcpkg
