@@ -16,7 +16,7 @@ jobs:
 #    runs-on: ${{ matrix.platform }}
     env:
       buildDir: '${{ github.workspace }}/build/'
-    runs-on: [self-hosted, linux, ARM64, Build]
+    runs-on: [self-hosted, linux, X64, Build]
     steps:
       - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
@@ -33,6 +33,44 @@ jobs:
       - name: Run CMake to install and build the dependencies in vcpkg.json
         uses: lukka/run-cmake@v3
         id: runcmake
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeListsTxtPath: '${{ github.workspace }}/vcpkg_manifest/CMakeLists.txt'
+          buildDirectory: ${{ env.buildDir }}
+          # This input tells run-cmake to consume the vcpkg.cmake toolchain file set by run-vcpkg.
+          useVcpkgToolchainFile: true
+          buildWithCMake: true
+          buildWithCMakeArgs: '-- -v'
+      - name: Upload GitHub Actions artifact of vcpkg build logs
+        uses: actions/upload-artifact@v2
+        if: always()
+        id: uploadlogs
+        with:
+          name: vcpkg-logs-linux-x64
+          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+  build-arm:
+    env:
+      buildDir: '${{ github.workspace }}/build/'
+    runs-on: [ self-hosted, linux, ARM64, Build ]
+    steps:
+      - uses: lukka/get-cmake@latest
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Install vcpkg for arm64...
+        run: |
+          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -useSystemBinaries -disableMetrics
+          shell: bash
+      - name: Run vcpkg
+        uses: lukka/run-vcpkg@v7.4
+        id: runvcpkg
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg_manifest/vcpkg.json' ) }}
+          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+      - name: Install and export dependencies from vcpkg.json
+        uses: lukka/run-cmake@v3
+        id: runinstallandexport
         with:
           cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
           cmakeListsTxtPath: '${{ github.workspace }}/vcpkg_manifest/CMakeLists.txt'
