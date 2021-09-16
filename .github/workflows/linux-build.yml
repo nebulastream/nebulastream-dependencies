@@ -47,3 +47,4 @@ jobs:
           with:
             name: vcpkg-logs-linux-arm64
             path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+          if: always()
