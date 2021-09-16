@@ -41,8 +41,8 @@ jobs:
           buildWithCMake: true
           buildWithCMakeArgs: '-- -v'
       - name: Upload GitHub Actions artifact of vcpkg build logs
-          if: always()
           uses: actions/upload-artifact@v2
+          if: always()
           id: uploadlogs
           with:
             name: vcpkg-logs-linux-arm64
