@@ -26,10 +26,11 @@ jobs:
         uses: lukka/run-vcpkg@v7.4
         id: runvcpkg
         with:
+          setupOnly: true
           vcpkgDirectory: '${{ github.workspace }}/vcpkg'
           appendedCacheKey: ${{ hashFiles( '**/vcpkg_manifest/vcpkg.json' ) }}
           additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
-      - name: Run CMake to install the dependencies specified in the vcpkg.json manifest, generate project file and build the project
+      - name: Run CMake to install and build the dependencies in vcpkg.json
         uses: lukka/run-cmake@v3
         id: runcmake
         with:
