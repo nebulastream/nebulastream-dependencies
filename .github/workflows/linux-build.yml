@@ -16,7 +16,7 @@ jobs:
 #    runs-on: ${{ matrix.platform }}
     env:
       buildDir: '${{ github.workspace }}/build/'
-    runs-on: [self-hosted, linux, X64, Build]
+    runs-on: [self-hosted, linux, ARM64, Build]
     steps:
       - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
@@ -45,5 +45,5 @@ jobs:
           uses: actions/upload-artifact@v2
           id: uploadlogs
           with:
-            name: vcpkg-logs-linux
+            name: vcpkg-logs-linux-arm64
             path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
