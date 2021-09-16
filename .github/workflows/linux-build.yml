@@ -51,6 +51,7 @@ jobs:
   build-arm:
     env:
       buildDir: '${{ github.workspace }}/build/'
+      vcpkgDirectory: '${{ github.workspace }}/vcpkg'
       VCPKG_DEFAULT_TRIPLET: arm64-linux
       VCPKG_FORCE_SYSTEM_BINARIES: 1
     runs-on: [ self-hosted, linux, ARM64, Build ]
@@ -58,31 +59,24 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-      - name: Install vcpkg for arm64...
+      - name: Install vcpkg for arm64
         run: |
           ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -useSystemBinaries -disableMetrics
         shell: bash
-      - name: Run vcpkg
-        uses: lukka/run-vcpkg@v7.4
-        id: runvcpkg
-        with:
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          appendedCacheKey: ${{ hashFiles( '**/vcpkg_manifest/vcpkg.json' ) }}
-          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
-      - name: Install and export dependencies from vcpkg.json
-        uses: lukka/run-cmake@v3
-        id: runinstallandexport
-        with:
-          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-          cmakeListsTxtPath: '${{ github.workspace }}/vcpkg_manifest/CMakeLists.txt'
-          buildDirectory: ${{ env.buildDir }}
-          # This input tells run-cmake to consume the vcpkg.cmake toolchain file set by run-vcpkg.
-          useVcpkgToolchainFile: true
-          buildWithCMake: true
-          buildWithCMakeArgs: '-- -v'
+      - name: Make build dir
+        run: |
+          mkdir -p ${{ env.buildDir }}
+      - name: Install dependencies from vcpkg.json
+        id: installdeps
+        run: |
+          cmake -B ${{ env.buildDir }} -S ${{ github.workspace }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
+      - name: Build dependencies
+        id: builddeps
+        run: |
+          cmake --build ${{ env.buildDir }}
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
-        if: always()
+        if: failure()
         id: uploadlogs
         with:
           name: vcpkg-logs-linux-arm64
