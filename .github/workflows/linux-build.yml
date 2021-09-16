@@ -1,0 +1,49 @@
+name: NES Dependencies builder
+
+on: [push]
+#  push:
+#    branches:
+#      - 'master'
+#    paths:
+#      - 'vcpkg.json'
+
+jobs:
+  build:
+#    This will be _the_ way to build for macos instead of self-hosting
+#    strategy:
+#      matrix:
+#        platform: [ubuntu-latest, macos-latest]
+#    runs-on: ${{ matrix.platform }}
+    env:
+      buildDir: '${{ github.workspace }}/build/'
+    runs-on: [self-hosted, linux, X64, Build]
+    steps:
+      - uses: lukka/get-cmake@latest
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Run vcpkg
+        uses: lukka/run-vcpkg@v7.4
+        id: runvcpkg
+        with:
+          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+          appendedCacheKey: ${{ hashFiles( '**/vcpkg_manifest/vcpkg.json' ) }}
+          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
+      - name: Run CMake to install the dependencies specified in the vcpkg.json manifest, generate project file and build the project
+        uses: lukka/run-cmake@v3
+        id: runcmake
+        with:
+          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
+          cmakeListsTxtPath: '${{ github.workspace }}/vcpkg_manifest/CMakeLists.txt'
+          buildDirectory: ${{ env.buildDir }}
+          # This input tells run-cmake to consume the vcpkg.cmake toolchain file set by run-vcpkg.
+          useVcpkgToolchainFile: true
+          buildWithCMake: true
+          buildWithCMakeArgs: '-- -v'
+      - name: Upload GitHub Actions artifact of vcpkg build logs
+          if: always()
+          uses: actions/upload-artifact@v2
+          id: uploadlogs
+          with:
+            name: vcpkg-logs-linux
+            path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
