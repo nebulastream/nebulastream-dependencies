@@ -1,83 +1,53 @@
 name: NES Dependencies builder
 
 on: [push]
-#  push:
-#    branches:
-#      - 'master'
-#    paths:
-#      - 'vcpkg.json'
 
 jobs:
-  build:
-#    This will be _the_ way to build for macos instead of self-hosting
-#    strategy:
-#      matrix:
-#        platform: [ubuntu-latest, macos-latest]
-#    runs-on: ${{ matrix.platform }}
+  build-x64-linux:
     env:
-      buildDir: '${{ github.workspace }}/build/'
+      VCPKG_DEFAULT_TRIPLET: x64-linux
     runs-on: [self-hosted, linux, X64, Build]
     steps:
-      - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-      - name: Run vcpkg
-        uses: lukka/run-vcpkg@v7.4
-        id: runvcpkg
-        with:
-          setupOnly: true
-          vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-          appendedCacheKey: ${{ hashFiles( '**/vcpkg_manifest/vcpkg.json' ) }}
-          additionalCachedPaths: ${{ env.buildDir }}/vcpkg_installed
-      - name: Run CMake to install and build the dependencies in vcpkg.json
-        uses: lukka/run-cmake@v3
-        id: runcmake
-        with:
-          cmakeListsOrSettingsJson: CMakeListsTxtAdvanced
-          cmakeListsTxtPath: '${{ github.workspace }}/vcpkg_manifest/CMakeLists.txt'
-          buildDirectory: ${{ env.buildDir }}
-          # This input tells run-cmake to consume the vcpkg.cmake toolchain file set by run-vcpkg.
-          useVcpkgToolchainFile: true
-          buildWithCMake: true
-          buildWithCMakeArgs: '-- -v'
-      - name: Upload GitHub Actions artifact of vcpkg build logs
-        uses: actions/upload-artifact@v2
-        if: always()
-        id: uploadlogs
-        with:
-          name: vcpkg-logs-linux-x64
-          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-  build-arm:
-    env:
-      buildDir: '${{ github.workspace }}/build/'
-      vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-      VCPKG_DEFAULT_TRIPLET: arm64-linux
-      VCPKG_FORCE_SYSTEM_BINARIES: 1
-    runs-on: [ self-hosted, linux, ARM64, Build ]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-      - name: Install vcpkg for arm64
+      - name: Install vcpkg
+        id: installvcpkg
         run: |
-          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -useSystemBinaries -disableMetrics
+          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
-      - name: Make build dir
+      - name: Install dependencies
         run: |
-          mkdir -p ${{ env.buildDir }}
-      - name: Install dependencies from vcpkg.json
-        id: installdeps
-        run: |
-          cmake -B ${{ env.buildDir }} -S ${{ github.workspace }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake
-      - name: Build dependencies
-        id: builddeps
-        run: |
-          cmake --build ${{ env.buildDir }}
+          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEFAULT_TRIPLET }}
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
         id: uploadlogs
         with:
-          name: vcpkg-logs-linux-arm64
+          name: vcpkg-logs-x64-linux
+          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+  build-arm64-linux:
+    env:
+      VCPKG_DEFAULT_TRIPLET: arm64-linux
+      VCPKG_FORCE_SYSTEM_BINARIES: 1
+      VCPKG_MAX_CONCURRENCY: 1
+    runs-on: [ self-hosted, linux, ARM64, Build ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Install vcpkg
+        id: installvcpkg
+        run: |
+          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -useSystemBinaries -disableMetrics
+        shell: bash
+      - name: Install dependencies
+        run: |
+          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEFAULT_TRIPLET }}
+      - name: Upload GitHub Actions artifact of vcpkg build logs
+        uses: actions/upload-artifact@v2
+        if: failure()
+        id: uploadlogs
+        with:
+          name: vcpkg-logs-arm64-linux
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log

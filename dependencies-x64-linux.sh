@@ -1,14 +1,10 @@
 #!/bin/bash
 
-#./vcpkg/bootstrap-vcpkg.sh
-export VCPKG_DEFAULT_TRIPLET="arm64-linux-nes"
-export VCPKG_DEFAULT_HOST_TRIPLET="$VCPKG_DEFAULT_TRIPLET"
-version="v4"
-outputFileName="nes-dependencies-$version-$VCPKG_DEFAULT_TRIPLET"
-outputDir="."
+export VCPKG_DEFAULT_TRIPLET="x64-linux"
+
 libs=(
 # The LLVM Compiler Infrastructure.
-"llvm[core,clang,target-aarch64]"
+"llvm[core,clang,target-x86]"
 # Z3 is a theorem prover from Microsoft Research.
 "z3"
 # Boost
@@ -41,7 +37,8 @@ libs=(
 # kafka lib
 "cppkafka"
 # jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
-"jemalloc"
+# Disable jemalloc for now #2159
+#"jemalloc"
 # An open source, portable, easy to use, readable and flexible SSL library
 "mbedtls"
 # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
@@ -51,18 +48,3 @@ libs=(
 # template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
 "eigen3"
 )
-     
-
-for i in "${libs[@]}"; do   # The quotes are necessary here
-    ./vcpkg/vcpkg install "$i$postfix" --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./
-done
-
-exports=""
-for i in "${libs[@]}"; do   # The quotes are necessary here
-    exports="$exports $i$postfix"
-done
-
-echo $exports
-com="./vcpkg/vcpkg export $exports  --host-triplet=$VCPKG_DEFAULT_TRIPLET --triplet=$VCPKG_DEFAULT_TRIPLET --overlay-triplets=./ --7zip --output-dir=$outputDir --output=$outputFileName"
-echo "$com"
-eval $com
