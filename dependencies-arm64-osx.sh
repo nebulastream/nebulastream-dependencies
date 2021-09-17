@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VCPKG_DEFAULT_TRIPLET="arm64-osx"
+export VCPKG_DEFAULT_TRIPLET="arm64-osx-nes"
 
 libs=(
 # The LLVM Compiler Infrastructure.

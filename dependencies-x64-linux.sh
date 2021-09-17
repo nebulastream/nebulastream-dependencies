@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export VCPKG_DEFAULT_TRIPLET="x64-linux"
+export VCPKG_DEFAULT_TRIPLET="x64-linux-nes"
 
 libs=(
 # The LLVM Compiler Infrastructure.
@@ -30,21 +30,21 @@ libs=(
 "libevent"
 # Formatting library for C++. It can be used as a safe alternative to printf or as a fast alternative to IOStreams.
 "fmt"
-# Paho project provides open-source client implementations of MQTT and MQTT-SN messaging protocols 
-"paho-mqtt"
-# Paho project provides open-source C++ wrapper for Paho C library
-"paho-mqttpp3" 
-# kafka lib
-"cppkafka"
-# jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
-# Disable jemalloc for now #2159
-#"jemalloc"
-# An open source, portable, easy to use, readable and flexible SSL library
-"mbedtls"
-# open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
-"open62541"
-# libsodium is necessary as 3rd-party library
-"libsodium"
-# template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
-"eigen3"
+## Paho project provides open-source client implementations of MQTT and MQTT-SN messaging protocols
+#"paho-mqtt"
+## Paho project provides open-source C++ wrapper for Paho C library
+#"paho-mqttpp3"
+## kafka lib
+#"cppkafka"
+## jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
+## Disable jemalloc for now #2159
+##"jemalloc"
+## An open source, portable, easy to use, readable and flexible SSL library
+#"mbedtls"
+## open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
+#"open62541"
+## libsodium is necessary as 3rd-party library
+#"libsodium"
+## template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms
+#"eigen3"
 )

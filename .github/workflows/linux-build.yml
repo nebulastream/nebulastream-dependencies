@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build-x64-linux:
     env:
-      VCPKG_DEFAULT_TRIPLET: x64-linux
+      VCPKG_DEP_LIST: x64-linux
     runs-on: [self-hosted, linux, X64, Build]
     steps:
       - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
-          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEFAULT_TRIPLET }}
+          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEP_LIST }}
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
@@ -28,7 +28,7 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
   build-arm64-linux:
     env:
-      VCPKG_DEFAULT_TRIPLET: arm64-linux
+      VCPKG_DEP_LIST: arm64-linux
       VCPKG_FORCE_SYSTEM_BINARIES: 1
       VCPKG_MAX_CONCURRENCY: 1
     runs-on: [ self-hosted, linux, ARM64, Build ]
@@ -43,7 +43,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
-          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEFAULT_TRIPLET }}
+          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEP_LIST }}
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
