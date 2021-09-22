@@ -37,7 +37,7 @@ libs=(
 # kafka lib
 "cppkafka"
 # jemalloc is a general purpose malloc(3) implementation that emphasizes fragmentation avoidance and scalable concurrency support
-"jemalloc"
+# "jemalloc"
 # An open source, portable, easy to use, readable and flexible SSL library
 "mbedtls"
 # open62541 is an open source C (C99) implementation of OPC UA licensed under the Mozilla Public License v2.0.
