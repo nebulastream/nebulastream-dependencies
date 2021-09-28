@@ -9,17 +9,27 @@ jobs:
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, X64, dep-builder]
     steps:
+      - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
+      - name: Create build directory
+        id: builddir
+        run: |
+          rm -rf ${{ github.workspace }}/build && mkdir -p ${{ github.workspace }}/build
       - name: Install vcpkg
-        id: installvcpkg
+        id: bootstrapvcpkg
         run: |
           ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
-      - name: Install dependencies
+      - name: Install dependencies in manifest mode
+        id: installdeps
         run: |
-          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEP_LIST }}
+          cmake -B build -S ${{ github.workspace }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build ${{ github.workspace }}/build
+      - name: Build dependencies
+        id: builddeps
+        run: |
+          cmake --build ${{ github.workspace }}/build
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
@@ -31,21 +41,29 @@ jobs:
     env:
       VCPKG_DEP_LIST: arm64-linux
       VCPKG_FORCE_SYSTEM_BINARIES: 1
-      VCPKG_MAX_CONCURRENCY: 1
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, ARM64, dep-builder]
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
+      - name: Create build directory
+        id: builddir
+        run: |
+          rm -rf ${{ github.workspace }}/build && mkdir -p ${{ github.workspace }}/build
       - name: Install vcpkg
-        id: installvcpkg
+        id: bootstrapvcpkg
         run: |
-          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -useSystemBinaries -disableMetrics
+          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
-      - name: Install dependencies
+      - name: Install dependencies in manifest mode
+        id: installdeps
         run: |
-          ${{ github.workspace }}/build.sh ${{ env.VCPKG_DEP_LIST }}
+          cmake -B build -S ${{ github.workspace }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build ${{ github.workspace }}/build
+      - name: Build dependencies
+        id: builddeps
+        run: |
+          cmake --build ${{ github.workspace }}/build
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
