@@ -38,7 +38,7 @@ jobs:
           mkdir -p nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
           cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
           touch ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
-          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ VCPKG_DEP_LIST }}-nes
+          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
@@ -73,6 +73,15 @@ jobs:
         id: builddeps
         run: |
           cmake --build ${{ github.workspace }}/build
+      - name: Compress artifacts
+        id: compressdeps
+        run: |
+          mkdir nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes && \
+          mv ${{ github.workspace }}/build/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
+          mkdir -p nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
+          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
+          touch ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
+          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
