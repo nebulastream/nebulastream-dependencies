@@ -46,6 +46,12 @@ jobs:
         with:
           name: vcpkg-logs-x64-linux
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z
   build-arm64-linux:
     env:
       VCPKG_DEP_LIST: arm64-linux
