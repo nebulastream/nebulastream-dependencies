@@ -1,6 +1,15 @@
 # Installing NES dependencies
 `git clone --recurse-submodules https://github.com/nebulastream/dependencies && ./vcpkg/bootstrap-vcpkg.sh -disableMetrics && install-$OS-$version.sh`
 
+## Folly and co-routines problems
+Install clang>=12.0.0 on the host. Use these to bootstrap `vcpkg` and then build the rest of the dependencies.
+
+`install-llvm-host.sh` provides a basic installation procedure for x86_64.
+
+
+## Running locally
+`local-run.sh` does a full local run, for testing purposes.
+
 ## VCPKG on a new AArch64 system
 On a RPi4 w/ 2GB RAM and Ubuntu Server 20.04, we need the following settings, packages, and variables. The list of errors that we see with default settings is below.
 
