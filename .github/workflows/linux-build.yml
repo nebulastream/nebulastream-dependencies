@@ -53,7 +53,7 @@ jobs:
       - name: Clean build artifacts
         id: cleanbuildartifacts
         run: |
-          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
   build-arm64-linux:
     env:
       VCPKG_DEP_LIST: arm64-linux
@@ -101,4 +101,4 @@ jobs:
       - name: Clean build artifacts
         id: cleanbuildartifacts
         run: |
-          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
