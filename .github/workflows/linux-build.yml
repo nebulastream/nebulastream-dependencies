@@ -3,7 +3,7 @@ name: NES Dependencies builder
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
 
 jobs:
   build-x64-linux:
