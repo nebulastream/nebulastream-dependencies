@@ -12,9 +12,6 @@ jobs:
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, X64, dep-builder]
     steps:
-      - name: Set output vars to the actual tag name
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
         with:
