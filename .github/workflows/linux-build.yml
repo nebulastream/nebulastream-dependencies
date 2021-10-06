@@ -72,10 +72,6 @@ jobs:
         id: installdeps
         run: |
           ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/
-      - name: Build dependencies
-        id: builddeps
-        run: |
-          cmake --build ${{ github.workspace }}/build
       - name: Compress artifacts
         id: compressdeps
         run: |
