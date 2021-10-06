@@ -32,7 +32,7 @@ jobs:
         id: compressdeps
         run: |
           mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
+          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
           mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
           cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
           touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
@@ -80,7 +80,7 @@ jobs:
         id: compressdeps
         run: |
           mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
+          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
           mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
           cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
           touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
