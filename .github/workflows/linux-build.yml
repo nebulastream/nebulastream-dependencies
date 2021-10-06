@@ -1,6 +1,9 @@
 name: NES Dependencies builder
 
-on: [push]
+on:
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   build-x64-linux:
@@ -25,19 +28,18 @@ jobs:
       - name: Compress artifacts
         id: compressdeps
         run: |
-          mkdir nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes && \
+          mkdir nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes && \
           mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
-          mkdir -p nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
-          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
-          touch ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
-          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
+          mkdir -p nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
+          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
+          touch ${{ github.workspace }}/nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
+          7z a nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
       - name: Release
         uses: softprops/action-gh-release@v1
         id: createrelease
-        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z
+            nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
@@ -48,7 +50,7 @@ jobs:
 #      - name: Clean build artifacts
 #        id: cleanbuildartifacts
 #        run: |
-#          rm -rf nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes *.7z
+#          rm -rf nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes *.7z
   build-arm64-linux:
     env:
       VCPKG_DEP_LIST: arm64-linux
@@ -71,12 +73,18 @@ jobs:
       - name: Compress artifacts
         id: compressdeps
         run: |
-          mkdir nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes && \
+          mkdir nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes && \
           mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
-          mkdir -p nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
-          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
-          touch ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
-          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
+          mkdir -p nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
+          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
+          touch ${{ github.workspace }}/nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
+          7z a nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        id: createrelease
+        with:
+          files: |
+            nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
@@ -87,4 +95,4 @@ jobs:
 #      - name: Clean build artifacts
 #        id: cleanbuildartifacts
 #        run: |
-#          rm -rf nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes *.7z
+#          rm -rf nes-dependencies-${{ github.ref }}-${{ env.VCPKG_DEP_LIST }}-nes *.7z
