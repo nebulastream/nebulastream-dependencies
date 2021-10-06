@@ -13,10 +13,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-      - name: Create build directory
-        id: builddir
-        run: |
-          rm -rf ${{ github.workspace }}/build && mkdir -p ${{ github.workspace }}/build
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
@@ -25,33 +21,34 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          cmake -B build -S ${{ github.workspace }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build ${{ github.workspace }}/build
-      - name: Build dependencies
-        id: builddeps
-        run: |
-          cmake --build ${{ github.workspace }}/build
+          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/
       - name: Compress artifacts
         id: compressdeps
         run: |
           mkdir nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/build/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
+          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
           mkdir -p nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
           cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
           touch ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
-          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes
+          7z a nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        id: createrelease
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
         id: uploadlogs
         with:
-          name: vcpkg-logs-x64-linux
+          name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes.7z
+#      - name: Clean build artifacts
+#        id: cleanbuildartifacts
+#        run: |
+#          rm -rf nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes *.7z
   build-arm64-linux:
     env:
       VCPKG_DEP_LIST: arm64-linux
@@ -65,7 +62,7 @@ jobs:
       - name: Create build directory
         id: builddir
         run: |
-          rm -rf ${{ github.workspace }}/build && mkdir -p ${{ github.workspace }}/build
+          rm -rf ${{ github.workspace }}/build || mkdir -p ${{ github.workspace }}/build
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
@@ -74,7 +71,7 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          cmake -B build -S ${{ github.workspace }} -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake && cmake --build ${{ github.workspace }}/build
+          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/
       - name: Build dependencies
         id: builddeps
         run: |
@@ -83,7 +80,7 @@ jobs:
         id: compressdeps
         run: |
           mkdir nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/build/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
+          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
           mkdir -p nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
           cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
           touch ${{ github.workspace }}/nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes/installed/.vcpkg-root && \
@@ -93,5 +90,9 @@ jobs:
         if: failure()
         id: uploadlogs
         with:
-          name: vcpkg-logs-arm64-linux
+          name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+#      - name: Clean build artifacts
+#        id: cleanbuildartifacts
+#        run: |
+#          rm -rf nes-dependencies-${{ env.VCPKG_DEP_LIST }}-nes *.7z
