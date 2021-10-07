@@ -29,6 +29,11 @@ export VCPKG_FEATURE_FLAGS="-binarycaching"
 if [[ "$1" =~ ^arm64.*$ ]]; then
     echo "ARM64 detected, using system binaries..."
     export VCPKG_FORCE_SYSTEM_BINARIES=1
+    if ! command -v ninja &> /dev/null
+    then
+        echo "ninja could not be found, please install!"
+        exit
+    fi
 fi
 
 $(dirname $0)/vcpkg/bootstrap-vcpkg.sh -disableMetrics

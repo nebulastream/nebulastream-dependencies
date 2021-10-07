@@ -3,6 +3,18 @@ This repository containes binary releases for NES's dependencies. It contains CI
 to build the dependencies locally.
 
 ## CI/CD
+### Initial setup
+For reasonably recent git versions (>=2.13):
+```
+git clone --recurse-submodules git@github.com:nebulastream/dependencies.git
+```
+or for older versions:
+```
+git clone git@github.com:nebulastream/dependencies.git
+cd dependencies
+git submodule update --init --recursive
+```
+
 ### Workflow
 Steps to create a new version:
 - commit the changes to the repo
