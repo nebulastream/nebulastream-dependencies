@@ -25,12 +25,9 @@
     "open62541",
     "libsodium",
     "eigen3",
+    "folly",
     {
       "name": "cppkafka",
-      "platform": "!osx"
-    },
-    {
-      "name": "folly",
       "platform": "!osx"
     },
     {
