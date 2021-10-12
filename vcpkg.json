@@ -25,7 +25,10 @@
     "open62541",
     "libsodium",
     "eigen3",
-    "folly",
+    {
+      "name": "folly",
+      "platform": "!osx"
+    },
     {
       "name": "cppkafka",
       "platform": "!osx"
@@ -44,7 +47,7 @@
       "name": "llvm",
       "default-features": false,
       "features": ["clang","target-x86"],
-      "platform": "!arm"
+      "platform": "x64"
     },
     {
       "name": "llvm",
