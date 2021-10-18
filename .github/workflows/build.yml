@@ -106,7 +106,7 @@ jobs:
     env:
       VCPKG_DEP_LIST: x64-osx
       VCPKG_FEATURE_FLAGS: -binarycaching
-    runs-on: [ self-hosted, osx, X64, dep-builder ]
+    runs-on: [ self-hosted, macos, X64, dep-builder ]
     steps:
       - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
