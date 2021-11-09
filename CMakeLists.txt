@@ -23,7 +23,3 @@ endif()
 if (PORT STREQUAL llvm)
     set(VCPKG_BUILD_TYPE release)
 endif()
-
-if (PORT STREQUAL open62541)
-    set(VCPKG_POLICY_ALLOW_RESTRICTED_HEADERS enabled)
-endif()
