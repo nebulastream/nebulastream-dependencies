@@ -12,7 +12,6 @@ jobs:
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, X64, Build]
     steps:
-      - uses: lukka/get-cmake@latest
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
