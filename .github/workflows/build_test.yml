@@ -25,12 +25,12 @@ jobs:
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
-          docker run -it -v ${{ github.workspace }}:/build_dir nes_dep_build_ubuntu-20.04 ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_ubuntu-20.04 ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          docker run -it -v ${{ github.workspace }}:/build_dir nes_dep_build_ubuntu-20.04 ./vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/
+          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_ubuntu-20.04 ./vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/
       - name: Compress artifacts
         id: compressdeps
         run: |
