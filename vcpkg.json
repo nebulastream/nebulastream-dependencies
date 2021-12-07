@@ -26,10 +26,6 @@
     "libsodium",
     "eigen3",
     {
-      "name": "jemalloc",
-      "platform": "!osx"
-    },
-    {
       "name": "folly",
       "platform": "!osx"
     },
