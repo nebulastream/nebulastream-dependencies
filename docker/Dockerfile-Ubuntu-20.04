@@ -8,8 +8,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   p7zip-full \
   cmake \
   software-properties-common \
-  curl zip unzip tar \
   build-essential \
+  curl zip unzip tar \  
   && apt-get clean -qq
 
 ADD ./entrypoint-build.sh /entrypoint.sh
