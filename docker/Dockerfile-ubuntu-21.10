@@ -1,0 +1,18 @@
+FROM ubuntu:21.10
+
+RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
+  git \
+  wget \
+  python3.8 \
+  tar \
+  p7zip-full \
+  cmake \
+  software-properties-common \
+  build-essential \
+  curl zip unzip tar \  
+  pkg-config \
+  && apt-get clean -qq
+
+ADD ./entrypoint-build.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
