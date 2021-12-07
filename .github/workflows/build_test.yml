@@ -1,0 +1,42 @@
+name: NES Dependencies builder (test)
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build-x64-linux:
+    env:
+      VCPKG_DEP_LIST: x64-linux
+      VCPKG_FEATURE_FLAGS: -binarycaching
+    runs-on: [self-hosted, linux, X64, dep-builder]
+    steps:
+      - uses: lukka/get-cmake@latest
+      - uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+      - name: Set output vars to the actual tag name
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Build Docker
+        id: vars
+        run: docker build  -t nes_dep_build_ubuntu-20.04 -f docker/Dockerfile-Ubuntu-20.04 .
+      - name: Install vcpkg
+        id: bootstrapvcpkg
+        run: |
+          docker run -it -v ${{ github.workspace }}:/build_dir nes_dep_build_ubuntu-20.04 ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        shell: bash
+      - name: Install dependencies in manifest mode
+        id: installdeps
+        run: |
+          docker run -it -v ${{ github.workspace }}:/build_dir nes_dep_build_ubuntu-20.04 ./vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/
+      - name: Compress artifacts
+        id: compressdeps
+        run: |
+          mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
+          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
+          mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
+          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
+          touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/.vcpkg-root && \
+          7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-ubuntu-20.04-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
