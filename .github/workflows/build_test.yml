@@ -20,7 +20,7 @@ jobs:
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
       - name: Build Docker
         id: builddocker
-        run: docker build  -t nes_dep_build_ubuntu-20.04 -f docker/Dockerfile-Ubuntu-20.04 .
+        run: cd ${{ github.workspace }}/docker/ docker build  -t nes_dep_build_ubuntu-20.04 -f Dockerfile-Ubuntu-20.04 .
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
