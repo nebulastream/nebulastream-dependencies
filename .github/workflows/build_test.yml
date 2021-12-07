@@ -13,7 +13,7 @@ jobs:
     runs-on: [self-hosted, linux, X64, Build]
     strategy:
       matrix:
-    	os_version: [ubuntu-20.04, ubuntu-21.10]
+    	osversion: [ubuntu-20.04, ubuntu-21.10]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -24,16 +24,16 @@ jobs:
       - name: Build Docker
         id: builddocker
         working-directory: ${{ github.workspace }}/docker/
-        run: docker build  -t nes_dep_build_${{ matrix.os_version }} -f Dockerfile-${{ matrix.os_version }} .
+        run: docker build  -t nes_dep_build_${{ matrix.osversion }} -f Dockerfile-${{ matrix.osversion }} .
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.os_version }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.os_version }} ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/
+          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/
       - name: Compress artifacts
         id: compressdeps
         run: |
@@ -42,4 +42,4 @@ jobs:
           mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
           cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
           touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/.vcpkg-root && \
-          7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.os_version }}-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
+          7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
