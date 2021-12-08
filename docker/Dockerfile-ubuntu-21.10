@@ -4,6 +4,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   git \
   wget \
   python3 \
+  python \
   tar \
   p7zip-full \
   cmake \
