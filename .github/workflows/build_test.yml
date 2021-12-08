@@ -2,8 +2,8 @@ name: NES Dependencies builder (test)
 
 on:
   push:
-    branches:
-      - '*'
+    tags:
+      - 't*'
 
 jobs:
   build-x64-linux:
