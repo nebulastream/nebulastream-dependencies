@@ -25,14 +25,7 @@
     "open62541",
     "libsodium",
     "eigen3",
-    {
-      "name": "jemalloc",
-      "platform": "!osx"
-    },
-    {
-      "name": "folly",
-      "platform": "!osx"
-    },
+    "folly", 
     {
       "name": "cppkafka",
       "platform": "!osx"
@@ -50,13 +43,13 @@
     {
       "name": "llvm",
       "default-features": false,
-      "features": ["clang","libunwind","openmp","target-x86"],
+      "features": ["clang","libunwind","openmp", "mlir", "target-x86"],
       "platform": "x64"
     },
     {
       "name": "llvm",
       "default-features": false,
-      "features": ["clang","libunwind","openmp","target-aarch64"],
+      "features": ["clang","libunwind","openmp", "mlir", "target-aarch64"],
       "platform": "arm64"
     }
   ]
