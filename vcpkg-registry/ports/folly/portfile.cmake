@@ -14,8 +14,8 @@ vcpkg_add_to_path("${PYTHON3_DIR}")
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO nebulastream/folly
-    REF f55e5f6c12eb83531052d9260bff202d6a193e5e 
-    SHA512 fef442837f82d2fd85b5e84d9f280ad1e5015e06fae6109de793db5be5fb3c6a0abf7a0219c9b6adef3f95ca92cbf60f0591f3c20d9e5f8a7672a4998c11de74
+    REF dd3a8a099582982999e6b1f31267a0a7d2919b27 
+    SHA512 56111217bb9a03c28f17e4912b64025b988c2dbe64a2eef1f197a28e84ded8796cedab2189901b0d5c7c8ef1a28a44cb11e984a1128f5df2cea2400229145cea
     #HEAD_REF main
     PATCHES
         reorder-glog-gflags.patch
