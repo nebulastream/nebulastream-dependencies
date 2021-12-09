@@ -13,10 +13,10 @@ vcpkg_add_to_path("${PYTHON3_DIR}")
 
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
-    REPO facebook/folly
-    REF v2021.10.11.00
-    SHA512 9e97e4e5588a1dce756a4cfb0f86abd0d8bb2ccf9a2f95944a92ba1f6ba6cab6eb6a857598a5851eff2da0c412d9721e9ebf6933b76cbbfac5dca5fbc901e7e6
-    HEAD_REF main
+    REPO nebulastream/folly
+    REF f55e5f6c12eb83531052d9260bff202d6a193e5e 
+    SHA512 fef442837f82d2fd85b5e84d9f280ad1e5015e06fae6109de793db5be5fb3c6a0abf7a0219c9b6adef3f95ca92cbf60f0591f3c20d9e5f8a7672a4998c11de74
+    #HEAD_REF main
     PATCHES
         reorder-glog-gflags.patch
         disable-non-underscore-posix-names.patch

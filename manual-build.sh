@@ -38,7 +38,8 @@ fi
 
 $(dirname $0)/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
-$(dirname $0)/vcpkg/vcpkg install --triplet="$1-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/
+$(dirname $0)/vcpkg/vcpkg install --triplet="$1-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/   --overlay-ports=vcpkg-registry/ports/
+
 
 mkdir $(dirname $0)/nes-dependencies-$1-nes && \
 mv $(dirname $0)/vcpkg_installed nes-dependencies-$1-nes/installed && \
