@@ -160,6 +160,7 @@ if("openmp" IN_LIST FEATURES)
     if(NOT DEFINED VCPKG_BUILD_TYPE OR VCPKG_BUILD_TYPE STREQUAL "debug")
         list(APPEND FEATURE_OPTIONS
             -DLIBOMP_DEFAULT_LIB_NAME=libompd
+            -DOPENMP_ENABLE_LIBOMPTARGET=OFF
         )
     endif()
 endif()
@@ -242,6 +243,7 @@ vcpkg_cmake_configure(
         -DLLVM_BUILD_EXAMPLES=OFF
         -DLLVM_INCLUDE_TESTS=OFF
         -DLLVM_BUILD_TESTS=OFF
+        -DOPENMP_ENABLE_LIBOMPTARGET=OFF
         # Force TableGen to be built with optimization. This will significantly improve build time.
         -DLLVM_OPTIMIZED_TABLEGEN=ON
         "-DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS}"
