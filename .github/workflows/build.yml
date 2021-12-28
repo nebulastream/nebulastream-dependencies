@@ -35,7 +35,7 @@ jobs:
         run: |
           docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} \
           ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
-          --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ 
+          --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=vcpkg-registry/ports/folly
       - name: Compress artifacts
         id: compressdeps
         run: |
@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/  
+          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=vcpkg-registry/ports/folly 
       - name: Compress artifacts
         id: compressdeps
         run: |
@@ -131,7 +131,7 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ 
+          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=vcpkg-registry/ports/folly
       - name: Compress artifacts
         id: compressdeps
         run: |
