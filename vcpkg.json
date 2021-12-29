@@ -5,6 +5,9 @@
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
   "builtin-baseline": "69d5556d0d8c105f75055326cef346546e40e615",
+  "overrides": [
+    { "name": "llvm", "version": "13.0.0" }
+  ],
   "dependencies": [
     "z3",
     "boost-system",
@@ -45,15 +48,13 @@
       "name": "llvm",
       "default-features": false,
       "features": ["clang","libunwind","openmp", "default-options", "lld", "tools", "mlir", "target-x86"],
-      "platform": "x64",
-      "version>=": "13.0.0"
+      "platform": "x64"
     },
     {
       "name": "llvm",
       "default-features": false,
       "features": ["clang","libunwind","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
-      "platform": "arm64",
-      "version>=": "13.0.0"
+      "platform": "arm64"
     }
   ]
 }
