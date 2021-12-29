@@ -45,13 +45,15 @@
       "name": "llvm",
       "default-features": false,
       "features": ["clang","libunwind","openmp", "default-options", "lld", "tools", "mlir", "target-x86"],
-      "platform": "x64"
+      "platform": "x64",
+      "version": "13.0.0"
     },
     {
       "name": "llvm",
       "default-features": false,
       "features": ["clang","libunwind","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
-      "platform": "arm64"
+      "platform": "arm64",
+      "version": "13.0.0"
     }
   ]
 }
