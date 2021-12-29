@@ -5,9 +5,6 @@
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
   "builtin-baseline": "69d5556d0d8c105f75055326cef346546e40e615",
-  "overrides": [
-    { "name": "llvm", "version": "13.0.0" }
-  ],
   "dependencies": [
     "z3",
     "boost-system",
