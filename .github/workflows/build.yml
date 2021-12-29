@@ -83,7 +83,7 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=/build_dir/vcpkg-registry/ports/folly 
+          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=vcpkg-registry/ports/folly 
       - name: Compress artifacts
         id: compressdeps
         run: |
@@ -131,7 +131,7 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=/build_dir/vcpkg-registry/ports/folly
+          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=vcpkg-registry/ports/folly
       - name: Compress artifacts
         id: compressdeps
         run: |
