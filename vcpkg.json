@@ -1,9 +1,10 @@
 {
   "name": "nebulastream-dependencies",
-  "version-string": "v7",
+  "version-string": "v10",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
+  "builtin-baseline": "69d5556d0d8c105f75055326cef346546e40e615",
   "dependencies": [
     "z3",
     "boost-system",
