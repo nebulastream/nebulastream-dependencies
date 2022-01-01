@@ -26,6 +26,7 @@
     "open62541",
     "libsodium",
     "eigen3",
+    "gtest",
     "folly", 
     {
       "name": "cppkafka",
