@@ -16,6 +16,9 @@
 #quit if command returns non-zero code
 set -e
 
+export CC=clang
+export CXX=clang++
+
 if [ $# -eq 0 ]
 then
     cd /build_dir/  
