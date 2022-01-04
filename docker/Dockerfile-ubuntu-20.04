@@ -12,8 +12,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   build-essential \
   curl zip unzip tar \  
   pkg-config \
-  llvm-13 \
-  clang-13 \
+  llvm \
+  clang \
   && apt-get clean -qq
 
 ADD ./entrypoint-build.sh /entrypoint.sh
