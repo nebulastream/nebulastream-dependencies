@@ -14,6 +14,11 @@ if (PORT STREQUAL eclipse-paho-mqtt-c)
 	set(VCPKG_LIBRARY_LINKAGE dynamic)
 endif()
 
+if (PORT STREQUAL folly)
+	set(VCPKG_LIBRARY_LINKAGE dynamic)
+endif()
+
+
 if (PORT STREQUAL paho-mqttpp3)
 	set(VCPKG_LIBRARY_LINKAGE dynamic)
 endif()
