@@ -59,6 +59,7 @@ vcpkg_cmake_configure(
         -DCMAKE_DISABLE_FIND_PACKAGE_LibAIO=ON
         -DLIBAIO_FOUND=OFF
         -DLIBURCU_FOUND=OFF
+        -DBUILD_SHARED_LIBS=ON
         -DCMAKE_DISABLE_FIND_PACKAGE_LibURCU=ON
         -DCMAKE_INSTALL_DIR=share/folly
         ${FEATURE_OPTIONS}
