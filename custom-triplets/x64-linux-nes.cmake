@@ -9,15 +9,15 @@ if(NOT CMAKE_HOST_SYSTEM_PROCESSOR)
 endif()
 
 if (PORT STREQUAL paho-mqtt)
-	set(VCPKG_LIBRARY_LINKAGE dynamic)
+	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
 
 if (PORT STREQUAL eclipse-paho-mqtt-c)
-	set(VCPKG_LIBRARY_LINKAGE dynamic)
+	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
 
 if (PORT STREQUAL paho-mqttpp3)
-	set(VCPKG_LIBRARY_LINKAGE dynamic)
+	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
 
 if (PORT STREQUAL llvm)

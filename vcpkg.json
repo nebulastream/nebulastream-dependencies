@@ -20,7 +20,6 @@
     "cpprestsdk",
     "libevent",
     "fmt",
-    "paho-mqtt",
     "paho-mqttpp3",
     "mbedtls",
     "open62541",
