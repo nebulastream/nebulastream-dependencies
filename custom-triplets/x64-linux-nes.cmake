@@ -3,7 +3,6 @@ set(VCPKG_CRT_LINKAGE dynamic)
 set(VCPKG_LIBRARY_LINKAGE static)
 set(VCPKG_CMAKE_SYSTEM_NAME Linux)
 
-link_libraries(-static-libgcc -static-libstdc++)
 
 set(VCPKG_CXX_FLAGS_RELEASE -static-libgcc -static-libstdc++)
 set(VCPKG_C_FLAGS_RELEASE -static-libgcc -static-libstdc++)

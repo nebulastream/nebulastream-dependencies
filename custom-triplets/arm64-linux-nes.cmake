@@ -4,6 +4,11 @@ set(VCPKG_LIBRARY_LINKAGE static)
 
 set(VCPKG_CMAKE_SYSTEM_NAME Linux)
 
+
+set(VCPKG_CXX_FLAGS_RELEASE -static-libgcc -static-libstdc++)
+set(VCPKG_C_FLAGS_RELEASE -static-libgcc -static-libstdc++)
+set(VCPKG_LINKER_FLAGS_RELEASE -static-libgcc -static-libstdc++)
+
 if(NOT CMAKE_HOST_SYSTEM_PROCESSOR)
     execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE CMAKE_HOST_SYSTEM_PROCESSOR OUTPUT_STRIP_TRAILING_WHITESPACE)
 endif()
