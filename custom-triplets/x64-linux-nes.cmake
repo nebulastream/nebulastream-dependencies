@@ -1,8 +1,15 @@
 set(VCPKG_TARGET_ARCHITECTURE x64)
 set(VCPKG_CRT_LINKAGE dynamic)
 set(VCPKG_LIBRARY_LINKAGE static)
-
 set(VCPKG_CMAKE_SYSTEM_NAME Linux)
+
+link_libraries(-static-libgcc -static-libstdc++)
+
+set(VCPKG_CXX_FLAGS_RELEASE -static-libgcc -static-libstdc++)
+set(VCPKG_C_FLAGS_RELEASE -static-libgcc -static-libstdc++)
+set(VCPKG_LINKER_FLAGS_RELEASE -static-libgcc -static-libstdc++)
+
+set(VCPKG_LINKER_FLAGS Linux)
 
 if(NOT CMAKE_HOST_SYSTEM_PROCESSOR)
     execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE CMAKE_HOST_SYSTEM_PROCESSOR OUTPUT_STRIP_TRAILING_WHITESPACE)
