@@ -1,0 +1,29 @@
+FROM alpine:3.15
+
+# https://devblogs.microsoft.com/cppblog/using-multi-stage-containers-for-c-development/
+RUN apk add --no-cache \
+    autoconf \
+    build-base \
+    binutils \
+    cmake \
+    curl \
+    file \
+    gcc \
+    git \
+    g++ \
+    libgcc \
+    libtool \
+    linux-headers \
+    make \
+    musl-dev \
+    ninja \
+    p7zip \
+    python3 \
+    python2 \
+    tar \
+    unzip \
+    zip \
+    wget
+
+ADD ./entrypoint-build.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
