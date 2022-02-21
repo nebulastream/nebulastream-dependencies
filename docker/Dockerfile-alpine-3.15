@@ -16,14 +16,15 @@ RUN apk add --no-cache \
     linux-headers \
     make \
     musl-dev \
-    ninja \
     p7zip \
     python3 \
+    py3-pip \
     python2 \
     tar \
     unzip \
     zip \
-    wget
+    wget \
+&& pip3 install ninja
 
 ADD ./entrypoint-build.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
