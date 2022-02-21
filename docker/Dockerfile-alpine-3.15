@@ -16,6 +16,7 @@ RUN apk add --no-cache \
     make \
     musl-dev \
     p7zip \
+    pkgconfig \
     python3 \
     py3-pip \
     python2 \
