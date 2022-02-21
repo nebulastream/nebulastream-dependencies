@@ -5,7 +5,6 @@ RUN apk add --no-cache \
     autoconf \
     build-base \
     binutils \
-    cmake \
     curl \
     file \
     gcc \
@@ -24,6 +23,7 @@ RUN apk add --no-cache \
     unzip \
     zip \
     wget \
+&& apk add --no-cache cmake --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
 && pip3 install ninja
 
 ADD ./entrypoint-build.sh /entrypoint.sh
