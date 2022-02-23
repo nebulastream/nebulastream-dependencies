@@ -10,6 +10,7 @@ RUN apk add --no-cache \
     gcc \
     git \
     g++ \
+    libexecinfo-dev \
     libgcc \
     libtool \
     linux-headers \
