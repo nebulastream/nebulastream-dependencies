@@ -11,7 +11,6 @@ RUN apk add --no-cache cmake --repository=http://dl-cdn.alpinelinux.org/alpine/e
     gcc \
     git \
     g++ \
-    libexecinfo-dev \
     libgcc \
     libtool \
     linux-headers \
