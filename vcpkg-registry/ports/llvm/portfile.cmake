@@ -251,6 +251,7 @@ if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "${VCPKG_DETECTED_CMAKE_SYSTEM_PROCESS
                 list(APPEND CROSS_OPTIONS -DCOMPILER_RT_DEFAULT_TARGET_TRIPLE=x86_64-alpine-linux-musl)
                 list(APPEND CROSS_OPTIONS -DCOMPILER_RT_BUILD_BUILTINS=OFF)
                 list(APPEND CROSS_OPTIONS -DCOMPILER_RT_BUILD_SANITIZERS=OFF)
+                list(APPEND CROSS_OPTIONS -DLLVM_ENABLE_BACKTRACES=OFF)
             endif()
         endif()
         list(APPEND CROSS_OPTIONS -DLLVM_TARGET_ARCH=X86)
@@ -271,6 +272,7 @@ vcpkg_cmake_configure(
         -DLLVM_OPTIMIZED_TABLEGEN=ON
         "-DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS}"
         "-DLLVM_TARGETS_TO_BUILD=${LLVM_TARGETS_TO_BUILD}"
+        "-LLVM_ENABLE_RUNTIMES=${LLVM_ENABLE_RUNTIMES}"
         -DPACKAGE_VERSION=${LLVM_VERSION}
         # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
         -DLLVM_PARALLEL_LINK_JOBS=1
