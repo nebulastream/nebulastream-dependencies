@@ -6,6 +6,7 @@ RUN apk add --no-cache cmake --repository=http://dl-cdn.alpinelinux.org/alpine/e
     autoconf \
     build-base \
     binutils \
+    binutils-dev \
     curl \
     file \
     gcc \
