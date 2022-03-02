@@ -136,8 +136,7 @@ if("libcxxabi" IN_LIST FEATURES)
     list(APPEND LLVM_ENABLE_PROJECTS "libcxxabi")
 endif()
 if("libunwind" IN_LIST FEATURES)
-    # as per https://llvm.org/docs/CMake.html, this is the "correct" way to add runtimes
-    list(APPEND LLVM_ENABLE_RUNTIMES "libunwind")
+    list(APPEND LLVM_ENABLE_PROJECTS "libunwind")
 endif()
 if("lld" IN_LIST FEATURES)
     list(APPEND LLVM_ENABLE_PROJECTS "lld")
@@ -232,6 +231,7 @@ if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "${VCPKG_DETECTED_CMAKE_SYSTEM_PROCESS
             list(APPEND CROSS_OPTIONS -DLLVM_DEFAULT_TARGET_TRIPLE=x86_64-apple-darwin20.3.0)
         endif()
         if(VCPKG_TARGET_IS_LINUX)
+            list(APPEND CROSS_OPTIONS -DLLVM_TARGET_ARCH=X86)
             file(STRINGS "/etc/os-release" data_list REGEX "^(ID|VERSION_ID)=")
             # Look for lines like "ID="..." and VERSION_ID="..."
             foreach(_var ${data_list})
@@ -252,9 +252,16 @@ if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "${VCPKG_DETECTED_CMAKE_SYSTEM_PROCESS
                 list(APPEND CROSS_OPTIONS -DCOMPILER_RT_BUILD_BUILTINS=OFF)
                 list(APPEND CROSS_OPTIONS -DCOMPILER_RT_BUILD_SANITIZERS=OFF)
                 list(APPEND CROSS_OPTIONS -DLLVM_ENABLE_BACKTRACES=OFF)
+                # use almost-same configuration as https://git.alpinelinux.org/aports/tree/main/llvm12/APKBUILD
+                list(APPEND CROSS_OPTIONS -DLLVM_ENABLE_ASSERTIONS=OFF)
+                list(APPEND CROSS_OPTIONS -DLLVM_APPEND_VC_REV=OFF)
+                list(APPEND CROSS_OPTIONS -DLLVM_ENABLE_LIBCXX=OFF)
+                list(APPEND CROSS_OPTIONS -DLLVM_BINUTILS_INCDIR=/usr/include)
+                list(APPEND CROSS_OPTIONS -DLLVM_APPEND_VC_REV=OFF)
+                list(APPEND CROSS_OPTIONS -DLLVM_BUILD_LLVM_DYLIB=ON)
+                list(APPEND CROSS_OPTIONS -DLLVM_LINK_LLVM_DYLIB=ON)
             endif()
         endif()
-        list(APPEND CROSS_OPTIONS -DLLVM_TARGET_ARCH=X86)
     endif()
 endif()
 
@@ -267,6 +274,8 @@ vcpkg_cmake_configure(
         -DLLVM_BUILD_EXAMPLES=OFF
         -DLLVM_INCLUDE_TESTS=OFF
         -DLLVM_BUILD_TESTS=OFF
+        -DLLVM_BUILD_DOCS=OFF
+        -DLLVM_ENABLE_SPHINX=OFF
         -DOPENMP_ENABLE_LIBOMPTARGET=OFF
         # Force TableGen to be built with optimization. This will significantly improve build time.
         -DLLVM_OPTIMIZED_TABLEGEN=ON
