@@ -20,7 +20,7 @@ RUN cd ${HOME} && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.
 && apt update && apt install -y kitware-archive-keyring && rm /etc/apt/trusted.gpg.d/kitware.gpg && apt update && apt install -y cmake
 
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
-ENV VCPKG_FEATURE_FLAGS= -binarycaching
+ENV VCPKG_FEATURE_FLAGS="-binarycaching"
 ADD ./entrypoint-build.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
