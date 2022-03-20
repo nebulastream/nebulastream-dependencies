@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-x64-linux:
-    runs-on: [self-hosted, linux, ${{ matrix.arch }}, dep-builder]
+    runs-on: ${{ matrix.target }}
     strategy:
       matrix:
         osversion: [ubuntu-18.04, ubuntu-20.04, ubuntu-21.10]
@@ -17,6 +17,7 @@ jobs:
           triplet: x64-linux
         - arch: ARM64
           triplet: arm64-linux
+          target: [self-hosted, linux, ARM64, dep-builder]
     steps:
       - uses: actions/checkout@v2
         with:
