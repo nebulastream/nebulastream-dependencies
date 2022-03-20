@@ -8,7 +8,6 @@ on:
 jobs:
   build-x64-linux:
     env:
-      VCPKG_DEP_LIST: ${{ matrix.triplet }}
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, ${{ matrix.arch }}, dep-builder]
     strategy:
@@ -37,12 +36,16 @@ jobs:
           docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
       - name: Install dependencies in manifest mode
+        env:
+          VCPKG_DEP_LIST: ${{ matrix.triplet }}
         id: installdeps
         run: |
           docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} \
           ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
           --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
       - name: Compress artifacts
+        env:
+          VCPKG_DEP_LIST: ${{ matrix.triplet }}
         id: compressdeps
         run: |
           mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
@@ -52,12 +55,16 @@ jobs:
           touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/.vcpkg-root && \
           7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
       - name: Release
+        env:
+          VCPKG_DEP_LIST: ${{ matrix.triplet }}
         uses: softprops/action-gh-release@v1
         id: createrelease
         with:
           files: |
             nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z
       - name: Upload GitHub Actions artifact of vcpkg build logs
+        env:
+          VCPKG_DEP_LIST: ${{ matrix.triplet }}
         uses: actions/upload-artifact@v2
         if: failure()
         id: uploadlogs
