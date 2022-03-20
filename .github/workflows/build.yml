@@ -8,12 +8,18 @@ on:
 jobs:
   build-x64-linux:
     env:
-      VCPKG_DEP_LIST: x64-linux
+      VCPKG_DEP_LIST: ${{ matrix.triplet }}
       VCPKG_FEATURE_FLAGS: -binarycaching
-    runs-on: [self-hosted, linux, X64, dep-builder]
+    runs-on: [self-hosted, linux, ${{ matrix.arch }}, dep-builder]
     strategy:
       matrix:
         osversion: [ubuntu-18.04, ubuntu-20.04, ubuntu-21.10]
+        arch: [ARM64]
+        include:
+        - arch: X64
+          triplet: x64-linux
+        - arch: ARM64
+          triplet: arm64-linux
     steps:
       - uses: actions/checkout@v2
         with:
@@ -51,102 +57,6 @@ jobs:
         with:
           files: |
             nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z
-      - name: Upload GitHub Actions artifact of vcpkg build logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        id: uploadlogs
-        with:
-          name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
-          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
-        run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
-  build-arm64-linux:
-    env:
-      VCPKG_DEP_LIST: arm64-linux
-      VCPKG_FORCE_SYSTEM_BINARIES: 1
-      VCPKG_FEATURE_FLAGS: -binarycaching
-    runs-on: [self-hosted, linux, ARM64, dep-builder]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-      - name: Set output vars to the actual tag name
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - name: Install vcpkg
-        id: bootstrapvcpkg
-        run: |
-          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -disableMetrics
-        shell: bash
-      - name: Install dependencies in manifest mode
-        id: installdeps
-        run: |
-          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=vcpkg-registry/ports 
-      - name: Compress artifacts
-        id: compressdeps
-        run: |
-          mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
-          mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
-          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
-          touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/.vcpkg-root && \
-          7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        id: createrelease
-        with:
-          files: |
-            nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
-      - name: Upload GitHub Actions artifact of vcpkg build logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        id: uploadlogs
-        with:
-          name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
-          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
-        run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
-  build-x64-osx:
-    env:
-      VCPKG_DEP_LIST: x64-osx
-      VCPKG_FEATURE_FLAGS: -binarycaching
-    runs-on: [ self-hosted, macos, X64, dep-builder ]
-    steps:
-      - uses: lukka/get-cmake@latest
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-      - name: Set output vars to the actual tag name
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - name: Install vcpkg
-        id: bootstrapvcpkg
-        run: |
-          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg.sh -disableMetrics
-        shell: bash
-      - name: Install dependencies in manifest mode
-        id: installdeps
-        run: |
-          ${{ github.workspace }}/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=custom-triplets/ --overlay-ports=vcpkg-registry/ports
-      - name: Compress artifacts
-        id: compressdeps
-        run: |
-          mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
-          mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
-          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
-          touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/.vcpkg-root && \
-          7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        id: createrelease
-        with:
-          files: |
-            nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
       - name: Upload GitHub Actions artifact of vcpkg build logs
         uses: actions/upload-artifact@v2
         if: failure()
