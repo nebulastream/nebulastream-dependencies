@@ -12,8 +12,14 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   build-essential \
   curl zip unzip tar \  
   pkg-config \
+  ninja-build \
   && apt-get clean -qq
 
+RUN cd ${HOME} && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null \
+&& apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main' \
+&& apt update && apt install -y kitware-archive-keyring && rm /etc/apt/trusted.gpg.d/kitware.gpg && apt update && apt install -y cmake
+
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 ADD ./entrypoint-build.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
