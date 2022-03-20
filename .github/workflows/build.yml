@@ -13,8 +13,6 @@ jobs:
         osversion: [ubuntu-18.04, ubuntu-20.04, ubuntu-21.10]
         arch: [ARM64]
         include:
-        - arch: X64
-          triplet: x64-linux
         - arch: ARM64
           triplet: arm64-linux
     steps:
