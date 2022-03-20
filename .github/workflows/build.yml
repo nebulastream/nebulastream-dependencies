@@ -7,8 +7,6 @@ on:
 
 jobs:
   build-x64-linux:
-    env:
-      VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, ${{ matrix.arch }}, dep-builder]
     strategy:
       matrix:
