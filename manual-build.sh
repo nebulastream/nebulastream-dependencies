@@ -36,6 +36,9 @@ if [[ "$1" =~ ^arm64.*$ ]]; then
     fi
 fi
 
+# Sometimes this issue appears: https://github.com/microsoft/vcpkg/issues/22812. This quick fix here might solve it:
+# sed -i '36i elseif("${VCPKG_HOST_PATH_SEPARATOR}" STREQUAL ":")\nset("${out_var}" "${lst}" PARENT_SCOPE)\nstring(FIND "${lst}" [[\\:]] index_of_host_path_separator)' $(dirname $0)/vcpkg/scripts/cmake/vcpkg_host_path_list.cmake
+
 $(dirname $0)/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
 $(dirname $0)/vcpkg/vcpkg install --triplet="$1-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/   --overlay-ports=vcpkg-registry/ports/
