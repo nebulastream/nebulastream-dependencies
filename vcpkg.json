@@ -26,7 +26,8 @@
     "libsodium",
     "eigen3",
     "gtest",
-    "folly", 
+    "folly",
+    "jemalloc-nes", 
     {
       "name": "cppkafka",
       "platform": "!osx"

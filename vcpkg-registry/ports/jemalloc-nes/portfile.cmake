@@ -1,4 +1,3 @@
-# set(VCPKG_POLICY_EMPTY_INCLUDE_FOLDER enabled)
 
 vcpkg_from_github(
 	OUT_SOURCE_PATH SOURCE_PATH
@@ -8,18 +7,23 @@ vcpkg_from_github(
 	HEAD_REF dev
 )
 
-vcpkg_execute_required_process(COMMAND bash -c "./autogen.sh --prefix=${SOURCE_PATH}" WORKING_DIRECTORY "${SOURCE_PATH}" LOGNAME "gen_")
+vcpkg_execute_required_process(
+	COMMAND bash -c "autoconf && ./configure --prefix=${SOURCE_PATH}" 
+	WORKING_DIRECTORY "${SOURCE_PATH}" 
+	LOGNAME "conf-log")
 
-vcpkg_configure_make(
-	SOURCE_PATH ${SOURCE_PATH}
-	)
-vcpkg_build_make(BUILD_TARGET "install")
-vcpkg_build_make(BUILD_TARGET "")
+vcpkg_configure_make(SOURCE_PATH ${SOURCE_PATH})
+vcpkg_install_make()
 
-vcpkg_fixup_pkgconfig()
 vcpkg_copy_pdbs()
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
+
+file(
+	INSTALL "${SOURCE_PATH}/include/" 
+	DESTINATION "${CURRENT_PACKAGES_DIR}/include"
+	)
 
 file(
 	INSTALL "${SOURCE_PATH}/COPYING"
