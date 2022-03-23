@@ -11,7 +11,8 @@ vcpkg_from_github(
 vcpkg_execute_required_process(
 	COMMAND bash -c "autoconf && ./configure --prefix=${SOURCE_PATH}" 
 	WORKING_DIRECTORY "${SOURCE_PATH}" 
-	LOGNAME "conf-log")
+	LOGNAME "conf-log"
+	)
 
 vcpkg_configure_make(SOURCE_PATH ${SOURCE_PATH})
 vcpkg_install_make()
