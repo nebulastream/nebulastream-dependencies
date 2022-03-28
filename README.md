@@ -6,7 +6,7 @@ to build the dependencies locally.
 ### Initial setup
 For reasonably recent git versions (>=2.13):
 ```
-git clone --recurse-submodules git@github.com:nebulastream/dependencies.git
+git clone --recurse-submodules git@github.com:nebulastream/nebulastream-dependencies.git
 ```
 or for older versions:
 ```
