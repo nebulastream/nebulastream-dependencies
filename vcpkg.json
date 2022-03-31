@@ -28,6 +28,7 @@
     "gtest",
     "antlr4",
     "folly", 
+    "jemalloc-nes", 
     {
       "name": "cppkafka",
       "platform": "!osx"

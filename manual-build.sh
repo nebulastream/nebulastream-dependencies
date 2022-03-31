@@ -36,6 +36,14 @@ if [[ "$1" =~ ^arm64.*$ ]]; then
     fi
 fi
 
+# Sometimes this issue appears: https://github.com/microsoft/vcpkg/issues/22812. 
+# Setting this variable to true should quickly fix the path resolution error:
+vcpkg_path_fix=false
+
+if [ "$vcpkg_path_fix" = true ] ; then
+  sed -i '32i string(REPLACE "\:" "" lst "${lst}")' $(dirname $0)/vcpkg/scripts/cmake/vcpkg_host_path_list.cmake
+fi
+
 $(dirname $0)/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
 $(dirname $0)/vcpkg/vcpkg install --triplet="$1-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/   --overlay-ports=vcpkg-registry/ports/
@@ -47,3 +55,8 @@ mkdir -p $(dirname $0)/nes-dependencies-$1-nes/scripts/buildsystems && \
 cp $(dirname $0)/vcpkg/scripts/buildsystems/vcpkg.cmake $(dirname $0)/nes-dependencies-$1-nes/scripts/buildsystems/ && \
 touch $(dirname $0)/nes-dependencies-$1-nes/.vcpkg-root && \
 7z a nes-dependencies-$1-nes.7z nes-dependencies-$1-nes -mx9 -aoa
+
+# Clean up the fix
+if [ "$vcpkg_path_fix" = true ] ; then
+  sed -i '32d' $(dirname $0)/vcpkg/scripts/cmake/vcpkg_host_path_list.cmake
+fi
