@@ -26,6 +26,7 @@
     "libsodium",
     "eigen3",
     "gtest",
+    "antlr4",
     "folly", 
     {
       "name": "cppkafka",
