@@ -1,20 +1,22 @@
 vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
+set(VERSION "5.2.1")
 
-vcpkg_from_github(
-	OUT_SOURCE_PATH SOURCE_PATH
-	REPO jemalloc/jemalloc
-	REF 886e40bb339ec1358a5ff2a52fdb782ca66461cb
-	SHA512 0ae96cf0f00eea0de2d2484bdcbd86be22197f36a7cd806e2cc869c2b944d07e0dbe4ffb68be50c1c5ab50dcf3f56339445fc126831b96b2f0ca0a7eda1a8465
-	HEAD_REF dev
+vcpkg_download_distfile(
+    ARCHIVE
+    URLS "https://github.com/jemalloc/jemalloc/releases/download/${VERSION}/jemalloc-${VERSION}.tar.bz2"
+    FILENAME "jemalloc-${VERSION}.tar.bz2"
+    SHA512 0bbb77564d767cef0c6fe1b97b705d368ddb360d55596945aea8c3ba5889fbce10479d85ad492c91d987caacdbbdccc706aa3688e321460069f00c05814fae02
 )
 
-vcpkg_execute_required_process(
-	COMMAND bash -c "autoconf && ./configure --prefix=${SOURCE_PATH}" 
-	WORKING_DIRECTORY "${SOURCE_PATH}" 
-	LOGNAME "conf-log"
-	)
+vcpkg_extract_source_archive_ex(
+    OUT_SOURCE_PATH SOURCE_PATH
+    ARCHIVE ${ARCHIVE}
+)
 
-vcpkg_configure_make(SOURCE_PATH ${SOURCE_PATH})
+vcpkg_configure_make(
+	SOURCE_PATH "${SOURCE_PATH}"
+	AUTOCONF
+	)
 vcpkg_install_make()
 
 vcpkg_copy_pdbs()
@@ -25,10 +27,10 @@ file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
 file(
 	INSTALL "${SOURCE_PATH}/include/" 
 	DESTINATION "${CURRENT_PACKAGES_DIR}/include"
-	)
+)
 
 file(
 	INSTALL "${SOURCE_PATH}/COPYING"
 	DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}"
 	RENAME copyright
-    )
+)
