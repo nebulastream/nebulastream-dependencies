@@ -12,6 +12,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   build-essential \
   curl zip unzip tar \  
   pkg-config \
+  autoconf \
   && apt-get clean -qq
 
 ADD ./entrypoint-build.sh /entrypoint.sh
