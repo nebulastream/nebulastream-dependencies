@@ -1,5 +1,6 @@
 {
   "default": {
-    "folly": { "baseline": "2021.10.11.00", "port-version": 0 }
+    "folly": { "baseline": "2021.10.11.00", "port-version": 0 },
+    "jemalloc-nes": { "baseline": "5.2.1", "port-version": 0 }
   }
 }
