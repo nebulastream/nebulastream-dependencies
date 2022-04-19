@@ -3,6 +3,7 @@
   "version": "13.0.0",
   "description": "The LLVM Compiler Infrastructure.",
   "homepage": "https://llvm.org",
+  "license": "Apache-2.0",
   "supports": "!uwp & !(arm & windows)",
   "dependencies": [
     {
@@ -22,6 +23,18 @@
     "tools"
   ],
   "features": {
+    "bolt": {
+      "description": "BOLT is a post-link optimizer developed to speed up large applications.",
+      "dependencies": [
+        {
+          "name": "llvm",
+          "default-features": false,
+          "features": [
+            "tools"
+          ]
+        }
+      ]
+    },
     "clang": {
       "description": "Include C Language Family Front-end.",
       "dependencies": [
@@ -236,9 +249,6 @@
         }
       ]
     },
-    "parallel-libs": {
-      "description": "Include parallel-libs project."
-    },
     "polly": {
       "description": "Include Polly (Polyhedral optimizations for LLVM) project.",
       "dependencies": [
@@ -279,6 +289,7 @@
             "target-riscv",
             "target-sparc",
             "target-systemz",
+            "target-ve",
             "target-webassembly",
             "target-x86",
             "target-xcore"
@@ -325,6 +336,9 @@
     "target-systemz": {
       "description": "Build with SystemZ backend."
     },
+    "target-ve": {
+      "description": "Build with VE backend."
+    },
     "target-webassembly": {
       "description": "Build with WebAssembly backend."
     },
@@ -335,7 +349,16 @@
       "description": "Build with XCore backend."
     },
     "tools": {
-      "description": "Build LLVM tools."
+      "description": "Build LLVM tools.",
+      "dependencies": [
+        {
+          "name": "llvm",
+          "default-features": false,
+          "features": [
+            "enable-threads"
+          ]
+        }
+      ]
     },
     "utils": {
       "description": "Build LLVM utils."
