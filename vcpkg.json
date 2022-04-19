@@ -4,7 +4,7 @@
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
-  "builtin-baseline": "69d5556d0d8c105f75055326cef346546e40e615",
+  "builtin-baseline": "daa7215f3d68c2a2f2e18c398cb73dab63cda829",
   "dependencies": [
     "z3",
     "boost-system",
