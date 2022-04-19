@@ -1,5 +1,5 @@
 {
-  "name": "llvm",
+  "name": "llvm-14",
   "version": "14.0.0",
   "description": "The LLVM Compiler Infrastructure.",
   "homepage": "https://llvm.org",
