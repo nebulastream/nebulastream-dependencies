@@ -285,7 +285,7 @@ vcpkg_cmake_configure(
         -DOPENMP_ENABLE_LIBOMPTARGET=OFF
         # Force TableGen to be built with optimization. This will significantly improve build time.
         -DLLVM_OPTIMIZED_TABLEGEN=ON
-        -DLLVM_BUILD_LLVM_DYLIB=ON
+        # -DLLVM_BUILD_LLVM_DYLIB=ON
         "-DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS}"
         "-DLLVM_ENABLE_RUNTIMES=${LLVM_ENABLE_RUNTIMES}"
         "-DLLVM_TARGETS_TO_BUILD=${LLVM_TARGETS_TO_BUILD}"
