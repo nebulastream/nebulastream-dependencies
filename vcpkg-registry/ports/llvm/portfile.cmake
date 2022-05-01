@@ -288,7 +288,8 @@ vcpkg_cmake_configure(
         -DLLVM_OPTIMIZED_TABLEGEN=ON
         # -DLLVM_BUILD_LLVM_DYLIB=ON
         "-DLLVM_ENABLE_PROJECTS=${LLVM_ENABLE_PROJECTS}"
-        "-DLLVM_ENABLE_RUNTIMES=${LLVM_ENABLE_RUNTIMES}"
+        #"-DLLVM_ENABLE_RUNTIMES=${LLVM_ENABLE_RUNTIMES}"
+        -DLLVM_ENABLE_RUNTIMES="compiler-rt;libunwind;libcxx;libcxxabi"
         "-DLLVM_TARGETS_TO_BUILD=${LLVM_TARGETS_TO_BUILD}"
         -DPACKAGE_VERSION=${LLVM_VERSION}
         # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
