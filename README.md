@@ -1,5 +1,5 @@
-# NebulaStream (NES) dependencies
-This repository containes binary releases for NES's dependencies. It contains CI/CD scripts as well as a way
+# NebulaStream dependencies
+This repository containes binary releases for NebulaStream's dependencies. It contains CI/CD scripts as well as a way
 to build the dependencies locally.
 
 ## CI/CD
