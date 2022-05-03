@@ -17,6 +17,7 @@
     "cppzmq",
     "log4cxx",
     "grpc",
+    "cpprestsdk",
     "libevent",
     "fmt",
     "paho-mqttpp3",
