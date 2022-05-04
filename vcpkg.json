@@ -34,6 +34,10 @@
       "platform": "!osx"
     },
     {
+      "name": "rdkafka",
+      "platform": "!osx"
+    },
+    {
       "name": "libiconv",
       "platform": "osx"
     },
