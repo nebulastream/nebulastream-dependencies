@@ -34,7 +34,7 @@
       "platform": "!osx"
     },
     {
-      "name": "rdkafka",
+      "name": "librdkafka",
       "platform": "!osx"
     },
     {
