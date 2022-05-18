@@ -163,7 +163,7 @@ if("pstl" IN_LIST FEATURES)
     list(APPEND LLVM_ENABLE_PROJECTS "pstl")
 endif()
 
-list(APPEND LLVM_ENABLE_PROJECTS "libunwind")
+#list(APPEND LLVM_ENABLE_PROJECTS "libunwind")
 
 set(LLVM_ENABLE_RUNTIMES)
 if("libcxx" IN_LIST FEATURES)
