@@ -55,6 +55,9 @@
       "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
       "platform": "arm64"
     },
-    "tensorflow"
+    {
+      "name": "tensorflow",
+      "platform": "x64"
+    }
   ]
 }
