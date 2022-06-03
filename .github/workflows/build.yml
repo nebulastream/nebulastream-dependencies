@@ -7,6 +7,7 @@ on:
 
 jobs:
   build-x64-linux:
+    timeout-minutes: 360
     env:
       VCPKG_DEP_LIST: x64-linux
       VCPKG_FEATURE_FLAGS: -binarycaching
@@ -62,7 +63,9 @@ jobs:
         id: cleanbuildartifacts
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+
   build-arm64-linux:
+    timeout-minutes: 360
     env:
       VCPKG_DEP_LIST: arm64-linux
       VCPKG_FORCE_SYSTEM_BINARIES: 1
@@ -110,7 +113,9 @@ jobs:
         id: cleanbuildartifacts
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+
   build-arm-osx:
+    timeout-minutes: 360
     env:
       VCPKG_DEP_LIST: arm64-osx
       VCPKG_FEATURE_FLAGS: -binarycaching
@@ -158,7 +163,9 @@ jobs:
         id: cleanbuildartifacts
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z  
+
   build-x64-osx:
+    timeout-minutes: 360
     env:
       VCPKG_DEP_LIST: x64-osx
       VCPKG_FEATURE_FLAGS: -binarycaching
@@ -208,6 +215,7 @@ jobs:
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
 
   build-x64-linux-musl:
+    timeout-minutes: 360
     env:
       VCPKG_DEP_LIST: x64-linux-musl
       VCPKG_FEATURE_FLAGS: -binarycaching
