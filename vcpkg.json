@@ -54,6 +54,11 @@
       "default-features": false,
       "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
       "platform": "arm64"
+    },
+    {
+      "name": "simdjson",
+      "default-features": true,
+      "platform": "x64 & linux"
     }
   ]
 }
