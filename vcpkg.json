@@ -27,8 +27,8 @@
     "eigen3",
     "gtest",
     "antlr4",
-    "folly", 
-    "jemalloc-nes", 
+    "folly",
+    "jemalloc-nes",
     {
       "name": "cppkafka",
       "platform": "!osx"
@@ -55,6 +55,6 @@
       "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
       "platform": "arm64"
     },
-    "oatpp-1.3.0"
+    "oatpp"
   ]
 }
