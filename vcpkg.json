@@ -55,6 +55,7 @@
       "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
       "platform": "arm64"
     },
-    "oatpp"
+    "oatpp",
+    "cpr"
   ]
 }
