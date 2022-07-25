@@ -27,3 +27,7 @@ endif()
 if (PORT STREQUAL open62541)
     set(VCPKG_POLICY_ALLOW_RESTRICTED_HEADERS enabled)
 endif()
+
+if (PORT STREQUAL oatpp)
+	set(VCPKG_LIBRARY_LINKAGE static)
+endif()
