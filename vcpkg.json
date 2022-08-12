@@ -59,7 +59,7 @@
     "cpr",
     {
       "name": "tensorflow",
-      "platform": "x64"
+      "platform": "!osx"
     }
   ]
 }
