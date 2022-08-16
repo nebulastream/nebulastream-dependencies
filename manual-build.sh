@@ -5,16 +5,27 @@ if [[ "$1" =~ ^clean$ ]]; then
   exit
 fi
 
-if [ "$1" == "" ] || [ $# -gt 1 ]; then
+if [ "$1" == "" ] || [ $# -gt 2 ]; then
   echo "Parameters are missing!"
   echo "Allowed parameters: \"clean\" or a triplet"
   echo "Allowed triplets: (x64 || arm64)-(osx || linux)"
+  echo "Optional parameters after triplet: version"
   exit
 fi
 
 if [[ ! "$1" =~ ^(x64|arm64)-(osx|linux)$ ]]; then
     echo "$1 is not allowed as triplet!"
     exit
+fi
+triplet=$1
+versioned_triplet=$triplet
+
+if [ "$2" != "" ]; then
+#   if [[ ! ( "$2" =~ ^v[0-9]*$ ) ]]; then
+#     echo "$2 is not an allowed version!"
+#     exit
+#   fi
+  versioned_triplet=$2-$triplet
 fi
 
 if ! command -v 7z &> /dev/null
@@ -23,10 +34,11 @@ then
     exit
 fi
 
-echo "Chosen triplet: $1-nes"
+echo "Chosen triplet: $triplet-nes"
+echo "Versioned triplet: $versioned_triplet-nes"
 
 export VCPKG_FEATURE_FLAGS="-binarycaching"
-if [[ "$1" =~ ^arm64.*$ ]]; then
+if [[ "$triplet" =~ ^arm64.*$ ]]; then
     echo "ARM64 detected, using system binaries..."
     export VCPKG_FORCE_SYSTEM_BINARIES=1
     if ! command -v ninja &> /dev/null
@@ -46,15 +58,15 @@ fi
 
 $(dirname $0)/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 
-$(dirname $0)/vcpkg/vcpkg install --triplet="$1-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/   --overlay-ports=vcpkg-registry/ports/
+$(dirname $0)/vcpkg/vcpkg install --triplet="$triplet-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/  --overlay-ports=vcpkg-registry/ports/
 
 
-mkdir $(dirname $0)/nes-dependencies-$1-nes && \
-mv $(dirname $0)/vcpkg_installed nes-dependencies-$1-nes/installed && \
-mkdir -p $(dirname $0)/nes-dependencies-$1-nes/scripts/buildsystems && \
-cp $(dirname $0)/vcpkg/scripts/buildsystems/vcpkg.cmake $(dirname $0)/nes-dependencies-$1-nes/scripts/buildsystems/ && \
-touch $(dirname $0)/nes-dependencies-$1-nes/.vcpkg-root && \
-7z a nes-dependencies-$1-nes.7z nes-dependencies-$1-nes -mx9 -aoa
+mkdir -p $(dirname $0)/nes-dependencies-$versioned_triplet-nes && \
+mv $(dirname $0)/vcpkg_installed nes-dependencies-$versioned_triplet-nes/installed && \
+mkdir -p $(dirname $0)/nes-dependencies-$versioned_triplet-nes/scripts/buildsystems && \
+cp $(dirname $0)/vcpkg/scripts/buildsystems/vcpkg.cmake $(dirname $0)/nes-dependencies-$versioned_triplet-nes/scripts/buildsystems/ && \
+touch $(dirname $0)/nes-dependencies-$versioned_triplet-nes/.vcpkg-root && \
+7z a nes-dependencies-$versioned_triplet-nes.7z nes-dependencies-$versioned_triplet-nes -mx9 -aoa
 
 # Clean up the fix
 if [ "$vcpkg_path_fix" = true ] ; then
