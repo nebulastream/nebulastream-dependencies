@@ -29,7 +29,7 @@ jobs:
       - name: Install virtualenv
         id: installvirtualenv
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} "apt update && apt install python3.10-venv"
+          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} apt-get install -qq python3.10-venv
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
@@ -241,7 +241,7 @@ jobs:
       - name: Install virtualenv
         id: installvirtualenv
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} "apt update && apt install python3.10-venv"
+          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} apt-get install -qq python3.10-venv
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
