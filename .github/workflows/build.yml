@@ -63,10 +63,10 @@ jobs:
         id: removedockerimage
         run: |
           docker rmi nes_dep_build_${{ matrix.osversion }}
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
+      - name: Clean workspace
+        id: cleanworkspace
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
   build-arm64-linux:
     timeout-minutes: 360
@@ -113,10 +113,10 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
+      - name: Clean workspace
+        id: cleanworkspace
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
   build-arm-osx:
     timeout-minutes: 360
@@ -163,10 +163,10 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
+      - name: Clean workspace
+        id: cleanworkspace
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z  
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
   build-x64-osx:
     timeout-minutes: 360
@@ -213,10 +213,10 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
+      - name: Clean workspace
+        id: cleanworkspace
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
   build-x64-linux-musl:
     timeout-minutes: 360
@@ -275,7 +275,7 @@ jobs:
         id: removedockerimage
         run: |
           docker rmi nes_dep_build_${{ matrix.osversion }}
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
+      - name: Clean workspace
+        id: cleanworkspace
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
