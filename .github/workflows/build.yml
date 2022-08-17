@@ -64,11 +64,11 @@ jobs:
         if: always()
         run: |
           docker rmi nes_dep_build_${{ matrix.osversion }}
-      - name: Clean workspace
-        id: cleanworkspace
+      - name: Clean build artifacts
+        id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
 
   build-arm64-linux:
     timeout-minutes: 360
@@ -115,11 +115,11 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean workspace
-        id: cleanworkspace
+      - name: Clean build artifacts
+        id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
 
   build-arm-osx:
     timeout-minutes: 360
@@ -166,11 +166,11 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean workspace
-        id: cleanworkspace
+      - name: Clean build artifacts
+        id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z  
 
   build-x64-osx:
     timeout-minutes: 360
@@ -217,11 +217,11 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean workspace
-        id: cleanworkspace
+      - name: Clean build artifacts
+        id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
 
   build-x64-linux-musl:
     timeout-minutes: 360
@@ -281,8 +281,8 @@ jobs:
         if: always()
         run: |
           docker rmi nes_dep_build_${{ matrix.osversion }}
-      - name: Clean workspace
-        id: cleanworkspace
+      - name: Clean build artifacts
+        id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
