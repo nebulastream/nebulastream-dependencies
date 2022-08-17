@@ -59,6 +59,10 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+      - name: Remove docker image
+        id: removedockerimage
+        run: |
+          docker rmi nes_dep_build_${{ matrix.osversion }}
       - name: Clean build artifacts
         id: cleanbuildartifacts
         run: |
@@ -267,6 +271,10 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
+      - name: Remove docker image
+        id: removedockerimage
+        run: |
+          docker rmi nes_dep_build_${{ matrix.osversion }}
       - name: Clean build artifacts
         id: cleanbuildartifacts
         run: |
