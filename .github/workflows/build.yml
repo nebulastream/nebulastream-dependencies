@@ -61,10 +61,12 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Remove docker image
         id: removedockerimage
+        if: always()
         run: |
           docker rmi nes_dep_build_${{ matrix.osversion }}
       - name: Clean workspace
         id: cleanworkspace
+        if: always()
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
@@ -115,6 +117,7 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean workspace
         id: cleanworkspace
+        if: always()
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
@@ -165,6 +168,7 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean workspace
         id: cleanworkspace
+        if: always()
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
@@ -215,6 +219,7 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean workspace
         id: cleanworkspace
+        if: always()
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
 
@@ -273,9 +278,11 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Remove docker image
         id: removedockerimage
+        if: always()
         run: |
           docker rmi nes_dep_build_${{ matrix.osversion }}
       - name: Clean workspace
         id: cleanworkspace
+        if: always()
         run: |
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z ${{ github.workspace }}
