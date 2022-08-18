@@ -63,7 +63,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
       - name: Remove docker image
         id: removedockerimage
         if: always()
@@ -121,7 +122,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-arm-osx:
     timeout-minutes: 360
@@ -172,7 +174,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z  
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-x64-osx:
     timeout-minutes: 360
@@ -223,7 +226,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-x64-linux-musl:
     timeout-minutes: 360
@@ -282,7 +286,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
       - name: Remove docker image
         id: removedockerimage
         if: always()
