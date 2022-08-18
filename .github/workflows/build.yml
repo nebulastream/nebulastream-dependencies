@@ -22,6 +22,13 @@ jobs:
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Remove stale docker image
+        id: removestaledockerimage
+        if: always()
+        run: |
+          test -n "$(docker image ls -q nes_dep_build_${{ matrix.osversion }})" && \
+          docker image rm $(docker image ls -q nes_dep_build_${{ matrix.osversion }}) || \
+          true
       - name: Build Docker
         id: builddocker
         working-directory: ${{ github.workspace }}/docker/
@@ -59,11 +66,6 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Remove docker image
-        id: removedockerimage
-        if: always()
-        run: |
-          docker rmi nes_dep_build_${{ matrix.osversion }}
       - name: Clean build artifacts
         id: cleanbuildartifacts
         if: always()
@@ -239,6 +241,13 @@ jobs:
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      - name: Remove stale docker image
+        id: removestaledockerimage
+        if: always()
+        run: |
+          test -n "$(docker image ls -q nes_dep_build_${{ matrix.osversion }})" && \
+          docker image rm $(docker image ls -q nes_dep_build_${{ matrix.osversion }}) || \
+          true
       - name: Build Docker
         id: builddocker
         working-directory: ${{ github.workspace }}/docker/
@@ -276,11 +285,6 @@ jobs:
         with:
           name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Remove docker image
-        id: removedockerimage
-        if: always()
-        run: |
-          docker rmi nes_dep_build_${{ matrix.osversion }}
       - name: Clean build artifacts
         id: cleanbuildartifacts
         if: always()
