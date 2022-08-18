@@ -56,10 +56,6 @@
       "platform": "arm64"
     },
     "oatpp",
-    "cpr",
-    {
-      "name": "tensorflow",
-      "platform": "!osx"
-    }
+    "cpr"
   ]
 }
