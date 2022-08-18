@@ -63,7 +63,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
           ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
       - name: Remove docker image
         id: removedockerimage
@@ -122,7 +123,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
           ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-arm-osx:
@@ -174,7 +176,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
           ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-x64-osx:
@@ -226,7 +229,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
           ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-x64-linux-musl:
@@ -286,7 +290,8 @@ jobs:
         id: cleanbuildartifacts
         if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z \
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
           ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
       - name: Remove docker image
         id: removedockerimage
