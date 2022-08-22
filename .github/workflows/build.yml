@@ -29,12 +29,12 @@ jobs:
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+          docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} \
+          docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} \
           ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
           --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
       - name: Compress artifacts
@@ -61,8 +61,18 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean build artifacts
         id: cleanbuildartifacts
+        if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
+      - name: Remove docker image
+        id: removedockerimage
+        if: always()
+        run: |
+          test -n "$(docker image ls -q nes_dep_build_${{ matrix.osversion }})" && \
+          docker image rm $(docker image ls -q nes_dep_build_${{ matrix.osversion }}) || \
+          true
 
   build-arm64-linux:
     timeout-minutes: 360
@@ -111,8 +121,11 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean build artifacts
         id: cleanbuildartifacts
+        if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-arm-osx:
     timeout-minutes: 360
@@ -161,8 +174,11 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean build artifacts
         id: cleanbuildartifacts
+        if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z  
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-x64-osx:
     timeout-minutes: 360
@@ -211,8 +227,11 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean build artifacts
         id: cleanbuildartifacts
+        if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
 
   build-x64-linux-musl:
     timeout-minutes: 360
@@ -237,12 +256,12 @@ jobs:
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+          docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir --env VCPKG_FORCE_SYSTEM_BINARIES=1 nes_dep_build_${{ matrix.osversion }} \
+          docker run -v ${{ github.workspace }}:/build_dir --env VCPKG_FORCE_SYSTEM_BINARIES=1 --rm nes_dep_build_${{ matrix.osversion }} \
           ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
           --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
       - name: Compress artifacts
@@ -269,5 +288,15 @@ jobs:
           path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
       - name: Clean build artifacts
         id: cleanbuildartifacts
+        if: always()
         run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes.7z
+          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
+          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
+          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
+      - name: Remove docker image
+        id: removedockerimage
+        if: always()
+        run: |
+          test -n "$(docker image ls -q nes_dep_build_${{ matrix.osversion }})" && \
+          docker image rm $(docker image ls -q nes_dep_build_${{ matrix.osversion }}) || \
+          true
