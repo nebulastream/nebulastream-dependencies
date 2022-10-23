@@ -1,0 +1,7 @@
+{
+  "name": "tensorflow-lite",
+  "version-semver": "2.6.0",
+  "description": "Library for computation using data flow graphs for scalable machine learning (C API version)",
+  "homepage": "https://github.com/tensorflow/tensorflow",
+  "license": "Apache-2.0"
+}
