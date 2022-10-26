@@ -15,10 +15,10 @@ vcpkg_cmake_configure(
 vcpkg_cmake_install()
 vcpkg_copy_pdbs()
 
-if (CMAKE_HOST_LINUX)
+if (VCPKG_TARGET_IS_LINUX)
     file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/libtensorflowlite_c.so DESTINATION ${CURRENT_PACKAGES_DIR}/lib)
     file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/libtensorflowlite_c.so DESTINATION ${CURRENT_PACKAGES_DIR}/debug/lib)
-elseif (CMAKE_HOST_APPLE)
+elseif (VCPKG_TARGET_IS_OSX)
     file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/libtensorflowlite_c.dylib DESTINATION ${CURRENT_PACKAGES_DIR}/lib)
     file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/libtensorflowlite_c.dylib DESTINATION ${CURRENT_PACKAGES_DIR}/debug/lib)
 endif()
@@ -28,5 +28,5 @@ file(COPY ${SOURCE_PATH}/tensorflow/lite/ DESTINATION
 
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
 
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/TensorflowLiteCConfig.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/tensorflowlite)
-file(RENAME ${CURRENT_PACKAGES_DIR}/share/tensorflowlite/TensorflowLiteCConfig.cmake ${CURRENT_PACKAGES_DIR}/share/tensorflowlite/tensorflow-lite-c-config.cmake)
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/TensorflowLiteCConfig.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/tensorflow-lite)
+file(RENAME ${CURRENT_PACKAGES_DIR}/share/tensorflow-lite/TensorflowLiteCConfig.cmake ${CURRENT_PACKAGES_DIR}/share/tensorflow-lite/tensorflow-lite-c-config.cmake)
