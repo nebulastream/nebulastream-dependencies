@@ -1,6 +1,5 @@
 set(tensorflowlite_c_INCLUDE_DIR "${CMAKE_CURRENT_LIST_DIR}/../../include")
 
-message(WARNING "Tensorflow has vendored dependencies. You may need to manually include files from tensorflow-external")
 set(tensorflowlite_c_INCLUDE_DIRS
         ${tensorflowlite_c_INCLUDE_DIR}
         ${tensorflowlite_c_INCLUDE_DIR}/tensorflow/lite/c
