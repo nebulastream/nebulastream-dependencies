@@ -1,7 +1,5 @@
 set(VERSION v2.6.0)
 
-#vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
-
 vcpkg_from_github(
         OUT_SOURCE_PATH SOURCE_PATH
         REPO tensorflow/tensorflow
@@ -13,32 +11,22 @@ vcpkg_from_github(
 vcpkg_cmake_configure(
         SOURCE_PATH "${SOURCE_PATH}/tensorflow/lite/c"
 )
+
 vcpkg_cmake_install()
-
-#vcpkg_cmake_config_fixup(CONFIG_PATH lib/cmake/tensorflow)
-#
-file(COPY ${SOURCE_PATH}/tensorflow/lite/ DESTINATION
-        ${CURRENT_PACKAGES_DIR}/include/tensorflow/lite)
-#
-#file(COPY ${CMAKE_CURRENT_BINARY_DIR}/tensorflow/lite/ DESTINATION
-#        ${CURRENT_PACKAGES_DIR}/include/tensorflow/lite)
-
-
-#if (VCPKG_LIBRARY_LINKAGE STREQUAL dynamic)
-#    file(COPY ${CURRENT_PACKAGES_DIR}/libtensorflow_c.a
-#            ${CURRENT_PACKAGES_DIR}/debug/lib/libtensorflow_c.a
-#            )
-#elseif (VCPKG_CMAKE_SYSTEM_NAME STREQUAL Linux)
-#    file(COPY ${CURRENT_PACKAGES_DIR}/libtensorflow_c.so
-#            ${CURRENT_PACKAGES_DIR}/debug/lib/libtensorflow_c.so
-#            )
-#else ()
-#    file(COPY ${CURRENT_PACKAGES_DIR}/lib/libtensorflow_c.dylib
-#            ${CURRENT_PACKAGES_DIR}/debug/lib/libtensorflow_c.dylib
-#            )
-#endif ()
-
 vcpkg_copy_pdbs()
 
-#file(REMOVE_RECURSE ${CURRENT_PACKAGES_DIR}/debug/include)
+if (CMAKE_HOST_LINUX)
+    file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/libtensorflowlite_c.so DESTINATION ${CURRENT_PACKAGES_DIR}/lib)
+    file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/libtensorflowlite_c.so DESTINATION ${CURRENT_PACKAGES_DIR}/debug/lib)
+elseif (CMAKE_HOST_APPLE)
+    file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-rel/libtensorflowlite_c.dylib DESTINATION ${CURRENT_PACKAGES_DIR}/lib)
+    file(COPY ${CURRENT_BUILDTREES_DIR}/${TARGET_TRIPLET}-dbg/libtensorflowlite_c.dylib DESTINATION ${CURRENT_PACKAGES_DIR}/debug/lib)
+endif()
+
+file(COPY ${SOURCE_PATH}/tensorflow/lite/ DESTINATION
+        ${CURRENT_PACKAGES_DIR}/include/tensorflow/lite)
+
 file(INSTALL ${SOURCE_PATH}/LICENSE DESTINATION ${CURRENT_PACKAGES_DIR}/share/${PORT} RENAME copyright)
+
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/TensorflowLiteCConfig.cmake DESTINATION ${CURRENT_PACKAGES_DIR}/share/tensorflowlite)
+file(RENAME ${CURRENT_PACKAGES_DIR}/share/tensorflowlite/TensorflowLiteCConfig.cmake ${CURRENT_PACKAGES_DIR}/share/tensorflowlite/tensorflow-lite-c-config.cmake)
