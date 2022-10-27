@@ -30,8 +30,7 @@
     "folly",
     "jemalloc-nes",
     {
-      "name": "cppkafka",
-      "platform": "!osx"
+      "name": "cppkafka"
     },
     {
       "name": "libiconv",
