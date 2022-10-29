@@ -135,14 +135,12 @@ jobs:
     runs-on: [ self-hosted, macos, ARM64]
     steps:
       - uses: lukka/get-cmake@latest
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-      - name: Check Python version
+      - name: Check PATH and Python version
         run: |
+          echo $PATH
           which python
           file $(which python)
       - name: Set output vars to the actual tag name
