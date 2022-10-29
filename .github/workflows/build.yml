@@ -192,8 +192,12 @@ jobs:
     runs-on: [ self-hosted, macos, X64, dep-builder ]
     steps:
       - uses: lukka/get-cmake@latest
-      - name: Check Python version
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Check PATH and Python version
         run: |
+          echo $PATH
           which python
           file $(which python)
       - uses: actions/checkout@v2
