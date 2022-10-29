@@ -138,9 +138,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-      - name: install python
-        run: |
-          brew install python
       - name: Check PATH and Python version
         run: |
           echo $PATH
