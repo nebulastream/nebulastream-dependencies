@@ -142,11 +142,6 @@ jobs:
         with:
           python-version: "3.11"
           architecture: x64
-      - name: Check PATH and Python version
-        run: |
-          echo $PATH
-          which python
-          file $(which python)
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -200,11 +195,6 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - name: Check PATH and Python version
-        run: |
-          echo $PATH
-          which python
-          file $(which python)
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
