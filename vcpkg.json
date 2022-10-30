@@ -57,6 +57,7 @@
     },
     "oatpp",
     "cpr",
-    "nlohmann-json"
+    "nlohmann-json",
+    "tensorflow-lite"
   ]
 }
