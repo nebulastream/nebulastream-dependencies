@@ -58,6 +58,7 @@
     "oatpp",
     "cpr",
     "nlohmann-json",
-    "tensorflow-lite"
+    "tensorflow-lite",
+    "s2geometry"
   ]
 }
