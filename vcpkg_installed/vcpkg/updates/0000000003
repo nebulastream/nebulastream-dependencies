@@ -1,0 +1,7 @@
+Package: vcpkg-cmake-config
+Version: 2022-02-06
+Architecture: x64-osx-nes
+Multi-Arch: same
+Abi: 19316d6291993686e11996739062bc60644b0078c938b28af3b53ad056972ff9
+Type: Port
+Status: install ok installed

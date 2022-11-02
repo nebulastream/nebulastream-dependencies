@@ -1,0 +1,9 @@
+Package: antlr4
+Version: 4.9.1
+Port-Version: 1
+Architecture: x64-osx-nes
+Multi-Arch: same
+Abi: 955e0ee915510f6ae8f518b6c8c80c5e6a0218d572cd1deb6d8f9400f89015fe
+Description: ANother Tool for Language Recognition
+Type: Port
+Status: install ok installed

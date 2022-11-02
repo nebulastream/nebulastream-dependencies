@@ -1,0 +1,12 @@
+x64-osx-nes/
+x64-osx-nes/share/
+x64-osx-nes/share/vcpkg-cmake/
+x64-osx-nes/share/vcpkg-cmake/cmake_get_vars/
+x64-osx-nes/share/vcpkg-cmake/cmake_get_vars/CMakeLists.txt
+x64-osx-nes/share/vcpkg-cmake/copyright
+x64-osx-nes/share/vcpkg-cmake/vcpkg-port-config.cmake
+x64-osx-nes/share/vcpkg-cmake/vcpkg_abi_info.txt
+x64-osx-nes/share/vcpkg-cmake/vcpkg_cmake_build.cmake
+x64-osx-nes/share/vcpkg-cmake/vcpkg_cmake_configure.cmake
+x64-osx-nes/share/vcpkg-cmake/vcpkg_cmake_get_vars.cmake
+x64-osx-nes/share/vcpkg-cmake/vcpkg_cmake_install.cmake
