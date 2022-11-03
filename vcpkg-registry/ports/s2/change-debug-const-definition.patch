@@ -1,3 +1,5 @@
+---
+
 diff --git a/src/s2/base/log_severity.h b/src/s2/base/log_severity.h
 index b0e9de3..d50714b 100644
 --- a/src/s2/base/log_severity.h
@@ -14,6 +16,81 @@ index b0e9de3..d50714b 100644
  #endif
 
  }  // namespace google
+diff --git a/src/s2/encoded_s2point_vector_test.cc b/src/s2/encoded_s2point_vector_test.cc
+index 18e808e..7d39db8 100644
+--- a/src/s2/encoded_s2point_vector_test.cc
++++ b/src/s2/encoded_s2point_vector_test.cc
+@@ -357,7 +357,7 @@ TEST(EncodedS2PointVectorTest, ManyDuplicatePointsAtAllLevels) {
+
+ TEST(EncodedS2PointVectorTest, SnappedFractalLoops) {
+   S2Testing::rnd.Reset(absl::GetFlag(FLAGS_s2_random_seed));
+-  int kMaxPoints = 3 << (google::DEBUG_MODE ? 10 : 14);
++  int kMaxPoints = 3 << (google::S2_DEBUG_MODE ? 10 : 14);
+   for (int num_points = 3; num_points <= kMaxPoints; num_points *= 4) {
+     size_t s2polygon_size = 0, lax_polygon_size = 0;
+     for (int i = 0; i < 10; ++i) {
+diff --git a/src/s2/s2builder.cc b/src/s2/s2builder.cc
+index a935ba8..d528447 100644
+--- a/src/s2/s2builder.cc
++++ b/src/s2/s2builder.cc
+@@ -1233,7 +1233,7 @@ void S2Builder::SnapEdge(InputEdgeId e, vector<SiteId>* chain) const {
+     }
+   }
+   S2_DCHECK(!chain->empty());
+-  if (google::DEBUG_MODE) {
++  if (google::S2_DEBUG_MODE) {
+     for (SiteId site_id : candidates) {
+       if (s2pred::CompareDistances(y, sites_[chain->back()],
+                                    sites_[site_id]) > 0) {
+diff --git a/src/s2/s2builder_test.cc b/src/s2/s2builder_test.cc
+index 0a01d32..106fbc8 100644
+--- a/src/s2/s2builder_test.cc
++++ b/src/s2/s2builder_test.cc
+@@ -1420,7 +1420,7 @@ TEST(S2Builder, SelfIntersectionStressTest) {
+     S2Polygon output;
+     builder.StartLayer(make_unique<S2PolygonLayer>(
+         &output, S2PolygonLayer::Options(EdgeType::UNDIRECTED)));
+-    vector<S2Point> vertices(google::DEBUG_MODE ? 50 : 200);
++    vector<S2Point> vertices(google::S2_DEBUG_MODE ? 50 : 200);
+     for (S2Point& vertex : vertices) {
+       vertex = S2Testing::SamplePoint(cap);
+     }
+@@ -1445,11 +1445,11 @@ TEST(S2Builder, SelfIntersectionStressTest) {
+
+ TEST(S2Builder, FractalStressTest) {
+   const int kIters =
+-      (google::DEBUG_MODE ? 100 : 1000) * absl::GetFlag(FLAGS_iteration_multiplier);
++      (google::S2_DEBUG_MODE ? 100 : 1000) * absl::GetFlag(FLAGS_iteration_multiplier);
+   for (int iter = 0; iter < kIters; ++iter) {
+     S2Testing::rnd.Reset(iter + 1);  // Easier to reproduce a specific case.
+     S2Testing::Fractal fractal;
+-    fractal.SetLevelForApproxMaxEdges(google::DEBUG_MODE ? 800 : 12800);
++    fractal.SetLevelForApproxMaxEdges(google::S2_DEBUG_MODE ? 800 : 12800);
+     fractal.SetLevelForApproxMinEdges(12);
+     fractal.set_fractal_dimension(1.5 + 0.5 * S2Testing::rnd.RandDouble());
+     S2Polygon input(fractal.MakeLoop(S2Testing::GetRandomFrame(),
+diff --git a/src/s2/s2builderutil_snap_functions_test.cc b/src/s2/s2builderutil_snap_functions_test.cc
+index 83b651f..f840d61 100644
+--- a/src/s2/s2builderutil_snap_functions_test.cc
++++ b/src/s2/s2builderutil_snap_functions_test.cc
+@@ -353,7 +353,7 @@ static double GetS2CellIdMinEdgeSeparation(
+   // them.  The results vary slightly according to how many candidates we
+   // keep, but the variations are much smaller than the conservative
+   // assumptions made by the S2CellIdSnapFunction implementation.
+-  int num_to_keep = google::DEBUG_MODE ? 20 : 100;
++  int num_to_keep = google::S2_DEBUG_MODE ? 20 : 100;
+   int num_to_print = 3;
+   vector<pair<double, S2CellId>> sorted;
+   for (const auto& entry : best_scores) {
+@@ -634,7 +634,7 @@ static double GetLatLngMinEdgeSeparation(
+   std::sort(scores.begin(), scores.end());
+   scores.erase(std::unique(scores.begin(), scores.end()), scores.end());
+   best_configs->clear();
+-  int num_to_keep = google::DEBUG_MODE ? 50 : 200;
++  int num_to_keep = google::S2_DEBUG_MODE ? 50 : 200;
+   int num_to_print = 3;
+   printf("Scale %" PRId64 ":\n", int64{scale});
+   for (const auto& entry : scores) {
 diff --git a/src/s2/s2cell_index.h b/src/s2/s2cell_index.h
 index bff29b0..c840a94 100644
 --- a/src/s2/s2cell_index.h
@@ -27,3 +104,171 @@ index bff29b0..c840a94 100644
  }
 
  inline S2CellId S2CellIndex::RangeIterator::start_id() const {
+diff --git a/src/s2/s2cell_test.cc b/src/s2/s2cell_test.cc
+index d80a10a..74c168e 100644
+--- a/src/s2/s2cell_test.cc
++++ b/src/s2/s2cell_test.cc
+@@ -262,8 +262,8 @@ static void TestSubdivide(const S2Cell& cell) {
+         force_subdivide = true;
+     }
+     if (force_subdivide ||
+-        cell.level() < (google::DEBUG_MODE ? 5 : 6) ||
+-        S2Testing::rnd.OneIn(google::DEBUG_MODE ? 5 : 4)) {
++        cell.level() < (google::S2_DEBUG_MODE ? 5 : 6) ||
++        S2Testing::rnd.OneIn(google::S2_DEBUG_MODE ? 5 : 4)) {
+       TestSubdivide(children[i]);
+     }
+   }
+diff --git a/src/s2/s2debug.cc b/src/s2/s2debug.cc
+index a7f69dd..e32b60a 100644
+--- a/src/s2/s2debug.cc
++++ b/src/s2/s2debug.cc
+@@ -20,5 +20,5 @@
+ #include "s2/base/logging.h"
+ #include "s2/base/log_severity.h"
+
+-S2_DEFINE_bool(s2debug, !!google::DEBUG_MODE,
++S2_DEFINE_bool(s2debug, !!google::S2_DEBUG_MODE,
+                "Enable automatic validity checking in S2 code");
+diff --git a/src/s2/s2edge_crossings_test.cc b/src/s2/s2edge_crossings_test.cc
+index f6f4036..a664848 100644
+--- a/src/s2/s2edge_crossings_test.cc
++++ b/src/s2/s2edge_crossings_test.cc
+@@ -543,7 +543,7 @@ TEST(S2, GetIntersectionInvariants) {
+   // are swapped and/or reversed.  The number of iterations is high because it
+   // is difficult to generate test cases that show that CompareEdges() is
+   // necessary and correct, for example.
+-  const int kIters = google::DEBUG_MODE ? 5000 : 50000;
++  const int kIters = google::S2_DEBUG_MODE ? 5000 : 50000;
+   for (int iter = 0; iter < kIters; ++iter) {
+     S2Point a, b, c, d;
+     do {
+diff --git a/src/s2/s2edge_tessellator_test.cc b/src/s2/s2edge_tessellator_test.cc
+index 500a695..956e82e 100644
+--- a/src/s2/s2edge_tessellator_test.cc
++++ b/src/s2/s2edge_tessellator_test.cc
+@@ -361,7 +361,7 @@ void TestEdgeError(const S2::Projection& proj, double t) {
+
+   // Keep track of the average and maximum geometric and parametric errors.
+   Stats stats_g, stats_p;
+-  const int kIters = google::DEBUG_MODE ? 10000 : 100000;
++  const int kIters = google::S2_DEBUG_MODE ? 10000 : 100000;
+   for (int iter = 0; iter < kIters; ++iter) {
+     S2Testing::rnd.Reset(iter);
+     S2Point a = S2Testing::RandomPoint();
+@@ -432,7 +432,7 @@ TEST(S2EdgeTessellator, MaxEdgeErrorMercator) {
+ // Tessellates random edges using the given projection and tolerance, and
+ // verifies that the expected criteria are satisfied.
+ void TestRandomEdges(const S2::Projection& proj, S1Angle tolerance) {
+-  const int kIters = google::DEBUG_MODE ? 50 : 500;
++  const int kIters = google::S2_DEBUG_MODE ? 50 : 500;
+   double max_r2 = 0, max_s2 = 0;
+   for (int iter = 0; iter < kIters; ++iter) {
+     S2Testing::rnd.Reset(iter);
+@@ -465,7 +465,7 @@ TEST(S2EdgeTessellator, UnprojectedAccuracyRandomCheck) {
+   S2::PlateCarreeProjection proj(180);
+   S1Angle tolerance(S1Angle::Degrees(1e-3));
+   S2Testing::Random rand;
+-  const int kIters = google::DEBUG_MODE ? 250 : 5000;
++  const int kIters = google::S2_DEBUG_MODE ? 250 : 5000;
+   for (int i = 0; i < kIters; ++i) {
+     S2Testing::rnd.Reset(i);
+     double alat = rand.UniformDouble(-89.99, 89.99);
+@@ -483,7 +483,7 @@ TEST(S2EdgeTessellator, ProjectedAccuracyRandomCheck) {
+   S2::PlateCarreeProjection proj(180);
+   S1Angle tolerance(S1Angle::Degrees(1e-3));
+   S2Testing::Random rand;
+-  const int kIters = google::DEBUG_MODE ? 250 : 5000;
++  const int kIters = google::S2_DEBUG_MODE ? 250 : 5000;
+   for (int i = 0; i < kIters; ++i) {
+     S2Testing::rnd.Reset(i);
+     double alat = rand.UniformDouble(-89.99, 89.99);
+diff --git a/src/s2/s2polygon_test.cc b/src/s2/s2polygon_test.cc
+index 8628ff0..c13d041 100644
+--- a/src/s2/s2polygon_test.cc
++++ b/src/s2/s2polygon_test.cc
+@@ -1666,7 +1666,7 @@ static void SplitAndAssemble(const S2Polygon& polygon) {
+   S2Error error;
+   ASSERT_TRUE(builder.Build(&error)) << error;
+
+-  for (int iter = 0; iter < (google::DEBUG_MODE ? 3 : 10); ++iter) {
++  for (int iter = 0; iter < (google::S2_DEBUG_MODE ? 3 : 10); ++iter) {
+     S2RegionCoverer coverer;
+     // Compute the minimum level such that the polygon's bounding
+     // cap is guaranteed to be cut.
+@@ -1674,7 +1674,7 @@ static void SplitAndAssemble(const S2Polygon& polygon) {
+     int min_level = S2::kMaxWidth.GetLevelForMaxValue(diameter);
+
+     // Now choose a level that has up to 500 cells in the covering.
+-    int level = min_level + S2Testing::rnd.Uniform(google::DEBUG_MODE ? 4 : 6);
++    int level = min_level + S2Testing::rnd.Uniform(google::S2_DEBUG_MODE ? 4 : 6);
+     coverer.mutable_options()->set_min_level(min_level);
+     coverer.mutable_options()->set_max_level(level);
+     coverer.mutable_options()->set_max_cells(500);
+@@ -2251,7 +2251,7 @@ class IsValidTest : public testing::Test {
+ TEST_F(IsValidTest, UnitLength) {
+   // This test can only be run in optimized builds because there are
+   // S2_DCHECK(IsUnitLength()) calls scattered throughout the S2 code.
+-  if (google::DEBUG_MODE) return;
++  if (google::S2_DEBUG_MODE) return;
+   for (int iter = 0; iter < kIters; ++iter) {
+     AddConcentricLoops(1 + rnd_->Uniform(6), 3 /*min_vertices*/);
+     vector<S2Point>* vloop = vloops_[rnd_->Uniform(vloops_.size())].get();
+@@ -2414,7 +2414,7 @@ TEST_F(IsValidTest, FuzzTest) {
+   // when they receive arbitrary invalid input.  (We don't test large inputs;
+   // it is assumed that the client enforces their own size limits before even
+   // attempting to construct geometric objects.)
+-  if (google::DEBUG_MODE)
++  if (google::S2_DEBUG_MODE)
+     return;  // Requires unit length vertices.
+   for (int iter = 0; iter < kIters; ++iter) {
+     int num_loops = 1 + rnd_->Uniform(10);
+diff --git a/src/s2/s2region_coverer_test.cc b/src/s2/s2region_coverer_test.cc
+index 158be55..40c35b0 100644
+--- a/src/s2/s2region_coverer_test.cc
++++ b/src/s2/s2region_coverer_test.cc
+@@ -60,7 +60,7 @@ using std::vector;
+ S2_DEFINE_string(max_cells, "4,8",
+               "Comma-separated list of values to use for 'max_cells'");
+
+-S2_DEFINE_int32(iters, google::DEBUG_MODE ? 1000 : 100000,
++S2_DEFINE_int32(iters, google::S2_DEBUG_MODE ? 1000 : 100000,
+              "Number of random caps to try for each max_cells value");
+
+ namespace {
+diff --git a/src/s2/s2region_term_indexer.cc b/src/s2/s2region_term_indexer.cc
+index aefa30e..0e00ad1 100644
+--- a/src/s2/s2region_term_indexer.cc
++++ b/src/s2/s2region_term_indexer.cc
+@@ -164,7 +164,7 @@ vector<string> S2RegionTermIndexer::GetIndexTermsForCanonicalCovering(
+   // that query regions will never contain a descendant of these cells.
+
+   S2_CHECK(!options_.index_contains_points_only());
+-  if (google::DEBUG_MODE) {
++  if (google::S2_DEBUG_MODE) {
+     *coverer_.mutable_options() = options_;
+     S2_CHECK(coverer_.IsCanonical(covering));
+   }
+@@ -231,7 +231,7 @@ vector<string> S2RegionTermIndexer::GetQueryTermsForCanonicalCovering(
+     const S2CellUnion& covering, string_view prefix) {
+   // See the top of this file for an overview of the indexing strategy.
+
+-  if (google::DEBUG_MODE) {
++  if (google::S2_DEBUG_MODE) {
+     *coverer_.mutable_options() = options_;
+     S2_CHECK(coverer_.IsCanonical(covering));
+   }
+diff --git a/src/s2/s2shape_measures.cc b/src/s2/s2shape_measures.cc
+index a9e5f1d..bf6500f 100644
+--- a/src/s2/s2shape_measures.cc
++++ b/src/s2/s2shape_measures.cc
+@@ -83,7 +83,7 @@ double GetArea(const S2Shape& shape) {
+   for (int chain_id = 0; chain_id < num_chains; ++chain_id) {
+     GetChainVertices(shape, chain_id, &vertices);
+     area += S2::GetSignedArea(S2PointLoopSpan(vertices));
+-    if (google::DEBUG_MODE) {
++    if (google::S2_DEBUG_MODE) {
+       max_error += S2::GetCurvatureMaxError(S2PointLoopSpan(vertices));
+     }
+   }
+--
