@@ -3,3 +3,4 @@ nesDebs*
 *.zip
 cmake-build*
 .idea*
+/nes-dependencies-x64-linux-nes/

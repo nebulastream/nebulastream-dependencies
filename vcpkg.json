@@ -59,6 +59,6 @@
     "cpr",
     "nlohmann-json",
     "tensorflow-lite",
-    "s2geometry"
+    "s2"
   ]
 }
