@@ -6,6 +6,8 @@ vcpkg_from_github(
         REF v0.10.0
         SHA512 04fe955f71b584bca7e492b935ec6061ce1348ff1731797451cdaa538adb88274cb1634d91a844d5d6e3ad0ed11e865322002115d2e746d9a0127f38cabc34e3
         HEAD_REF main
+        PATCHES
+             change-debug-const-definition.patch
 )
 
 vcpkg_cmake_configure(

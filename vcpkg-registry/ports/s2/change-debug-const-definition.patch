@@ -1,0 +1,29 @@
+diff --git a/src/s2/base/log_severity.h b/src/s2/base/log_severity.h
+index b0e9de3..d50714b 100644
+--- a/src/s2/base/log_severity.h
++++ b/src/s2/base/log_severity.h
+@@ -28,9 +28,9 @@
+ namespace google {
+
+ #ifdef NDEBUG
+-constexpr bool DEBUG_MODE = false;
++constexpr bool S2_DEBUG_MODE = false;
+ #else
+-constexpr bool DEBUG_MODE = true;
++constexpr bool S2_DEBUG_MODE = true;
+ #endif
+
+ }  // namespace google
+diff --git a/src/s2/s2cell_index.h b/src/s2/s2cell_index.h
+index bff29b0..c840a94 100644
+--- a/src/s2/s2cell_index.h
++++ b/src/s2/s2cell_index.h
+@@ -481,7 +481,7 @@ inline void S2CellIndex::CellIterator::Next() {
+ inline S2CellIndex::RangeIterator::RangeIterator(const S2CellIndex* index)
+     : range_nodes_(&index->range_nodes_), it_() {
+   S2_DCHECK(!range_nodes_->empty()) << "Call Build() first.";
+-  if (google::DEBUG_MODE) it_ = kUninitialized();  // See done().
++  if (google::S2_DEBUG_MODE) it_ = kUninitialized();  // See done().
+ }
+
+ inline S2CellId S2CellIndex::RangeIterator::start_id() const {
