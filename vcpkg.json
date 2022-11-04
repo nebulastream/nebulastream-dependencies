@@ -1,6 +1,6 @@
 {
   "name": "nebulastream-dependencies",
-  "version-string": "v15",
+  "version-string": "v22",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
@@ -58,6 +58,7 @@
     "oatpp",
     "cpr",
     "nlohmann-json",
-    "tensorflow-lite"
+    "tensorflow-lite",
+    "s2"
   ]
 }
