@@ -1,9 +1,9 @@
-set(VERSION v2.6.0)
+set(VERSION v0.10.0)
 
 vcpkg_from_github(
         OUT_SOURCE_PATH SOURCE_PATH
         REPO google/s2geometry
-        REF v0.10.0
+        REF ${VERSION}
         SHA512 04fe955f71b584bca7e492b935ec6061ce1348ff1731797451cdaa538adb88274cb1634d91a844d5d6e3ad0ed11e865322002115d2e746d9a0127f38cabc34e3
         HEAD_REF main
         PATCHES
