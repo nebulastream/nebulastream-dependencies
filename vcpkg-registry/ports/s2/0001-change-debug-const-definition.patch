@@ -16,6 +16,48 @@ index b0e9de3..d50714b 100644
  #endif
 
  }  // namespace google
+diff --git a/src/s2/base/port.h b/src/s2/base/port.h
+index 0efaba8..329a09d 100644
+--- a/src/s2/base/port.h
++++ b/src/s2/base/port.h
+@@ -213,36 +213,9 @@
+ #define bswap_32(x) OSSwapInt32(x)
+ #define bswap_64(x) OSSwapInt64(x)
+
+-#elif defined(__GLIBC__) || defined(__BIONIC__) || defined(__ASYLO__) || \
+-    0
+-#include <byteswap.h>  // IWYU pragma: export
+-
+ #else
+
+-static inline uint16 bswap_16(uint16 x) {
+-#ifdef __cplusplus
+-  return static_cast<uint16>(((x & 0xFF) << 8) | ((x & 0xFF00) >> 8));
+-#else
+-  return (uint16)(((x & 0xFF) << 8) | ((x & 0xFF00) >> 8));  // NOLINT
+-#endif  // __cplusplus
+-}
+-#define bswap_16(x) bswap_16(x)
+-static inline uint32 bswap_32(uint32 x) {
+-  return (((x & 0xFF) << 24) |
+-          ((x & 0xFF00) << 8) |
+-          ((x & 0xFF0000) >> 8) |
+-          ((x & 0xFF000000) >> 24));
+-}
+-#define bswap_32(x) bswap_32(x)
+-static inline uint64 bswap_64(uint64 x) {
+-  return (((x & (uint64)0xFF) << 56) | ((x & (uint64)0xFF00) << 40) |
+-          ((x & (uint64)0xFF0000) << 24) | ((x & (uint64)0xFF000000) << 8) |
+-          ((x & (uint64)0xFF00000000) >> 8) |
+-          ((x & (uint64)0xFF0000000000) >> 24) |
+-          ((x & (uint64)0xFF000000000000) >> 40) |
+-          ((x & (uint64)0xFF00000000000000) >> 56));
+-}
+-#define bswap_64(x) bswap_64(x)
++#include <byteswap.h>  // IWYU pragma: export
+
+ #endif
+
 diff --git a/src/s2/encoded_s2point_vector_test.cc b/src/s2/encoded_s2point_vector_test.cc
 index 18e808e..7d39db8 100644
 --- a/src/s2/encoded_s2point_vector_test.cc
