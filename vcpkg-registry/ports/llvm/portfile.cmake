@@ -1,4 +1,4 @@
-set(LLVM_VERSION "14.0.3")
+set(LLVM_VERSION "14.0.6")
 
 vcpkg_check_linkage(ONLY_STATIC_LIBRARY)
 
