@@ -19,6 +19,7 @@
     "clang",
     "default-options",
     "default-targets",
+    "target-nvptx",
     "lld",
     "tools"
   ],
