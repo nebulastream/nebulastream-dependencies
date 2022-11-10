@@ -26,11 +26,6 @@ jobs:
         id: builddocker
         working-directory: ${{ github.workspace }}/docker/
         run: docker build  -t nes_dep_build_${{ matrix.osversion }} -f Dockerfile-${{ matrix.osversion }} .
-      - uses: Jimver/cuda-toolkit@v0.2.8
-        id: cuda-toolkit
-        with:
-          cuda: '11.7.0'
-      - run: nvcc -V
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
