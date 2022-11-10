@@ -19,7 +19,6 @@
     "clang",
     "default-options",
     "default-targets",
-    "target-nvptx",
     "lld",
     "tools"
   ],
@@ -88,8 +87,7 @@
           "name": "llvm",
           "default-features": false,
           "features": [
-            "target-x86",
-            "target-nvptx"
+            "target-x86"
           ],
           "platform": "x86 | x64"
         },
