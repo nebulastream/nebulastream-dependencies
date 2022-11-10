@@ -269,6 +269,8 @@ if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "${VCPKG_DETECTED_CMAKE_SYSTEM_PROCESS
     endif()
 endif()
 
+find_library(CUDA_DRIVER_LIBRARY cuda REQUIRED)
+
 vcpkg_cmake_configure(
     SOURCE_PATH ${SOURCE_PATH}/llvm
     OPTIONS
@@ -297,11 +299,6 @@ vcpkg_cmake_configure(
         -DMLIR_ENABLE_CUDA_RUNNER=ON
         -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc
 )
-
-if(MLIR_ENABLE_CUDA_RUNNER)
-    find_library(CUDA_DRIVER_LIBRARY cuda REQUIRED)
-    list(APPEND _DEPS ${CUDA_DRIVER_LIBRARY})
-endif()
 
 vcpkg_cmake_install(ADD_BIN_TO_PATH)
 
