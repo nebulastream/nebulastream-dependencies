@@ -298,6 +298,11 @@ vcpkg_cmake_configure(
         -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc
 )
 
+if(MLIR_ENABLE_CUDA_RUNNER)
+    find_library(CUDA_DRIVER_LIBRARY cuda REQUIRED)
+    list(APPEND _DEPS ${CUDA_DRIVER_LIBRARY})
+endif()
+
 vcpkg_cmake_install(ADD_BIN_TO_PATH)
 
 function(llvm_cmake_package_config_fixup package_name)
