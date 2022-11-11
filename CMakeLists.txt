@@ -4,6 +4,18 @@ cmake_minimum_required(VERSION 3.15)
 set(VCPKG_CRT_LINKAGE dynamic)
 set(VCPKG_LIBRARY_LINKAGE static)
 
+# CUDA SETUP
+find_package(CUDAToolkit REQUIRED)
+if(NOT ${CUDAToolkit_FOUND})
+    message(FATAL_ERROR "Unable to find CUDAToolkit")
+endif ()
+enable_language(CUDA)
+set(CMAKE_CUDA_STANDARD 14)
+set(LIBRARIES ${LIBRARIES} CUDA::cudart CUDA::curand)
+set(CMAKE_CUDA_FLAGS "-lineinfo")
+message("-- CUDA dependencies OK")
+include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
+
 if(NOT CMAKE_HOST_SYSTEM_PROCESSOR)
     execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE CMAKE_HOST_SYSTEM_PROCESSOR OUTPUT_STRIP_TRAILING_WHITESPACE)
 endif()
