@@ -7,6 +7,10 @@
   "builtin-baseline": "daa7215f3d68c2a2f2e18c398cb73dab63cda829",
   "dependencies": [
     {
+      "name": "cuda",
+      "platform": "!osx"
+    },
+    {
       "name": "llvm",
       "default-features": false,
       "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-x86", "target-nvptx"],
