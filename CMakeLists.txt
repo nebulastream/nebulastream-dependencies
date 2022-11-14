@@ -15,7 +15,7 @@ set(LIBRARIES ${LIBRARIES} CUDA::cudart CUDA::curand CUDA::cuda_driver)
 set(CMAKE_CUDA_FLAGS "-lineinfo")
 message("-- CUDA dependencies OK")
 include_directories(${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-target_link_libraries(nebulastream-dependencies PRIVATE ${LIBRARIES})
+target_link_libraries(nebulastream-dependencies PRIVATE CUDA::cudart CUDA::curand CUDA::cuda_driver)
 
 if(NOT CMAKE_HOST_SYSTEM_PROCESSOR)
     execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE CMAKE_HOST_SYSTEM_PROCESSOR OUTPUT_STRIP_TRAILING_WHITESPACE)
