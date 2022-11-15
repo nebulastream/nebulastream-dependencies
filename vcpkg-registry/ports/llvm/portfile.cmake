@@ -134,9 +134,15 @@ if("lldb" IN_LIST FEATURES)
         -DLLDB_ENABLE_CURSES=OFF
     )
 endif()
+
 if("mlir" IN_LIST FEATURES)
     list(APPEND LLVM_ENABLE_PROJECTS "mlir")
 endif()
+
+if("mlir" IN_LIST FEATURES)
+    list(APPEND LLVM_ENABLE_PROJECTS "mlir")
+endif()
+
 if("openmp" IN_LIST FEATURES)
     # Disable OpenMP on Windows (see https://bugs.llvm.org/show_bug.cgi?id=45074).
     if(VCPKG_TARGET_IS_WINDOWS)
@@ -264,6 +270,9 @@ if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "${VCPKG_DETECTED_CMAKE_SYSTEM_PROCESS
                 list(APPEND CROSS_OPTIONS -DLLVM_ENABLE_LIBCXX=OFF)
                 list(APPEND CROSS_OPTIONS -DLLVM_BINUTILS_INCDIR=/usr/include)
                 list(APPEND CROSS_OPTIONS -DLLVM_APPEND_VC_REV=OFF)
+            else()
+                list(APPEND CROSS_OPTIONS -DMLIR_ENABLE_CUDA_RUNNER=ON)
+                list(APPEND CROSS_OPTIONS -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc)
             endif()
         endif()
     endif()
@@ -294,8 +303,6 @@ vcpkg_cmake_configure(
         # Limit the maximum number of concurrent link jobs to 1. This should fix low amount of memory issue for link.
         -DLLVM_PARALLEL_LINK_JOBS=4
         -DLLVM_TOOLS_INSTALL_DIR=tools/llvm
-        -DMLIR_ENABLE_CUDA_RUNNER=ON
-        -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc
 )
 
 vcpkg_cmake_install(ADD_BIN_TO_PATH)
