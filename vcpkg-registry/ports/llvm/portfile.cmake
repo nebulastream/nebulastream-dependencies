@@ -135,14 +135,14 @@ if("lldb" IN_LIST FEATURES)
     )
 endif()
 
-if("mlir" IN_LIST FEATURES)
-    list(APPEND LLVM_ENABLE_PROJECTS "mlir")
+if("nvptx" IN_LIST FEATURES)
+    list(APPEND CROSS_OPTIONS -DMLIR_ENABLE_CUDA_RUNNER=ON)
+    list(APPEND CROSS_OPTIONS -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc)
 endif()
 
 if("mlir" IN_LIST FEATURES)
     list(APPEND LLVM_ENABLE_PROJECTS "mlir")
 endif()
-
 if("openmp" IN_LIST FEATURES)
     # Disable OpenMP on Windows (see https://bugs.llvm.org/show_bug.cgi?id=45074).
     if(VCPKG_TARGET_IS_WINDOWS)
@@ -270,9 +270,6 @@ if(NOT VCPKG_TARGET_ARCHITECTURE STREQUAL "${VCPKG_DETECTED_CMAKE_SYSTEM_PROCESS
                 list(APPEND CROSS_OPTIONS -DLLVM_ENABLE_LIBCXX=OFF)
                 list(APPEND CROSS_OPTIONS -DLLVM_BINUTILS_INCDIR=/usr/include)
                 list(APPEND CROSS_OPTIONS -DLLVM_APPEND_VC_REV=OFF)
-            else()
-                list(APPEND CROSS_OPTIONS -DMLIR_ENABLE_CUDA_RUNNER=ON)
-                list(APPEND CROSS_OPTIONS -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc)
             endif()
         endif()
     endif()

@@ -60,6 +60,5 @@
     "nlohmann-json",
     "tensorflow-lite",
     "s2"
-
   ]
 }
