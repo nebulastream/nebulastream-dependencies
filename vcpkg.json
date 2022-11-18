@@ -27,6 +27,7 @@
     "eigen3",
     "gtest",
     "antlr4",
+    "spdlog",
     "folly",
     "jemalloc-nes",
     {
