@@ -1,6 +1,6 @@
 {
   "name": "nebulastream-dependencies",
-  "version-string": "v22",
+  "version-string": "v25",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
@@ -31,7 +31,8 @@
     "folly",
     "jemalloc-nes",
     {
-      "name": "cppkafka"
+      "name": "cppkafka",
+      "platform": "osx"
     },
     {
       "name": "libiconv",
