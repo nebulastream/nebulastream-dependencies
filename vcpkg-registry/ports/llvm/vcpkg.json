@@ -65,6 +65,7 @@
             "disable-assertions",
             "disable-clang-static-analyzer",
             "enable-bindings",
+            "enable-rtti",
             "enable-threads",
             "enable-zlib"
           ]

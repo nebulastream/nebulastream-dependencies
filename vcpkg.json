@@ -46,7 +46,7 @@
     {
       "name": "llvm",
       "default-features": false,
-      "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-x86"],
+      "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-x86", "target-nvptx"],
       "platform": "x64"
     },
     {

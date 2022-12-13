@@ -134,6 +134,12 @@ if("lldb" IN_LIST FEATURES)
         -DLLDB_ENABLE_CURSES=OFF
     )
 endif()
+
+if("nvptx" IN_LIST FEATURES)
+    list(APPEND CROSS_OPTIONS -DMLIR_ENABLE_CUDA_RUNNER=ON)
+    list(APPEND CROSS_OPTIONS -DCMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc)
+endif()
+
 if("mlir" IN_LIST FEATURES)
     list(APPEND LLVM_ENABLE_PROJECTS "mlir")
 endif()
