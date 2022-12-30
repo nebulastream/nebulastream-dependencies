@@ -48,5 +48,10 @@
     "nlohmann-json",
     "tensorflow-lite",
     "s2"
+  ],
+  "overrides": [
+    {
+      "name": "zeromq", "version": "4.3.4", "port-version": 6
+    }
   ]
 }
