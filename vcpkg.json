@@ -43,18 +43,6 @@
       "features": ["openssl"],
       "platform": "osx"
     },
-    {
-      "name": "llvm",
-      "default-features": false,
-      "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-x86"],
-      "platform": "x64"
-    },
-    {
-      "name": "llvm",
-      "default-features": false,
-      "features": ["clang","openmp", "default-options", "lld", "tools", "mlir", "target-aarch64"],
-      "platform": "arm64"
-    },
     "oatpp",
     "cpr",
     "nlohmann-json",
