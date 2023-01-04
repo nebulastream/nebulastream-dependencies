@@ -38,5 +38,5 @@ if (PORT STREQUAL oatpp)
 endif()
 
 if (PORT STREQUAL cppkafka)
-	set(VCPKG_LIBRARY_LINKAGE dynamic)
+	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
