@@ -52,6 +52,12 @@
   "overrides": [
     {
       "name": "zeromq", "version": "4.3.4", "port-version": 6
+    },
+    {
+      "name": "fmt", "version": "9.1.0", "port-version": 1
+    },
+    {
+      "name": "spdlog", "version": "1.11.0"
     }
   ]
 }
