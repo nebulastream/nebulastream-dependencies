@@ -16,7 +16,6 @@
     "zeromq",
     "cppzmq",
     "grpc",
-    "cpprestsdk",
     "libevent",
     "fmt",
     "paho-mqttpp3",
