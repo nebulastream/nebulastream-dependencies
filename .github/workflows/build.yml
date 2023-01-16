@@ -83,7 +83,7 @@ jobs:
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, ARM64, dep-builder]
     steps:
-     - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
@@ -137,7 +137,7 @@ jobs:
     runs-on: [ self-hosted, macos, ARM64]
     steps:
       - uses: lukka/get-cmake@latest
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
@@ -198,7 +198,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-     - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 0
