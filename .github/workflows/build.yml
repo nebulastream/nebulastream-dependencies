@@ -16,9 +16,10 @@ jobs:
       matrix:
         osversion: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: true
+          fetch-depth: 0
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -82,9 +83,10 @@ jobs:
       VCPKG_FEATURE_FLAGS: -binarycaching
     runs-on: [self-hosted, linux, ARM64, dep-builder]
     steps:
-      - uses: actions/checkout@v2
+     - uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: true
+          fetch-depth: 0
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -135,9 +137,10 @@ jobs:
     runs-on: [ self-hosted, macos, ARM64]
     steps:
       - uses: lukka/get-cmake@latest
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: true
+          fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
@@ -195,9 +198,10 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-      - uses: actions/checkout@v2
+     - uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: true
+          fetch-depth: 0
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -239,71 +243,3 @@ jobs:
           rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
           nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
           ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
-
-  build-x64-linux-musl:
-    timeout-minutes: 360
-    env:
-      VCPKG_DEP_LIST: x64-linux-musl
-      VCPKG_FEATURE_FLAGS: -binarycaching
-    runs-on: [ self-hosted, linux, x64, dep-builder ]
-    strategy:
-      matrix:
-        osversion: [ alpine-3.15 ]
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
-      - name: Set output vars to the actual tag name
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
-      - name: Build Docker
-        id: builddocker
-        working-directory: ${{ github.workspace }}/docker/
-        run: docker build  -t nes_dep_build_${{ matrix.osversion }} -f Dockerfile-${{ matrix.osversion }} .
-      - name: Install vcpkg
-        id: bootstrapvcpkg
-        run: |
-          docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
-        shell: bash
-      - name: Install dependencies in manifest mode
-        id: installdeps
-        run: |
-          docker run -v ${{ github.workspace }}:/build_dir --env VCPKG_FORCE_SYSTEM_BINARIES=1 --rm nes_dep_build_${{ matrix.osversion }} \
-          ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
-          --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
-      - name: Compress artifacts
-        id: compressdeps
-        run: |
-          mkdir nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes && \
-          mv ${{ github.workspace }}/vcpkg_installed nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/installed && \
-          mkdir -p nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems && \
-          cp ${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/scripts/buildsystems/ && \
-          touch ${{ github.workspace }}/nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes/.vcpkg-root && \
-          7z a nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes -mx9 -aoa
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        id: createrelease
-        with:
-          files: |
-            nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z
-      - name: Upload GitHub Actions artifact of vcpkg build logs
-        uses: actions/upload-artifact@v2
-        if: failure()
-        id: uploadlogs
-        with:
-          name: vcpkg-logs-${{ env.VCPKG_DEP_LIST }}
-          path: ${{ github.workspace }}/vcpkg/buildtrees/**/*.log
-      - name: Clean build artifacts
-        id: cleanbuildartifacts
-        if: always()
-        run: |
-          rm -rf nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-nes \
-          nes-dependencies-${{ steps.vars.outputs.tag }}-${{ env.VCPKG_DEP_LIST }}-${{ matrix.osversion }}-nes.7z \
-          ${{ github.workspace }}/vcpkg/{buildtrees,downloads,packages}
-      - name: Remove docker image
-        id: removedockerimage
-        if: always()
-        run: |
-          test -n "$(docker image ls -q nes_dep_build_${{ matrix.osversion }})" && \
-          docker image rm $(docker image ls -q nes_dep_build_${{ matrix.osversion }}) || \
-          true
