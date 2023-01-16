@@ -1,6 +1,6 @@
 {
   "name": "nebulastream-dependencies",
-  "version-string": "v25",
+  "version-string": "v28",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
