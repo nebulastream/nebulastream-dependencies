@@ -20,6 +20,9 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Checkout vcokg submodules
+          working-directory: ${{ github.workspace }}/vcpkg/
+          run: git fetch origin daa7215f3d68c2a2f2e18c398cb73dab63cda829
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -87,6 +90,9 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Checkout vcokg submodules
+          working-directory: ${{ github.workspace }}/vcpkg/
+          run: git fetch origin daa7215f3d68c2a2f2e18c398cb73dab63cda829
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -141,6 +147,9 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Checkout vcokg submodules
+          working-directory: ${{ github.workspace }}/vcpkg/
+          run: git fetch origin daa7215f3d68c2a2f2e18c398cb73dab63cda829
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
@@ -202,6 +211,9 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
+      - name: Checkout vcokg submodules
+          working-directory: ${{ github.workspace }}/vcpkg/
+          run: git fetch origin daa7215f3d68c2a2f2e18c398cb73dab63cda829
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
