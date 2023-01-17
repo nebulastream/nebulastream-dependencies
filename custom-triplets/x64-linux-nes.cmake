@@ -20,10 +20,6 @@ if (PORT STREQUAL paho-mqttpp3)
 	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
 
-if (PORT STREQUAL llvm)
-	set(VCPKG_BUILD_TYPE release)
-endif()
-
 if (PORT STREQUAL open62541)
     set(VCPKG_POLICY_ALLOW_RESTRICTED_HEADERS enabled)
 endif()

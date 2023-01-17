@@ -19,7 +19,3 @@ endif()
 if (PORT STREQUAL paho-mqttpp3)
     set(VCPKG_LIBRARY_LINKAGE dynamic)
 endif()
-
-if (PORT STREQUAL llvm)
-    set(VCPKG_BUILD_TYPE release)
-endif()
