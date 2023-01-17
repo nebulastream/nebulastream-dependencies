@@ -4,7 +4,7 @@
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
-  "builtin-baseline": "daa7215f3d68c2a2f2e18c398cb73dab63cda829",
+  "builtin-baseline": "d51b969a7db84d56d2083bb22b2f95254bdc4c3f",
   "dependencies": [
     "z3",
     "zeromq",
@@ -23,6 +23,11 @@
     "spdlog",
     "folly",
     "jemalloc-nes",
+    "oatpp",
+    "cpr",
+    "nlohmann-json",
+    "tensorflow-lite",
+    "s2",
     {
       "name": "cppkafka",
       "platform": "!osx"
@@ -36,22 +41,6 @@
       "default-features": false,
       "features": ["openssl"],
       "platform": "osx"
-    },
-    "oatpp",
-    "cpr",
-    "nlohmann-json",
-    "tensorflow-lite",
-    "s2"
-  ],
-  "overrides": [
-    {
-      "name": "zeromq", "version": "4.3.4", "port-version": 6
-    },
-    {
-      "name": "fmt", "version": "9.1.0"
-    },
-    {
-      "name": "spdlog", "version": "1.11.0"
-    }
+    }   
   ]
 }
