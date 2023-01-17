@@ -8,6 +8,7 @@
   "dependencies": [
     "z3",
     "zeromq",
+    "cppzmq",
     "grpc",
     "libevent",
     "fmt",
