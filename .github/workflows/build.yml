@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
       - name: Checkout vcokg submodules
         working-directory: ${{ github.workspace }}/vcpkg/
-        run: git fetch --unshallow
+        run: git fetch --unshallow || true
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -92,7 +92,7 @@ jobs:
           fetch-depth: 0
       - name: Checkout vcokg submodules
         working-directory: ${{ github.workspace }}/vcpkg/
-        run: git fetch --unshallow
+        run: git fetch --unshallow || true
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
@@ -149,7 +149,7 @@ jobs:
           fetch-depth: 0
       - name: Checkout vcokg submodules
         working-directory: ${{ github.workspace }}/vcpkg/
-        run: git fetch --unshallow
+        run: git fetch --unshallow || true
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
@@ -213,7 +213,7 @@ jobs:
           fetch-depth: 0
       - name: Checkout vcokg submodules
         working-directory: ${{ github.workspace }}/vcpkg/
-        run: git fetch --unshallow
+        run: git fetch --unshallow || true
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
