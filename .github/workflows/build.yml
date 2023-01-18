@@ -49,7 +49,7 @@ jobs:
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
-          docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} -e VCPKG_FORCE_SYSTEM_BINARIES=1 \
+          docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }}  \
           ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
           --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
       - name: Compress artifacts
@@ -92,7 +92,7 @@ jobs:
   build-osx:
     timeout-minutes: 360
     name: osx ${{ matrix.arch }}
-    runs-on: [self-hosted, osx, '${{ matrix.arch }}']
+    runs-on: [self-hosted, macOS, '${{ matrix.arch }}']
     strategy:
       fail-fast: false
       matrix:
