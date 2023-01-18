@@ -50,7 +50,7 @@ jobs:
         id: installdeps
         run: |
           docker run -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }}  \
-          ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
+          VCPKG_FORCE_SYSTEM_BINARIES=1 ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
           --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
       - name: Compress artifacts
         id: compressdeps
@@ -98,7 +98,7 @@ jobs:
       matrix:
         include:
           - arch: "X64"
-          - arch: "arm64"
+          - arch: "ARM64"
     env:
       VCPKG_DEP_LIST: ${{ matrix.arch }}-osx
       VCPKG_FEATURE_FLAGS: -binarycaching
@@ -114,7 +114,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-          architecture: ${{ matrix.arch }}
+          architecture: x64
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}

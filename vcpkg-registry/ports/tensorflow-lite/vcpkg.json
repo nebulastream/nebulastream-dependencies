@@ -12,6 +12,12 @@
     {
       "name": "vcpkg-cmake-config",
       "host": true
+    },
+    {
+      "name": "abseil"
+    },
+    {
+      "name": "eigen3"
     }
   ]
 }
