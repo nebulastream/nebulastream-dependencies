@@ -22,7 +22,7 @@
     "antlr4",
     "spdlog",
     "folly",
-    "jemalloc-nes",
+    "jemalloc",
     "oatpp",
     "cpr",
     "nlohmann-json",
