@@ -22,12 +22,15 @@
     "antlr4",
     "spdlog",
     "folly",
-    "jemalloc",
     "oatpp",
     "cpr",
     "nlohmann-json",
     "tensorflow-lite",
     "s2",
+    {
+      "name": "jemalloc",
+      "platform": "!osx"
+    },
     {
       "name": "cppkafka",
       "platform": "!osx"
