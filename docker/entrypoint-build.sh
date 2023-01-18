@@ -16,6 +16,8 @@
 #quit if command returns non-zero code
 set -e
 
+export VCPKG_FORCE_SYSTEM_BINARIES=1
+
 if [ $# -eq 0 ]
 then
     cd /build_dir/  
