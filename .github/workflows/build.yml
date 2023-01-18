@@ -89,7 +89,7 @@ jobs:
           docker image rm $(docker image ls -q nes_dep_build_${{ matrix.osversion }}) || \
           true
 
-   build-osx:
+  build-osx:
     timeout-minutes: 360
     name: ${{ matrix.osversion }} ${{ matrix.arch }}
     runs-on: [self-hosted, linux, '${{ matrix.arch }}']
