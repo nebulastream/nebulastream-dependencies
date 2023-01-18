@@ -14,13 +14,13 @@ jobs:
       fail-fast: true
       matrix:
         include:
-          - osversion: ubuntu-18_04
+          - osversion: ubuntu-18.04
             arch: "X64"
-          - osversion: ubuntu-20_04
+          - osversion: ubuntu-20.04
             arch: "X64"
-          - osversion: ubuntu-22_04
+          - osversion: ubuntu-22.04
             arch: "X64"
-          - osversion: ubuntu-22_04
+          - osversion: ubuntu-22.04
             arch: "arm64"
     env:
       VCPKG_DEP_LIST: ${{ matrix.arch }}-linux
@@ -91,7 +91,7 @@ jobs:
 
   build-osx:
     timeout-minutes: 360
-    name: ${{ matrix.osversion }} ${{ matrix.arch }}
+    name: osx ${{ matrix.arch }}
     runs-on: [self-hosted, linux, '${{ matrix.arch }}']
     strategy:
       fail-fast: true
@@ -114,7 +114,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: "3.11"
-          architecture: x64
+          architecture: ${{ matrix.arch }}
       - name: Set output vars to the actual tag name
         id: vars
         run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
