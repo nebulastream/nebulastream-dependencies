@@ -29,7 +29,6 @@
     "nlohmann-json",
     "tensorflow-lite",
     "s2",
-    "arrow",
     "cppkafka",
     {
       "name": "libiconv",
