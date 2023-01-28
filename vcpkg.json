@@ -7,12 +7,6 @@
   "builtin-baseline": "daa7215f3d68c2a2f2e18c398cb73dab63cda829",
   "dependencies": [
     "z3",
-    "boost-system",
-    "boost-process",
-    "boost-thread",
-    "boost-program-options",
-    "boost-filesystem",
-    "boost-chrono",
     "zeromq",
     "cppzmq",
     "grpc",
