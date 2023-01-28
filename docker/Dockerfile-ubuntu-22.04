@@ -17,6 +17,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   cmake \
   ninja-build \
   flex \
+  bison \
   && apt-get clean -qq
 
 
