@@ -16,6 +16,14 @@
 #quit if command returns non-zero code
 set -e
 
+if [ "$ARCH" == "arm64" ]
+then
+ echo "USE ARM"
+ export VCPKG_FORCE_SYSTEM_BINARIES=1
+else
+ echo "USE X64"
+fi
+
 if [ $# -eq 0 ]
 then
     cd /build_dir/  
