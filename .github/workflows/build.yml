@@ -15,13 +15,13 @@ jobs:
       matrix:
         include:
           - osversion: ubuntu-18.04
-            arch: "X64"
+            arch: "x64"
             force_system_binary: 0
           - osversion: ubuntu-20.04
-            arch: "X64"
+            arch: "x64"
             force_system_binary: 0
           - osversion: ubuntu-22.04
-            arch: "X64"
+            arch: "x64"
             force_system_binary: 0
           - osversion: ubuntu-20.04
             arch: "arm64"
@@ -103,8 +103,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - arch: "X64"
-          - arch: "ARM64"
+          - arch: "x64"
+          - arch: "arm64"
     env:
       VCPKG_DEP_LIST: ${{ matrix.arch }}-osx
       VCPKG_FEATURE_FLAGS: -binarycaching

@@ -10,7 +10,6 @@
     "zeromq",
     "cppzmq",
     "grpc",
-    "cpprestsdk",
     "libevent",
     "fmt",
     "paho-mqttpp3",
@@ -19,10 +18,12 @@
     "libsodium",
     "eigen3",
     "gtest",
+    "benchmark",
     "antlr4",
     "spdlog",
     "folly",
     "jemalloc-nes",
+    "simdjson",
     {
       "name": "cppkafka",
       "platform": "!osx"
@@ -52,6 +53,12 @@
     },
     {
       "name": "spdlog", "version": "1.11.0"
+    },
+    {
+      "name": "folly", "version-string": "2022.10.31.00"
+    },
+    {
+      "name": "simdjson", "version": "3.0.0"
     }
   ]
 }
