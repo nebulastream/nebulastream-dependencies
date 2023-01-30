@@ -7,16 +7,9 @@
   "builtin-baseline": "daa7215f3d68c2a2f2e18c398cb73dab63cda829",
   "dependencies": [
     "z3",
-    "boost-system",
-    "boost-process",
-    "boost-thread",
-    "boost-program-options",
-    "boost-filesystem",
-    "boost-chrono",
     "zeromq",
     "cppzmq",
     "grpc",
-    "cpprestsdk",
     "libevent",
     "fmt",
     "paho-mqttpp3",
@@ -25,14 +18,23 @@
     "libsodium",
     "eigen3",
     "gtest",
+    "benchmark",
     "antlr4",
     "spdlog",
     "folly",
     "jemalloc-nes",
-    {
-      "name": "cppkafka",
-      "platform": "!osx"
-    },
+    "simdjson",
+    "oatpp",
+    "cpr",
+    "nlohmann-json",
+    "tensorflow-lite",
+    "s2",
+    "cppkafka",
+    "snappy",
+    "lz4",
+    "fastlz",
+    "zstd",
+    "brotli",
     {
       "name": "libiconv",
       "platform": "osx"
@@ -42,12 +44,7 @@
       "default-features": false,
       "features": ["openssl"],
       "platform": "osx"
-    },
-    "oatpp",
-    "cpr",
-    "nlohmann-json",
-    "tensorflow-lite",
-    "s2"
+    }
   ],
   "overrides": [
     {
@@ -58,6 +55,12 @@
     },
     {
       "name": "spdlog", "version": "1.11.0"
+    },
+    {
+      "name": "folly", "version-string": "2022.10.31.00"
+    },
+    {
+      "name": "simdjson", "version": "3.0.0"
     }
   ]
 }
