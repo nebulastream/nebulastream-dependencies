@@ -1,6 +1,6 @@
 {
   "name": "nebulastream-dependencies",
-  "version-string": "v28",
+  "version-string": "v30",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
@@ -47,18 +47,6 @@
     }
   ],
   "overrides": [
-    {
-      "name": "zeromq", "version": "4.3.4", "port-version": 6
-    },
-    {
-      "name": "fmt", "version": "9.1.0"
-    },
-    {
-      "name": "spdlog", "version": "1.11.0"
-    },
-    {
-      "name": "simdjson", "version": "3.0.0"
-    },
     {
       "name": "glog", "version": "0.5.0", "port-version":5
     },
