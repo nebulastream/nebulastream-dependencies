@@ -30,6 +30,11 @@
     "tensorflow-lite",
     "s2",
     "cppkafka",
+    "snappy",
+    "lz4",
+    "fastlz",
+    "zstd",
+    "brotli",
     {
       "name": "libiconv",
       "platform": "osx"
@@ -56,9 +61,6 @@
     },
     {
       "name": "simdjson", "version": "3.0.0"
-    },
-    {
-      "name": "arrow", "version": "10.0.0"
     }
   ]
 }

@@ -29,8 +29,3 @@ endif()
 if (PORT STREQUAL oatpp)
 	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
-
-if (PORT STREQUAL cppkafka)
-set(VCPKG_CMAKE_CONFIGURE_OPTIONS -DCPPKAFKA_RDKAFKA_STATIC_LIB=ON)	
-#set(VCPKG_LIBRARY_LINKAGE dynamic)
-endif()
