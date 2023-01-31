@@ -33,7 +33,6 @@
     "snappy",
     "lz4",
     "fastlz",
-    "zstd",
     "brotli",
     {
       "name": "libiconv",
