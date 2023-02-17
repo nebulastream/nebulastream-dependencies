@@ -5,7 +5,7 @@ set(VCPKG_LIBRARY_LINKAGE static)
 set(VCPKG_CMAKE_SYSTEM_NAME Darwin)
 set(VCPKG_OSX_ARCHITECTURES arm64)
 set(VCPKG_CXX_FLAGS "${VCPKG_CXX_FLAGS} -stdlib=libc++")
-
+set(VCPKG_C_FLAGS "${VCPKG_C_FLAGS}")
 if (PORT STREQUAL paho-mqtt)
 	set(VCPKG_LIBRARY_LINKAGE static)
 endif()
