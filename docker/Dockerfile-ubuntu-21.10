@@ -19,6 +19,7 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   flex \
   bison \
   clang \
+  libc++-dev \
   && apt-get clean -qq
 
 
