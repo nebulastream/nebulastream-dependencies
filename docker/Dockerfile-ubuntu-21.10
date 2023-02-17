@@ -18,7 +18,9 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   ninja-build \
   flex \
   bison \
+  clang \
   && apt-get clean -qq
+
 
 ADD ./entrypoint-build.sh /entrypoint.sh
 

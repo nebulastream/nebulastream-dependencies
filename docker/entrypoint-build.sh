@@ -23,7 +23,7 @@ then
 else
  echo "USE X64"
 fi
-
+export CC=clang++ CXX=clang++
 if [ $# -eq 0 ]
 then
     cd /build_dir/  
