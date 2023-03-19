@@ -17,7 +17,7 @@
 set -e
 
 export CC=/usr/bin/clang-16
-export CXX=/usr/bin/clang++-16
+export CXX=/usr/bin/clang-16
 
 
 if [ "$ARCH" == "arm64" ]
