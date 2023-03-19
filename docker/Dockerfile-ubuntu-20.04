@@ -27,7 +27,7 @@ RUN cd ${HOME} && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.
 RUN wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
 RUN add-apt-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-16  main'
 RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
-  clang-16 && apt-get clean -qq
+  clang-16 libc++-16-dev && apt-get clean -qq
 
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/c++ 40 
 RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-16 60
