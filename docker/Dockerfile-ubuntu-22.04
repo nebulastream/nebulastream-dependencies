@@ -20,7 +20,14 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   bison \
   && apt-get clean -qq
 
+RUN wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+RUN add-apt-repository 'deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16  main'
+RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
+  clang-16 && apt-get clean -qq
 
+RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/c++ 40 
+RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-9 60
+RUN update-alternatives --config c++
 
 ADD ./entrypoint-build.sh /entrypoint.sh
 

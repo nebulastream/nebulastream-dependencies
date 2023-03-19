@@ -24,6 +24,14 @@ RUN cd ${HOME} && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.
     && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
     && apt update && apt install -y kitware-archive-keyring && rm /etc/apt/trusted.gpg.d/kitware.gpg && apt update && apt install -y cmake
 
+RUN wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -
+RUN add-apt-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-16  main'
+RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
+  clang-16 && apt-get clean -qq
+
+RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/c++ 40 
+RUN update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-9 60
+RUN update-alternatives --config c++
 
 ADD ./entrypoint-build.sh /entrypoint.sh
 
