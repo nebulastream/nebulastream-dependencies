@@ -1,0 +1,30 @@
+FROM rockylinux:8.7
+
+RUN dnf update -y && dnf install -y \
+  git \
+  wget \
+  python2 \
+  epel-release \
+  tar \
+  cmake \
+  curl zip unzip tar \
+  pkg-config \
+  autoconf \
+  cmake \
+  flex \
+  bison \
+  man-pages
+
+RUN dnf install -y \
+  p7zip \
+  p7zip-plugins\
+  python3 \
+  python3-virtualenv
+
+RUN dnf --enablerepo=powertools -y install ninja-build
+
+RUN dnf groupinstall -y "Development Tools"
+
+ADD ./entrypoint-build.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
