@@ -29,6 +29,9 @@ jobs:
           - osversion: ubuntu-22.04
             arch: "arm64"
             force_system_binary: 1
+          - osversion: rocky-8.7
+            arch: "arm64"
+            force_system_binary: 1
     env:
       VCPKG_DEP_LIST: ${{ matrix.arch }}-linux
       VCPKG_FORCE_SYSTEM_BINARIES: ${{ matrix.force_system_binary }}
@@ -38,7 +41,7 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-      - name: Checkout vcokg submodules
+      - name: Checkout vcpkg submodules
         working-directory: ${{ github.workspace }}/vcpkg/
         run: git fetch --unshallow || true
       - name: Set output vars to the actual tag name
