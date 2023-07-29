@@ -1,0 +1,41 @@
+FROM rockylinux:8.7
+
+RUN dnf update -y && dnf install -y \
+  git \
+  wget \
+  python2 \
+  epel-release \
+  tar \
+  curl zip unzip tar \
+  pkg-config \
+  autoconf \
+  flex \
+  openssl-devel \
+  bison \
+  man-pages
+
+RUN dnf install -y \
+  p7zip \
+  p7zip-plugins\
+  python3 \
+  python3-virtualenv
+
+WORKDIR /tmp
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0.tar.gz \
+    && tar -xzf cmake-3.21.0.tar.gz \
+    && cd cmake-3.21.0 \
+    && dnf -y install gcc-c++ make \
+    && ./bootstrap \
+    && make \
+    && make install
+
+WORKDIR /root
+
+RUN dnf --enablerepo=powertools -y install ninja-build
+
+RUN dnf groupinstall -y "Development Tools"
+
+ADD ./entrypoint-build.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

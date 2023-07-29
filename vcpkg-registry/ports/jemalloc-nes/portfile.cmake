@@ -13,7 +13,7 @@ vcpkg_extract_source_archive_ex(
     ARCHIVE ${ARCHIVE}
 )
 
-list(APPEND OPTIONS --disable-stats)
+list(APPEND OPTIONS --disable-stats --disable-doc)
 if(VCPKG_TARGET_IS_OSX)
 	list(APPEND OPTIONS --with-lg-vaddr=48)
 endif()

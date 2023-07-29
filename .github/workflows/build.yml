@@ -29,6 +29,9 @@ jobs:
           - osversion: ubuntu-22.04
             arch: "arm64"
             force_system_binary: 1
+          - osversion: rocky-8.7
+            arch: "arm64"
+            force_system_binary: 1
     env:
       VCPKG_DEP_LIST: ${{ matrix.arch }}-linux
       VCPKG_FORCE_SYSTEM_BINARIES: ${{ matrix.force_system_binary }}
@@ -38,7 +41,7 @@ jobs:
         with:
           submodules: true
           fetch-depth: 0
-      - name: Checkout vcokg submodules
+      - name: Checkout vcpkg submodules
         working-directory: ${{ github.workspace }}/vcpkg/
         run: git fetch --unshallow || true
       - name: Set output vars to the actual tag name
@@ -51,13 +54,13 @@ jobs:
       - name: Install vcpkg
         id: bootstrapvcpkg
         run: |
-          docker run -e ARCH=${{ matrix.arch }} -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} ./build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
+          docker run -e ARCH=${{ matrix.arch }} -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }} /build_dir/vcpkg/bootstrap-vcpkg.sh -disableMetrics
         shell: bash
       - name: Install dependencies in manifest mode
         id: installdeps
         run: |
           docker run -e ARCH=${{ matrix.arch }} -v ${{ github.workspace }}:/build_dir --rm nes_dep_build_${{ matrix.osversion }}  \
-          ./build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
+          /build_dir/vcpkg/vcpkg install --triplet=${{ env.VCPKG_DEP_LIST }}-nes \
           --host-triplet=${{ env.VCPKG_DEP_LIST }}-nes --overlay-triplets=/build_dir/custom-triplets/ --x-manifest-root=/build_dir/ --overlay-ports=/build_dir/vcpkg-registry/ports
       - name: Compress artifacts
         id: compressdeps
