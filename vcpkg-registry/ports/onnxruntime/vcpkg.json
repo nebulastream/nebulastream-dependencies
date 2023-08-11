@@ -1,0 +1,38 @@
+{
+  "name": "onnxruntime",
+  "version": "1.10.0",
+  "description": "onnxruntime",
+  "homepage": "https://github.com/microsoft/onnxruntime",
+  "license": "MIT",
+  "supports": "!uwp & !arm",
+  "dependencies": [
+    "boost-mp11",
+    "cpuinfo",
+    "date",
+    "eigen3",
+    "flatbuffers",
+    "nlohmann-json",
+    {
+      "name": "nsync",
+      "platform": "!windows"
+    },
+    "onnx",
+    "protobuf",
+    "re2",
+    "safeint",
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    "wil"
+  ],
+  "features": {
+    "gpu": {
+      "description": "with gpu",
+      "dependencies": [
+        "cuda",
+        "cudnn"
+      ]
+    }
+  }
+}

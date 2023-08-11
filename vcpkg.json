@@ -27,13 +27,14 @@
     "oatpp",
     "cpr",
     "nlohmann-json",
-    "tensorflow-lite",
     "s2",
     "cppkafka",
     "snappy",
     "lz4",
     "fastlz",
     "brotli",
+    "onnxruntime",
+    "tensorflow-lite"
     {
       "name": "libiconv",
       "platform": "osx"
