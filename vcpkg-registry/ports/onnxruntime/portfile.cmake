@@ -112,7 +112,7 @@ vcpkg_cmake_configure(
         -Donnxruntime_BUILD_JAVA=OFF
         -Donnxruntime_BUILD_NODEJS=OFF
         -Donnxruntime_BUILD_OBJC=OFF
-        -Donnxruntime_BUILD_SHARED_LIB=ON
+        -Donnxruntime_BUILD_SHARED_LIB=OFF
         -Donnxruntime_BUILD_APPLE_FRAMEWORK=OFF
         -Donnxruntime_USE_DNNL=OFF
         -Donnxruntime_USE_NNAPI_BUILTIN=OFF
