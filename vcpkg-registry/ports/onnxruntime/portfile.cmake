@@ -175,6 +175,7 @@ vcpkg_cmake_configure(
         -Donnxruntime_ENABLE_ROCM_PROFILING=OFF
         -Donnxruntime_USE_XNNPACK=OFF
         -Donnxruntime_USE_CANN=OFF
+        -DCMAKE_INSTALL_INCLUDEDIR=include
         -DFETCHCONTENT_QUIET=OFF
         -Donnxruntime_ENABLE_MEMLEAK_CHECKER=OFF
     MAYBE_UNUSED_VARIABLES
