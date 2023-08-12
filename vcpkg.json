@@ -33,7 +33,8 @@
     "lz4",
     "fastlz",
     "brotli",
-    "onnx",
+    "onnxruntime",
+    "tensorflow-lite",
     {
       "name": "libiconv",
       "platform": "osx"
