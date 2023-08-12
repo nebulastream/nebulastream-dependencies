@@ -1,0 +1,174 @@
+diff --git a/cmake/external/onnxruntime_external_deps.cmake b/cmake/external/onnxruntime_external_deps.cmake
+--- a/cmake/external/onnxruntime_external_deps.cmake
++++ b/cmake/external/onnxruntime_external_deps.cmake
+@@ -36,65 +36,26 @@
+     # It uses both ABSL and re2
+     set(GTEST_HAS_ABSL OFF CACHE BOOL "" FORCE)
+   endif()
+   # gtest and gmock
+-  FetchContent_Declare(
+-    googletest
+-    URL ${DEP_URL_googletest}
+-    FIND_PACKAGE_ARGS NAMES GTest
+-    URL_HASH SHA1=${DEP_SHA1_googletest}
+-  )
+ endif()
+ 
+ if (onnxruntime_BUILD_BENCHMARKS)
+   # We will not need to test benchmark lib itself.
+   set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark testing as we don't need it.")
+   # We will not need to install benchmark since we link it statically.
+   set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "Disable benchmark install to avoid overwriting vendor install.")
+-
+-  FetchContent_Declare(
+-    google_benchmark
+-    URL ${DEP_URL_google_benchmark}
+-    URL_HASH SHA1=${DEP_SHA1_google_benchmark}
+-  )
+ endif()
+ 
+ if (NOT WIN32)
+-    FetchContent_Declare(
+-    google_nsync
+-    URL ${DEP_URL_google_nsync}
+-    URL_HASH SHA1=${DEP_SHA1_google_nsync}
+-    FIND_PACKAGE_ARGS NAMES nsync
+-    )
+ endif()
+ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/external)
+ 
+-FetchContent_Declare(
+-      mimalloc
+-      URL ${DEP_URL_mimalloc}
+-      URL_HASH SHA1=${DEP_SHA1_mimalloc}
+-)
+ 
+-
+-
+ # Flatbuffers
+ # We do not need to build flatc for iOS or Android Cross Compile
+-if (CMAKE_SYSTEM_NAME STREQUAL "iOS" OR CMAKE_SYSTEM_NAME STREQUAL "Android" OR onnxruntime_BUILD_WEBASSEMBLY)
+-  set(FLATBUFFERS_BUILD_FLATC OFF CACHE BOOL "FLATBUFFERS_BUILD_FLATC" FORCE)
+-endif()
+-set(FLATBUFFERS_BUILD_TESTS OFF CACHE BOOL "FLATBUFFERS_BUILD_TESTS" FORCE)
+-set(FLATBUFFERS_INSTALL OFF CACHE BOOL "FLATBUFFERS_INSTALL" FORCE)
+-set(FLATBUFFERS_BUILD_FLATHASH OFF CACHE BOOL "FLATBUFFERS_BUILD_FLATHASH" FORCE)
+-set(FLATBUFFERS_BUILD_FLATLIB ON CACHE BOOL "FLATBUFFERS_BUILD_FLATLIB" FORCE)
++find_package(flatbuffers CONFIG REQUIRED)
+ 
+-#flatbuffers 1.11.0 does not have flatbuffers::IsOutRange, therefore we require 1.12.0+
+-FetchContent_Declare(
+-    flatbuffers
+-    URL ${DEP_URL_flatbuffers}
+-    URL_HASH SHA1=${DEP_SHA1_flatbuffers}
+-    FIND_PACKAGE_ARGS 1.12.0...<2.0.0 NAMES Flatbuffers
+-)
+-
+ # Download a protoc binary from Internet if needed
+ if(CMAKE_CROSSCOMPILING AND NOT ONNX_CUSTOM_PROTOC_EXECUTABLE AND NOT CMAKE_OSX_ARCHITECTURES)
+   # This part of code is only for users' convenience. The code couldn't handle all cases. Users always can manually
+   # download protoc from Protobuf's Github release page and pass the local path to the ONNX_CUSTOM_PROTOC_EXECUTABLE
+@@ -140,15 +101,9 @@
+   set(ONNXRUNTIME_PROTOBUF_PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/protobuf/protobuf_cmake.patch)
+ else()
+  set(ONNXRUNTIME_PROTOBUF_PATCH_COMMAND "")
+ endif()
+-FetchContent_Declare(
+-  Protobuf
+-  URL ${DEP_URL_protobuf}
+-  URL_HASH SHA1=${DEP_SHA1_protobuf}
+-  PATCH_COMMAND ${ONNXRUNTIME_PROTOBUF_PATCH_COMMAND}
+-  FIND_PACKAGE_ARGS 3.21.12 NAMES Protobuf
+-)
++
+ set(protobuf_BUILD_TESTS OFF CACHE BOOL "Build protobuf tests" FORCE)
+ if (CMAKE_SYSTEM_NAME STREQUAL "Android")
+   set(protobuf_BUILD_PROTOC_BINARIES OFF CACHE BOOL "Build protobuf tests" FORCE)
+   set(protobuf_WITH_ZLIB OFF CACHE BOOL "Build with zlib support" FORCE)
+@@ -160,8 +115,9 @@
+ include(protobuf_function)
+ #protobuf end
+ 
+ find_package(date CONFIG REQUIRED)
++add_library(date_interface ALIAS date::date)
+ 
+ 
+ find_path(BOOST_MP11_INCLUDES NAMES mp11.hpp PATH_SUFFIXES include/boost)
+ add_library(Boost::mp11 INTERFACE IMPORTED)
+@@ -248,24 +204,12 @@
+     URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
+     PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/gsl/1064.patch
+   )
+ else()
+-  FetchContent_Declare(
+-    GSL
+-    URL ${DEP_URL_microsoft_gsl}
+-    URL_HASH SHA1=${DEP_SHA1_microsoft_gsl}
+-    FIND_PACKAGE_ARGS 4.0 NAMES Microsoft.GSL
+-  )
++  find_package(Microsoft.GSL CONFIG REQUIRED)
+ endif()
+ 
+-FetchContent_Declare(
+-    safeint
+-    URL ${DEP_URL_safeint}
+-    URL_HASH SHA1=${DEP_SHA1_safeint}
+-)
+-
+ # The next line will generate an error message "fatal: not a git repository", but it is ok. It is from flatbuffers
+-onnxruntime_fetchcontent_makeavailable(Protobuf nlohmann_json mp11 re2 safeint GSL flatbuffers)
+ if(NOT flatbuffers_FOUND)
+   if(NOT TARGET flatbuffers::flatbuffers)
+     add_library(flatbuffers::flatbuffers ALIAS flatbuffers)
+   endif()
+@@ -294,8 +238,10 @@
+ if (onnxruntime_BUILD_UNIT_TESTS)
+   onnxruntime_fetchcontent_makeavailable(googletest)
+ endif()
+ 
++find_package(protobuf CONFIG REQUIRED)
++
+ if(Protobuf_FOUND)
+   message("Protobuf version: ${Protobuf_VERSION}")
+ else()
+   # Adjust warning flags
+@@ -355,33 +301,27 @@
+ find_package(ONNX CONFIG REQUIRED)
+ 
+ 
+ if (CPUINFO_SUPPORTED)
+-  onnxruntime_fetchcontent_makeavailable(pytorch_cpuinfo)
+-  if (pytorch_cpuinfo_SOURCE_DIR)
+-    # shouldn't need to define these aliases after we use a version of cpuinfo with this commit:
+-    # https://github.com/pytorch/cpuinfo/commit/082deffc80ce517f81dc2f3aebe6ba671fcd09c9
+-    add_library(cpuinfo::cpuinfo ALIAS cpuinfo)
+-    add_library(cpuinfo::clog ALIAS clog)
+-  endif()
++    find_package(unofficial-cpuinfo CONFIG REQUIRED)
++    add_library(cpuinfo::cpuinfo ALIAS unofficial::cpuinfo::cpuinfo)
++    add_library(cpuinfo::clog ALIAS unofficial::cpuinfo::clog)
+ endif()
+ 
+ 
+ 
+ include(eigen)
+ include(wil)
+ 
+ if (NOT onnxruntime_MINIMAL_BUILD)
+-    onnxruntime_fetchcontent_makeavailable(onnx)
++    find_package(ONNX CONFIG REQUIRED)
+ else()
+   include(onnx_minimal)
+ endif()
+ 
+-set(GSL_TARGET "Microsoft.GSL::GSL")
+-set(GSL_INCLUDE_DIR "$<TARGET_PROPERTY:${GSL_TARGET},INTERFACE_INCLUDE_DIRECTORIES>")
+-
++find_path(SAFEINT_INCLUDE_DIR NAMES "SafeInt.hpp" PATHS_SUFFIXES include)
+ add_library(safeint_interface INTERFACE)
+-target_include_directories(safeint_interface INTERFACE ${safeint_SOURCE_DIR})
++target_include_directories(safeint_interface INTERFACE ${SAFEINT_INCLUDE_DIR})
+ 
+ # XNNPACK EP
+ if (onnxruntime_USE_XNNPACK)
+   if (onnxruntime_DISABLE_CONTRIB_OPS)

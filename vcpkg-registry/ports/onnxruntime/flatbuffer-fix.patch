@@ -1,0 +1,14 @@
+diff --git a/onnxruntime/core/flatbuffers/flatbuffers_utils.h b/onnxruntime/core/flatbuffers/flatbuffers_utils.h
+--- a/onnxruntime/core/flatbuffers/flatbuffers_utils.h
++++ b/onnxruntime/core/flatbuffers/flatbuffers_utils.h
+@@ -18,9 +18,9 @@
+ struct Offset;
+ 
+ struct String;
+ 
+-template <typename T>
++template <typename T, class SizeT = uint32_t>
+ class Vector;
+ }  // namespace flatbuffers
+ 
+ namespace onnxruntime {

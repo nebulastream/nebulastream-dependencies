@@ -1,0 +1,13 @@
+diff --git a/cmake/external/wil.cmake b/cmake/external/wil.cmake
+--- a/cmake/external/wil.cmake
++++ b/cmake/external/wil.cmake
+@@ -14,9 +14,5 @@
+ FetchContent_Populate(microsoft_wil)
+ if(NOT wil_FOUND)
+   find_package(wil CONFIG REQUIRED)
+   add_library(wil ALIAS WIL::WIL)
+-
+-  # The interface's include directory.
+-  target_include_directories(WIL INTERFACE
+-    $<BUILD_INTERFACE:${microsoft_wil_SOURCE_DIR}/include>)
+ endif()

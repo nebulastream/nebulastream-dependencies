@@ -48,6 +48,12 @@
   ],
   "overrides": [
     {
+      "name": "onnx", "version": "1.14.0", "port-version" : 0
+    },
+    {
+      "name": "abseil", "version": "20230125.3", "port-version" : 1
+    },
+    {
       "name": "zeromq", "version": "4.3.4", "port-version": 6
     },
     {
@@ -61,6 +67,9 @@
     },
     {
       "name": "simdjson", "version": "3.0.0"
+    },
+    {
+        "name": "nsync", "version": "1.24.0", "port-version": 1
     }
   ]
 }

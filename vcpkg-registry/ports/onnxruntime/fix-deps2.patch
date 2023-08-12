@@ -1,0 +1,86 @@
+From d8c02bd472c3d32f80dc78fbfedf7a9519470205 Mon Sep 17 00:00:00 2001
+From: Lukas Schwerdtfeger <lukas.schwerdtfeger@gmail.com>
+Date: Sat, 12 Aug 2023 18:24:28 +0200
+Subject: [PATCH] fix-dependencies
+
+---
+ cmake/external/eigen.cmake        | 5 ++---
+ cmake/external/onnx_minimal.cmake | 5 +++--
+ cmake/external/wil.cmake          | 6 +++---
+ cmake/onnxruntime_common.cmake    | 7 +++++--
+ 4 files changed, 13 insertions(+), 10 deletions(-)
+
+diff --git a/cmake/external/eigen.cmake b/cmake/external/eigen.cmake
+index 266dd534af64..8a1f6a439a1a 100644
+--- a/cmake/external/eigen.cmake
++++ b/cmake/external/eigen.cmake
+@@ -1,8 +1,7 @@
+ 
+ if (onnxruntime_USE_PREINSTALLED_EIGEN)
+-    add_library(eigen INTERFACE)
+-    file(TO_CMAKE_PATH ${eigen_SOURCE_PATH} eigen_INCLUDE_DIRS)
+-    target_include_directories(eigen INTERFACE ${eigen_INCLUDE_DIRS})
++    find_package(Eigen3 CONFIG REQUIRED)
++    add_library(eigen ALIAS Eigen3::Eigen)
+ else ()
+     if (onnxruntime_USE_ACL)
+         FetchContent_Declare(
+diff --git a/cmake/external/onnx_minimal.cmake b/cmake/external/onnx_minimal.cmake
+index cf9429c185b4..4c8ab2368de8 100644
+--- a/cmake/external/onnx_minimal.cmake
++++ b/cmake/external/onnx_minimal.cmake
+@@ -12,8 +12,9 @@ endif()
+ 
+ #TODO: if protobuf is a shared lib and onnxruntime_USE_FULL_PROTOBUF is ON, then onnx_proto should be built as a shared lib instead of a static lib. Otherwise any code outside onnxruntime.dll can't use onnx protobuf definitions if they share the protobuf.dll with onnxruntime. For example, if protobuf is a shared lib and onnx_proto is a static lib then onnxruntime_perf_test won't work.
+ 
++find_package(ONNX CONFIG REQUIRED)
+ 
+-
++if(0)
+ FetchContent_Populate(onnx)
+ set(ONNX_SOURCE_ROOT ${onnx_SOURCE_DIR})
+ 
+@@ -99,4 +100,4 @@ else()
+     target_compile_options(onnx PRIVATE "-Wno-unused-but-set-variable")
+   endif()
+ endif()
+-
++endif()
+diff --git a/cmake/external/wil.cmake b/cmake/external/wil.cmake
+index d38535c4a173..acbc3829604b 100644
+--- a/cmake/external/wil.cmake
++++ b/cmake/external/wil.cmake
+@@ -13,10 +13,10 @@ FetchContent_Declare(
+ #always executes install command without conditions.
+ FetchContent_Populate(microsoft_wil)
+ if(NOT wil_FOUND)
+-  add_library(WIL INTERFACE)
+-  add_library(WIL::WIL ALIAS WIL)
++  find_package(wil CONFIG REQUIRED)
++  add_library(wil ALIAS WIL::WIL)
+ 
+   # The interface's include directory.
+   target_include_directories(WIL INTERFACE
+     $<BUILD_INTERFACE:${microsoft_wil_SOURCE_DIR}/include>)
+-endif()
+\ No newline at end of file
++endif()
+diff --git a/cmake/onnxruntime_common.cmake b/cmake/onnxruntime_common.cmake
+index 0410d3361cb6..a13f223a3855 100644
+--- a/cmake/onnxruntime_common.cmake
++++ b/cmake/onnxruntime_common.cmake
+@@ -193,9 +193,12 @@ if (ARM64 OR ARM OR X86 OR X64 OR X86_64)
+     # Link cpuinfo if supported
+     # Using it mainly in ARM with Android.
+     # Its functionality in detecting x86 cpu features are lacking, so is support for Windows.
++    if (NOT TARGET unofficial::cpuinfo::clog)
++      find_package(unofficial-cpuinfo CONFIG REQUIRED)
++    endif()
+     if (CPUINFO_SUPPORTED)
+-      onnxruntime_add_include_to_target(onnxruntime_common cpuinfo::cpuinfo)
+-      list(APPEND onnxruntime_EXTERNAL_LIBRARIES cpuinfo::cpuinfo cpuinfo::clog)
++      onnxruntime_add_include_to_target(onnxruntime_common unofficial::cpuinfo)
++      list(APPEND onnxruntime_EXTERNAL_LIBRARIES unofficial::cpuinfo::clog)
+     endif()
+   endif()
+ endif()

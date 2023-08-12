@@ -1,0 +1,213 @@
+From f6c19eab3775d34fb192a98997246132f039d366 Mon Sep 17 00:00:00 2001
+From: Lukas Schwerdtfeger <lukas.schwerdtfeger@gmail.com>
+Date: Sat, 12 Aug 2023 18:56:46 +0200
+Subject: [PATCH] more patches
+
+---
+ cmake/external/abseil-cpp.cmake               | 30 +-------
+ .../external/onnxruntime_external_deps.cmake  | 70 ++++---------------
+ cmake/external/wil.cmake                      | 11 ---
+ 3 files changed, 16 insertions(+), 95 deletions(-)
+
+diff --git a/cmake/external/abseil-cpp.cmake b/cmake/external/abseil-cpp.cmake
+index 54d2f9c5c19d..9b2fad6e29b6 100644
+--- a/cmake/external/abseil-cpp.cmake
++++ b/cmake/external/abseil-cpp.cmake
+@@ -1,33 +1,7 @@
+ # Copyright (c) Microsoft Corporation. All rights reserved.
+ # Licensed under the MIT License.
+ 
+-include(FetchContent)
+-
+-# Pass to build
+-set(ABSL_PROPAGATE_CXX_STD 1)
+-set(BUILD_TESTING 0)
+-
+-if(Patch_FOUND AND WIN32)
+-  set(ABSL_PATCH_COMMAND ${Patch_EXECUTABLE} --binary --ignore-whitespace -p1 < ${PROJECT_SOURCE_DIR}/patches/abseil/absl_windows.patch)
+-else()
+-  set(ABSL_PATCH_COMMAND "")
+-endif()
+-
+-# NB! Advancing Abseil version changes its internal namespace,
+-# currently absl::lts_20211102 which affects abseil-cpp.natvis debugger
+-# visualization file, that must be adjusted accordingly, unless we eliminate
+-# that namespace at build time.
+-FetchContent_Declare(
+-    abseil_cpp
+-    URL ${DEP_URL_abseil_cpp}
+-    URL_HASH SHA1=${DEP_SHA1_abseil_cpp}
+-    PATCH_COMMAND ${ABSL_PATCH_COMMAND}
+-)
+-
+-onnxruntime_fetchcontent_makeavailable(abseil_cpp)
+-FetchContent_GetProperties(abseil_cpp)
+-set(ABSEIL_SOURCE_DIR ${abseil_cpp_SOURCE_DIR})
+-message(STATUS "Abseil source dir:" ${ABSEIL_SOURCE_DIR})
++find_package(absl CONFIG REQUIRED)
+ 
+ if (GDK_PLATFORM)
+   # Abseil considers any partition that is NOT in the WINAPI_PARTITION_APP a viable platform
+@@ -41,4 +15,4 @@ if(NOT onnxruntime_DISABLE_ABSEIL)
+   set(ABSEIL_LIBS absl::inlined_vector absl::flat_hash_set
+     absl::flat_hash_map absl::node_hash_set absl::node_hash_map absl::base absl::throw_delegate absl::raw_hash_set
+     absl::hash absl::city absl::low_level_hash absl::raw_logging_internal)
+-endif()
+\ No newline at end of file
++endif()
+diff --git a/cmake/external/onnxruntime_external_deps.cmake b/cmake/external/onnxruntime_external_deps.cmake
+index 9effd1a2db43..9451237a0ef8 100644
+--- a/cmake/external/onnxruntime_external_deps.cmake
++++ b/cmake/external/onnxruntime_external_deps.cmake
+@@ -23,13 +23,7 @@ if(NOT onnxruntime_DISABLE_ABSEIL)
+   include(external/abseil-cpp.cmake)
+ endif()
+ 
+-set(RE2_BUILD_TESTING OFF CACHE BOOL "" FORCE)
+-FetchContent_Declare(
+-    re2
+-    URL ${DEP_URL_re2}
+-    URL_HASH SHA1=${DEP_SHA1_re2}
+-    FIND_PACKAGE_ARGS NAMES re2
+-)
++find_package(re2 CONFIG REQUIRED)
+ 
+ if (onnxruntime_BUILD_UNIT_TESTS)
+   # WebAssembly threading support in Node.js is still an experimental feature and
+@@ -113,7 +107,7 @@ if(CMAKE_CROSSCOMPILING AND NOT ONNX_CUSTOM_PROTOC_EXECUTABLE AND NOT CMAKE_OSX_
+     elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86")
+       FetchContent_Declare(protoc_binary URL ${DEP_URL_protoc_win32} URL_HASH SHA1=${DEP_SHA1_protoc_win32})
+       FetchContent_Populate(protoc_binary)
+-    endif() 
++    endif()
+     if(protoc_binary_SOURCE_DIR)
+       message("Use prebuilt protoc")
+       set(ONNX_CUSTOM_PROTOC_EXECUTABLE ${protoc_binary_SOURCE_DIR}/bin/protoc.exe)
+@@ -166,35 +160,15 @@ endif()
+ include(protobuf_function)
+ #protobuf end
+ 
+-set(ENABLE_DATE_TESTING  OFF CACHE BOOL "" FORCE)
+-set(USE_SYSTEM_TZ_DB  ON CACHE BOOL "" FORCE)
++find_package(date CONFIG REQUIRED)
+ 
+-FetchContent_Declare(
+-      date
+-      URL ${DEP_URL_date}
+-      URL_HASH SHA1=${DEP_SHA1_date}
+-    )
+-onnxruntime_fetchcontent_makeavailable(date)
+ 
++find_path(BOOST_MP11_INCLUDES NAMES mp11.hpp PATH_SUFFIXES include/boost)
++add_library(Boost::mp11 INTERFACE IMPORTED)
++target_include_directories(Boost::mp11 INTERFACE ${BOOST_MP11_INCLUDES})
+ 
++find_package(nlohmann_json CONFIG REQUIRED)
+ 
+-FetchContent_Declare(
+-  mp11
+-  URL ${DEP_URL_mp11}
+-  URL_HASH SHA1=${DEP_SHA1_mp11}
+-)
+-
+-set(JSON_BuildTests OFF CACHE INTERNAL "")
+-set(JSON_Install OFF CACHE INTERNAL "")
+-set(JSON_BuildTests OFF CACHE INTERNAL "")
+-set(JSON_Install OFF CACHE INTERNAL "")
+-
+-FetchContent_Declare(
+-    nlohmann_json
+-    URL ${DEP_URL_json}
+-    URL_HASH SHA1=${DEP_SHA1_json}
+-    FIND_PACKAGE_ARGS 3.10 NAMES nlohmann_json
+-)
+ 
+ #TODO: include clog first
+ if (onnxruntime_ENABLE_CPUINFO)
+@@ -251,17 +225,8 @@ if (CPUINFO_SUPPORTED)
+   endif()
+ 
+ 
+-  set(CPUINFO_BUILD_TOOLS OFF CACHE INTERNAL "")
+-  set(CPUINFO_BUILD_UNIT_TESTS OFF CACHE INTERNAL "")
+-  set(CPUINFO_BUILD_MOCK_TESTS OFF CACHE INTERNAL "")
+-  set(CPUINFO_BUILD_BENCHMARKS OFF CACHE INTERNAL "")
+-
+-  FetchContent_Declare(
+-    pytorch_cpuinfo
+-    URL ${DEP_URL_pytorch_cpuinfo}
+-    URL_HASH SHA1=${DEP_SHA1_pytorch_cpuinfo}
+-    FIND_PACKAGE_ARGS NAMES cpuinfo
+-  )
++  find_package(unofficial-cpuinfo CONFIG REQUIRED)
++  add_library(cpuinfo ALIAS unofficial::cpuinfo::cpuinfo)
+ 
+ endif()
+ 
+@@ -272,12 +237,8 @@ endif()
+ 
+ if (NOT WIN32)
+   #nsync tests failed on Mac Build
+-  set(NSYNC_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
+-  onnxruntime_fetchcontent_makeavailable(google_nsync)
+-  if (google_nsync_SOURCE_DIR)
+-    add_library(nsync::nsync_cpp ALIAS nsync_cpp)
+-    target_include_directories(nsync_cpp PUBLIC ${google_nsync_SOURCE_DIR}/public)
+-  endif()
++  find_package(unofficial-nsync CONFIG REQUIRED)
++  get_target_property(NSYNC_INCLUDE_DIR unofficial::nsync::nsync_cpp INTERFACE_INCLUDE_DIRECTORIES)
+ endif()
+ 
+ if(onnxruntime_USE_CUDA)
+@@ -391,12 +352,7 @@ else()
+   set(ONNXRUNTIME_ONNX_PATCH_COMMAND "")
+ endif()
+ 
+-FetchContent_Declare(
+-  onnx
+-  URL ${DEP_URL_onnx}
+-  URL_HASH SHA1=${DEP_SHA1_onnx}
+-  PATCH_COMMAND ${ONNXRUNTIME_ONNX_PATCH_COMMAND}
+-)
++find_package(ONNX CONFIG REQUIRED)
+ 
+ 
+ if (CPUINFO_SUPPORTED)
+@@ -453,10 +409,12 @@ set(onnxruntime_EXTERNAL_LIBRARIES ${onnxruntime_EXTERNAL_LIBRARIES_XNNPACK} WIL
+ # The other libs do not have the problem. All the sources are already there. We can compile them in any order.
+ set(onnxruntime_EXTERNAL_DEPENDENCIES onnx_proto flatbuffers::flatbuffers)
+ 
++if(0)
+ target_compile_definitions(onnx PUBLIC $<TARGET_PROPERTY:onnx_proto,INTERFACE_COMPILE_DEFINITIONS> PRIVATE "__ONNX_DISABLE_STATIC_REGISTRATION")
+ if (NOT onnxruntime_USE_FULL_PROTOBUF)
+   target_compile_definitions(onnx PUBLIC "__ONNX_NO_DOC_STRINGS")
+ endif()
++endif()
+ 
+ if (onnxruntime_RUN_ONNX_TESTS)
+   add_definitions(-DORT_RUN_EXTERNAL_ONNX_TESTS)
+diff --git a/cmake/external/wil.cmake b/cmake/external/wil.cmake
+index acbc3829604b..93c561ce704f 100644
+--- a/cmake/external/wil.cmake
++++ b/cmake/external/wil.cmake
+@@ -3,20 +3,9 @@
+ set(WIL_BUILD_PACKAGING OFF CACHE BOOL "" FORCE)
+ set(WIL_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+ 
+-FetchContent_Declare(
+-    microsoft_wil
+-    URL ${DEP_URL_microsoft_wil}
+-	URL_HASH SHA1=${DEP_SHA1_microsoft_wil}
+-    FIND_PACKAGE_ARGS NAMES wil
+-)
+ #We can not use FetchContent_MakeAvailable(microsoft_wil) at here, since their cmake file
+ #always executes install command without conditions.
+-FetchContent_Populate(microsoft_wil)
+ if(NOT wil_FOUND)
+   find_package(wil CONFIG REQUIRED)
+   add_library(wil ALIAS WIL::WIL)
+-
+-  # The interface's include directory.
+-  target_include_directories(WIL INTERFACE
+-    $<BUILD_INTERFACE:${microsoft_wil_SOURCE_DIR}/include>)
+ endif()

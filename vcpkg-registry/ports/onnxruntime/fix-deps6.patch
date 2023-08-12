@@ -1,0 +1,25 @@
+diff --git a/cmake/CMakeLists.txt b/cmake/CMakeLists.txt
+--- a/cmake/CMakeLists.txt
++++ b/cmake/CMakeLists.txt
+@@ -851,9 +851,9 @@
+         #external/protobuf/src/google/protobuf/arena.h:445:18: error: unused parameter 'p'
+         target_compile_options(${target_name} PRIVATE "-Wno-unused-parameter")
+       endif()
+       target_compile_definitions(${target_name} PUBLIC -DNSYNC_ATOMIC_CPP11)
+-      onnxruntime_add_include_to_target(${target_name} nsync::nsync_cpp)
++      onnxruntime_add_include_to_target(${target_name} unofficial::nsync::nsync_cpp)
+     endif()
+     foreach(ORT_FLAG ${ORT_PROVIDER_FLAGS})
+       target_compile_definitions(${target_name} PRIVATE ${ORT_FLAG})
+     endforeach()
+@@ -1489,9 +1489,9 @@
+ if (WIN32)
+   list(APPEND onnxruntime_EXTERNAL_LIBRARIES ${SYS_PATH_LIB})
+   list(APPEND onnxruntime_EXTERNAL_LIBRARIES debug Dbghelp)
+ else()
+-  list(APPEND onnxruntime_EXTERNAL_LIBRARIES nsync::nsync_cpp)
++  list(APPEND onnxruntime_EXTERNAL_LIBRARIES unofficial::nsync::nsync_cpp)
+   list(APPEND onnxruntime_EXTERNAL_LIBRARIES ${ICONV_LIB} ${CMAKE_DL_LIBS} Threads::Threads)
+ endif()
+ 
+ if (CMAKE_SYSTEM_NAME STREQUAL "Android")

@@ -1,6 +1,6 @@
 {
   "name": "onnxruntime",
-  "version": "1.10.0",
+  "version": "1.15.1",
   "description": "onnxruntime",
   "homepage": "https://github.com/microsoft/onnxruntime",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "cpuinfo",
     "date",
     "eigen3",
+    "ms-gsl",
     "flatbuffers",
     "nlohmann-json",
     {
