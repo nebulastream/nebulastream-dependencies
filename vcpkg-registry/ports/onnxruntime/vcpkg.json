@@ -6,6 +6,7 @@
   "license": "MIT",
   "supports": "!uwp & !arm",
   "dependencies": [
+    "abseil",
     "boost-mp11",
     "cpuinfo",
     "date",
@@ -26,14 +27,5 @@
       "host": true
     },
     "wil"
-  ],
-  "features": {
-    "gpu": {
-      "description": "with gpu",
-      "dependencies": [
-        "cuda",
-        "cudnn"
-      ]
-    }
-  }
+  ]
 }

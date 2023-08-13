@@ -1,0 +1,15 @@
+diff --git a/cmake/CMakeLists.txt b/cmake/CMakeLists.txt
+index 2e54063598..e8d71f5ac5 100644
+--- a/cmake/CMakeLists.txt
++++ b/cmake/CMakeLists.txt
+@@ -41,8 +41,8 @@ include(CMakeDependentOption)
+ include(FetchContent)
+ include(CheckFunctionExists)
+ 
+-set(CMAKE_CXX_STANDARD 17)
+-
++set(CMAKE_CXX_STANDARD 20)
++message(STATUS "1 ${CMAKE_CXX_FLAGS}")
+ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+ # NOTE: POSITION INDEPENDENT CODE hurts performance, and it only make sense on POSIX systems
+ set(CMAKE_POSITION_INDEPENDENT_CODE ON)

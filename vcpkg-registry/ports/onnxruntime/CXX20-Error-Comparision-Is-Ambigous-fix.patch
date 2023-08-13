@@ -1,0 +1,13 @@
+diff --git a/include/onnxruntime/core/platform/EigenNonBlockingThreadPool.h b/include/onnxruntime/core/platform/EigenNonBlockingThreadPool.h
+index 7f0046d137..39d4fd0368 100644
+--- a/include/onnxruntime/core/platform/EigenNonBlockingThreadPool.h
++++ b/include/onnxruntime/core/platform/EigenNonBlockingThreadPool.h
+@@ -750,7 +750,7 @@ class ThreadPoolTempl : public onnxruntime::concurrency::ExtendedThreadPoolInter
+       return v_;
+     }
+ 
+-    bool operator==(Tag& other) const {
++    bool operator==(const Tag& other) const {
+       return v_ == other.v_;
+     }
+ 

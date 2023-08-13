@@ -1,0 +1,10 @@
+diff --git a/cmake/adjust_global_compile_flags.cmake b/cmake/adjust_global_compile_flags.cmake
+index d4421a6211..5e8a619625 100644
+--- a/cmake/adjust_global_compile_flags.cmake
++++ b/cmake/adjust_global_compile_flags.cmake
+@@ -380,3 +380,5 @@ if (WIN32)
+ elseif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+     add_compile_definitions("_GNU_SOURCE")
+ endif()
++
++string(APPEND CMAKE_CXX_FLAGS " -Wno-error=deprecated")

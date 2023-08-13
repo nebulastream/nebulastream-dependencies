@@ -1,0 +1,21 @@
+diff --git a/onnxruntime/core/providers/cpu/ml/tree_ensemble_aggregator.h b/onnxruntime/core/providers/cpu/ml/tree_ensemble_aggregator.h
+index 2960724f2f..9b966b89a5 100644
+--- a/onnxruntime/core/providers/cpu/ml/tree_ensemble_aggregator.h
++++ b/onnxruntime/core/providers/cpu/ml/tree_ensemble_aggregator.h
+@@ -321,11 +321,11 @@ class TreeAggregatorMin : public TreeAggregator<InputType, ThresholdType, Output
+ template <typename InputType, typename ThresholdType, typename OutputType>
+ class TreeAggregatorMax : public TreeAggregator<InputType, ThresholdType, OutputType> {
+  public:
+-  TreeAggregatorMax<InputType, ThresholdType, OutputType>(size_t n_trees,
+-                                                          const int64_t& n_targets_or_classes,
+-                                                          POST_EVAL_TRANSFORM post_transform,
+-                                                          const std::vector<ThresholdType>& base_values) : TreeAggregator<InputType, ThresholdType, OutputType>(n_trees, n_targets_or_classes,
+-                                                                                                                                                                post_transform, base_values) {}
++  using Base = TreeAggregator<InputType, ThresholdType, OutputType>;
++  TreeAggregatorMax(size_t n_trees,
++                    const int64_t& n_targets_or_classes,
++                    POST_EVAL_TRANSFORM post_transform,
++                    const std::vector<ThresholdType>& base_values) : Base(n_trees, n_targets_or_classes,post_transform, base_values) {}
+ 
+   // 1 output
+ 

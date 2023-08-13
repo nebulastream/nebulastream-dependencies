@@ -1,0 +1,12 @@
+diff --git a/cmake/onnxruntime_config.h.in b/cmake/onnxruntime_config.h.in
+index 4f5125569c..9fc46018da 100644
+--- a/cmake/onnxruntime_config.h.in
++++ b/cmake/onnxruntime_config.h.in
+@@ -21,5 +21,5 @@
+ #cmakedefine HAS_FORMAT_TRUNCATION
+ #cmakedefine HAS_BITWISE_INSTEAD_OF_LOGICAL
+ #cmakedefine HAS_REALLOCARRAY
+-#cmakedefine ORT_VERSION u8"@ORT_VERSION@"
+-#cmakedefine ORT_BUILD_INFO u8"@ORT_BUILD_INFO@"
++#cmakedefine ORT_VERSION "@ORT_VERSION@"
++#cmakedefine ORT_BUILD_INFO "@ORT_BUILD_INFO@"
