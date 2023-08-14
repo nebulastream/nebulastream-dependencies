@@ -117,6 +117,7 @@ vcpkg_cmake_configure(
         -Donnxruntime_USE_CANN=OFF
         -DCMAKE_INSTALL_INCLUDEDIR=include
         -DFETCHCONTENT_QUIET=OFF
+        -DONNX_DISABLE_STATIC_REGISTRATION=ON
         -Donnxruntime_ENABLE_MEMLEAK_CHECKER=OFF
     MAYBE_UNUSED_VARIABLES
         Python_EXECUTABLE
