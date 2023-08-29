@@ -33,6 +33,7 @@
     "lz4",
     "fastlz",
     "brotli",
+    "boost-beast",
     "onnxruntime",
     "tensorflow-lite",
     {
