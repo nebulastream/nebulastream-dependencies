@@ -1,0 +1,14 @@
+
+{
+  "registries": [
+	  {
+              "kind": "git",
+              "repository": "https://github.com/luncliff/vcpkg-registry",
+              "packages": [
+		   "onnx",
+                   "onnxruntime"
+               ],
+              "baseline": "0e7e294c4c1c426cd0e0a2e434c34bd782a84daf"
+          }
+  ]
+}

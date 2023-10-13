@@ -1,6 +1,6 @@
 {
   "name": "nebulastream-dependencies",
-  "version-string": "v28",
+  "version-string": "vls-onnx-v14",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
   "supports": "x64 & (linux | osx)",
@@ -34,6 +34,8 @@
     "lz4",
     "fastlz",
     "brotli",
+    "onnx",
+    "onnxruntime",
     {
       "name": "libiconv",
       "platform": "osx"
