@@ -3,12 +3,12 @@
   "registries": [
 	  {
               "kind": "git",
-              "repository": "https://github.com/luncliff/vcpkg-registry",
+              "repository": "https://github.com/ls-1801/vcpkg-registry",
               "packages": [
-		   "onnx",
+		               "onnx",
                    "onnxruntime"
                ],
-              "baseline": "0e7e294c4c1c426cd0e0a2e434c34bd782a84daf"
+              "baseline": "b56c833440cd17dcb832d7ba654b9b03a80650ff"
           }
   ]
 }
