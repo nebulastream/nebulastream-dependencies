@@ -22,6 +22,7 @@
     "antlr4",
     "spdlog",
     "folly",
+    "cpr",
     "jemalloc-nes",
     "simdjson",
     "oatpp",
@@ -29,11 +30,13 @@
     "tensorflow-lite",
     "s2",
     "cppkafka",
+    "beast",
     "snappy",
     "lz4",
     "fastlz",
     "brotli",
     "onnx",
+    "onnxruntime",
     {
       "name": "libiconv",
       "platform": "osx"
@@ -43,6 +46,12 @@
       "default-features": false,
       "features": ["openssl"],
       "platform": "osx"
+    },
+    {
+      "name": "arrow",
+      "default-features": false,
+      "features": ["csv", "filesystem", "json", "parquet", "flight"],
+      "platform": "x64 & linux"
     }
   ],
   "overrides": [
