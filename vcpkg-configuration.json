@@ -5,12 +5,12 @@
               "kind": "git",
               "repository": "https://github.com/ls-1801/vcpkg-registry",
               "packages": [
-		   "onnx",
+		               "onnx",
                    "cpuinfo",
                    "onnxruntime",
                    "nsync"
                ],
-              "baseline": "b56c833440cd17dcb832d7ba654b9b03a80650ff"
+              "baseline": "8ae3e0607c55f115f068bab589efb9e36543293f"
           }
   ]
 }
