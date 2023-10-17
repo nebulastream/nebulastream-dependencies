@@ -1,0 +1,96 @@
+{
+  "name": "onnxruntime",
+  "version-semver": "1.16.0",
+  "description": "ONNX Runtime: cross-platform, high performance ML inferencing and training accelerator",
+  "homepage": "https://www.onnxruntime.ai",
+  "port-version": 0,
+  "dependencies": [
+    "boost-config",
+    "boost-mp11",
+    "cpuinfo",
+    "cxxopts",
+    "date",
+    "eigen3",
+    "flatbuffers",
+    {
+      "name": "flatbuffers",
+      "host": true
+    },
+    "ms-gsl",
+    "nlohmann-json",
+    {
+      "name": "nsync",
+      "platform": "!windows"
+    },
+    "onnx",
+    "optional-lite",
+    "protobuf",
+    {
+      "name": "protobuf",
+      "host": true
+    },
+    "re2",
+    "safeint",
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    },
+    "wil",
+    "zlib"
+  ],
+  "features": {
+    "coreml": {
+      "description": "Build with CoreML support",
+      "supports": "osx | ios"
+    },
+    "cuda": {
+      "description": "Build with CUDA/NCCL support",
+      "dependencies": [
+        "cuda"
+      ]
+    },
+    "directml": {
+      "description": "Build with DirectML support",
+      "supports": "windows",
+      "dependencies": [
+        "directml"
+      ]
+    },
+    "framework": {
+      "description": "Artifact will be Apple framework",
+      "supports": "osx | ios"
+    },
+    "python": {
+      "description": "Enable python buildings",
+      "dependencies": [
+        {
+          "name": "vcpkg-get-python-packages",
+          "host": true
+        }
+      ]
+    },
+    "tensorrt": {
+      "description": "Build with NVIDIA TensorRT support"
+    },
+    "test": {
+      "description": "Build ONNXRuntime unit tests",
+      "dependencies": [
+        "benchmark",
+        "gtest"
+      ]
+    },
+    "winml": {
+      "description": "Build with WinML support"
+    },
+    "xnnpack": {
+      "description": "Build with XNNPack support",
+      "dependencies": [
+        "xnnpack"
+      ]
+    }
+  }
+}
