@@ -6,8 +6,53 @@
   "supports": "x64 & (linux | osx)",
   "builtin-baseline": "daa7215f3d68c2a2f2e18c398cb73dab63cda829",
   "dependencies": [
+    "z3",
+    "zeromq",
+    "cppzmq",
+    "grpc",
+    "libevent",
+    "fmt",
+    "paho-mqttpp3",
+    "mbedtls",
+    "open62541",
+    "libsodium",
+    "eigen3",
+    "gtest",
+    "benchmark",
+    "antlr4",
+    "spdlog",
+    "folly",
+    "cpr",
+    "jemalloc-nes",
+    "simdjson",
+    "oatpp",
+    "nlohmann-json",
+    "tensorflow-lite",
+    "s2",
+    "cppkafka",
+    "beast",
+    "snappy",
+    "lz4",
+    "fastlz",
+    "brotli",
     "onnx",
-    "onnxruntime"
+    "onnxruntime",
+    {
+      "name": "libiconv",
+      "platform": "osx"
+    },
+    {
+      "name": "asio",
+      "default-features": false,
+      "features": ["openssl"],
+      "platform": "osx"
+    },
+    {
+      "name": "arrow",
+      "default-features": false,
+      "features": ["csv", "filesystem", "json", "parquet", "flight"],
+      "platform": "x64 & linux"
+    }
   ],
   "overrides": [
     {

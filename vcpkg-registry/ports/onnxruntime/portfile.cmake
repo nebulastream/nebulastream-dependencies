@@ -5,6 +5,7 @@ vcpkg_from_github(
     SHA512 ff448f7bcd0d91f129ff7d5bf54ab0ed8f4aed79c79a6e52043138d5cba180099fce5aaf00e7f959e2b3e9a3376bf4ec933428c076b097a2e4a96e1adfd9b05f
     PATCHES
         fix-cmake.patch
+        fix-cmake-version.patch
         fix-source-flatbuffers.patch
         fix-cpp20.patch
 )
