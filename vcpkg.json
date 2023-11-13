@@ -34,6 +34,7 @@
     "lz4",
     "fastlz",
     "brotli",
+    "boost-iostreams",
     {
       "name": "libiconv",
       "platform": "osx"
