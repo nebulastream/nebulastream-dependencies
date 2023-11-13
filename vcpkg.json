@@ -35,6 +35,8 @@
     "fastlz",
     "brotli",
     "boost-iostreams",
+    "boost-outcome",
+    "yaml-cpp",
     {
       "name": "libiconv",
       "platform": "osx"
