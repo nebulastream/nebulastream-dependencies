@@ -36,6 +36,8 @@
     "brotli",
     "boost-iostreams",
     "boost-outcome",
+    "boost-asio",
+    "argumentum",
     "yaml-cpp",
     {
       "name": "libiconv",
