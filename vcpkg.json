@@ -48,7 +48,7 @@
       "name": "arrow",
       "default-features": false,
       "features": ["csv", "filesystem", "json", "parquet", "flight"],
-      "platform": "x64 & linux"
+      "platform": "linux"
     }
   ],
   "overrides": [
