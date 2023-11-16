@@ -43,6 +43,12 @@
       "default-features": false,
       "features": ["openssl"],
       "platform": "osx"
+    },
+    {
+      "name": "arrow",
+      "default-features": false,
+      "features": ["csv", "filesystem", "json", "parquet", "flight"],
+      "platform": "x64 & linux"
     }
   ],
   "overrides": [
@@ -62,9 +68,7 @@
       "name": "simdjson", "version": "3.0.0"
     },
     {
-      "name": "arrow", "version": "14.0.1", "default-features": false,
-      "features": ["csv", "filesystem", "json", "parquet", "flight"],
-      "platform": "linux"
+      "name": "arrow", "version": "14.0.1"
     }
   ]
 }
