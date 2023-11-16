@@ -68,7 +68,7 @@
       "name": "simdjson", "version": "3.0.0"
     },
     {
-      "name": "arrow", "version": "14.0.1"
+      "name": "arrow", "version": "10.0.0"
     }
   ]
 }
