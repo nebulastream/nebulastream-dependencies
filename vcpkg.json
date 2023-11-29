@@ -37,6 +37,7 @@
     "boost-iostreams",
     "boost-outcome",
     "boost-asio",
+    "boost-process",
     "argumentum",
     "yaml-cpp",
     {
