@@ -39,7 +39,8 @@
       "default-features": false,
       "features": ["openssl"],
       "platform": "osx"
-    }
+    },
+    "strong-type"
   ],
   "overrides": [
     {
