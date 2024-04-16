@@ -21,7 +21,7 @@
     "benchmark",
     "antlr4",
     "spdlog",
-    "folly",
+    "smallfolly",
     "jemalloc-nes",
     "simdjson",
     "oatpp",
