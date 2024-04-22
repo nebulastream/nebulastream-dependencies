@@ -7,6 +7,7 @@ vcpkg_from_github(
 		nesfolly.patch             
                 arm-compilation.patch
                 follyconfig.patch
+                malloc.patch
 )
 
 vcpkg_cmake_configure(
@@ -16,7 +17,6 @@ vcpkg_cmake_configure(
 )
 
 vcpkg_cmake_install()
-
 vcpkg_copy_pdbs()
 vcpkg_cmake_config_fixup()
 
