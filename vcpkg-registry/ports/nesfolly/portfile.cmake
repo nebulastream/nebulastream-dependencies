@@ -6,6 +6,7 @@ vcpkg_from_github(
         PATCHES
 		nesfolly.patch             
                 arm-compilation.patch
+                follyconfig.patch
 )
 
 vcpkg_cmake_configure(
