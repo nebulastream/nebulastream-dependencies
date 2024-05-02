@@ -33,6 +33,7 @@
     "snappy",
     "lz4",
     "fastlz",
+    "libhdfs3",
     "brotli",
     {
       "name": "libiconv",
