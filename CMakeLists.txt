@@ -1,5 +1,5 @@
 project(nebulastream-dependencies)
-cmake_minimum_required(VERSION 2.18)
+cmake_minimum_required(VERSION 3.21)
 
 set(VCPKG_CRT_LINKAGE dynamic)
 set(VCPKG_LIBRARY_LINKAGE static)
