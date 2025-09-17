@@ -17,6 +17,8 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   ninja-build \
   flex \
   bison \
+  libgsasl7 \
+  libkrb5-3 \
   && apt-get clean -qq
 
 RUN wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
@@ -28,6 +30,10 @@ RUN rm -f /usr/bin/g++
 RUN apt-get install -y g++-11
 RUN ln -s /usr/bin/g++-11 /usr/bin/g++
 RUN g++ --version
+
+RUN apt-get install -y libc-client-dev libkrb5-dev
+RUN apt-get install -y libc-client-dev libgsasl7-dev
+RUN apt-get install -y libc-client-dev uuid-dev
 
 ADD ./entrypoint-build.sh /entrypoint.sh
 
