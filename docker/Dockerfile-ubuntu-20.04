@@ -18,7 +18,15 @@ RUN apt-get update -qq && DEBIAN_FRONTEND="noninteractive" apt-get install -qq \
   ninja-build \
   flex \
   bison \
+  libgsasl7 \
+  libkrb5-3 \
   && apt-get clean -qq
+
+RUN apt-get install -y libc-client-dev libkrb5-dev
+
+RUN apt-get install -y libc-client-dev libgsasl7-dev
+
+RUN apt-get install -y libc-client-dev uuid-dev
 
 RUN cd ${HOME} && wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null \
     && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
