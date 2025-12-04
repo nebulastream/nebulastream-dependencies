@@ -49,7 +49,7 @@ $(dirname $0)/vcpkg/bootstrap-vcpkg.sh -disableMetrics
 $(dirname $0)/vcpkg/vcpkg install --triplet="$1-nes" --host-triplet="$1-nes" --overlay-triplets=custom-triplets/   --overlay-ports=vcpkg-registry/ports/
 
 
-mkdir $(dirname $0)/nes-dependencies-$1-nes && \
+mkdir -p $(dirname $0)/nes-dependencies-$1-nes && \
 mv $(dirname $0)/vcpkg_installed nes-dependencies-$1-nes/installed && \
 mkdir -p $(dirname $0)/nes-dependencies-$1-nes/scripts/buildsystems && \
 cp $(dirname $0)/vcpkg/scripts/buildsystems/vcpkg.cmake $(dirname $0)/nes-dependencies-$1-nes/scripts/buildsystems/ && \
