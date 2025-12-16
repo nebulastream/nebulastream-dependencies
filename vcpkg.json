@@ -3,7 +3,7 @@
   "version-string": "v28",
   "homepage": "https://nebula.stream",
   "description": "Data Management for the Internet of Things.",
-  "supports": "x64 & (linux | osx)",
+  "supports": "(linux | osx) & (x64 | arm64)",
   "builtin-baseline": "c39678d76407b555820abd2f41e724cafd055bc9",
   "dependencies": [
     "zeromq",
